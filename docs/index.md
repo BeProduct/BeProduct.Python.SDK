@@ -10,4 +10,4 @@ It allows for a rapid and simple integration development using Python programmin
 
 [Getting Access Token](./003-getting-access-token)
 
-[Style API](./004-style-api.md)
+[Style API](./040-style-api.md)

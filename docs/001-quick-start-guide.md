@@ -11,7 +11,7 @@ If you don't have a refresh token you can read how to obtain it [here](./003-get
 
 ## Identify Your company domain
 
-Go to [BeProduct](www.beproduct.com) website. You can identify your company domain by inspecting webbrowser's url.
+Go to [BeProduct](https://www.beproduct.com) website. You can identify your company domain by inspecting webbrowser's url.
 
 *Example*:
 https://us.beproduct.com/**SampleCompany**/Home
