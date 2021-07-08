@@ -1,0 +1,4 @@
+site_name: BeProduct Python SDK
+site_url: https://python.beproduct.com
+theme:
+  name: readthedocs
