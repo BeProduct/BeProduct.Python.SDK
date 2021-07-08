@@ -100,3 +100,4 @@ class BeProduct():
 
     # ### Public API METHODS ###
     from ._style import style_attributes_get
+    from ._style import style_attributes_update
