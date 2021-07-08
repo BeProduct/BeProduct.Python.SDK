@@ -50,7 +50,7 @@ Identity server asks for login and password. After that it redirects you to your
 
 Put your **client id**, **client secret**, **callback url** and **authorization code** into command below
 
-```
+```bash
 curl --request POST \
   --url 'https://id.winks.io/ids/connect/token' \
   --header 'content-type: application/x-www-form-urlencoded' \
@@ -62,7 +62,7 @@ curl --request POST \
 ```
 
 After you execute this command in the  terminal you should get a response like this:
-```
+```json
 {
 "id_token":"....",
 "access_token":"eyJ0eXAiO......your access token here...",
@@ -79,7 +79,7 @@ You can use refresh token from the previous step to obtain as many access_token 
 
 To get new access token just do:
 
-```
+```bash
 curl --request POST \
   --url 'https://id.winks.io/ids/connect/token' \
   --header 'content-type: application/x-www-form-urlencoded' \

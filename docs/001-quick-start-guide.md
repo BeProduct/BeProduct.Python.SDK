@@ -20,7 +20,7 @@ Here the company domain is: *SampleCompany*
 
 
 ## Create BeProduct API client
-```
+```python
 from beproduct.sdk import BeProduct
 
 client = BeProduct(client_id='YOUR_CLIENT_ID',
@@ -30,12 +30,12 @@ client = BeProduct(client_id='YOUR_CLIENT_ID',
 ```
 ## Use it
 
-```
+```python
 style = client.style_attributes_get(style_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
 print(style)
 ```
 Result example is a Python dictionary:
-```
+```python
 {
    'id':'e81d3be5-f5c2-450f-888e-8a854dfc2824',
    'headerNumber':'Test-3D-1',

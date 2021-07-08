@@ -8,6 +8,6 @@ It allows for a rapid and simple integration development using Python programmin
 
 [Installation](./002-install.md)
 
-[Getting Access Token](./003-getting-access-token)
+[Getting Access Token](./003-getting-refresh-token.md)
 
 [Style API](./040-style-api.md)
