@@ -45,4 +45,11 @@ class BeProduct():
         self.raw_api = RawApi(self)
 
         from ._style import Style 
+        from ._image import Image
+        from ._material import Material 
+        from ._color import Color 
+
         self.style = Style(self)
+        self.image = Image(self)
+        self.material = Material(self)
+        self.color = Color(self)

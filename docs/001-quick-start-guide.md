@@ -31,7 +31,7 @@ client = BeProduct(client_id='YOUR_CLIENT_ID',
 ## Use it
 
 ```python
-style = client.style.attributes_get(style_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
+style = client.style.attributes_get(header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
 print(style)
 ```
 Result example is a Python dictionary:

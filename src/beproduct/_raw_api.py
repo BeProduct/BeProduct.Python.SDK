@@ -127,15 +127,18 @@ class RawApi:
         full_url = f"{self.client.public_api_url}/{api_url.lstrip('/')}"
 
         request_body = {} if body is None else body.copy()
-        request_body['file'] = (os.path.basename(file_url),FileFromURLWrapper(file_url),'application/octet-stream') 
+        request_body['file'] = (
+            os.path.basename(file_url),
+            FileFromURLWrapper(file_url),
+            'application/octet-stream')
 
-        m = MultipartEncoder(fields=request_body)
+        stream_encoder = MultipartEncoder(fields=request_body)
         headers = self.__get_auth_header()
-        headers['Content-Type'] = m.content_type
+        headers['Content-Type'] = stream_encoder.content_type
 
         response = requests.post(
             url=full_url,
-            data=m,
+            data=stream_encoder,
             headers=headers)
 
         if response.status_code != 200:

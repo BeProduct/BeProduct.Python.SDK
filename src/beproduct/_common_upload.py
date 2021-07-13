@@ -18,7 +18,7 @@ class UploadMixin:
         self.master_folder = master_folder
 
     def attributes_upload(self,
-                          id: str,
+                          header_id: str,
                           filepath: str = None,
                           file_url: str = None):
         """ Uploads file to Attributes
@@ -30,12 +30,12 @@ class UploadMixin:
         if filepath:
             return self.client.raw_api.upload_local_file(
                 filepath,
-                f"{self.master_folder}/Header/{id}/Image/Upload"
+                f"{self.master_folder}/Header/{header_id}/Image/Upload"
             )
         if file_url:
             return self.client.raw_api.upload_from_url(
                 file_url,
-                f"{self.master_folder}/Header/{id}/Image/Upload",
+                f"{self.master_folder}/Header/{header_id}/Image/Upload",
             )
         return BeProductException("No file provided")
 

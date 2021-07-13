@@ -1,9 +1,9 @@
 """
-File: _style.py
+File: _material.py
 Author: Yuri Golub
 Email: yuri.golub@beproduct.com
 Github: https://github.com/BeProduct
-Description: BeProduct Public API Style methods
+Description: BeProduct Public API material methods
 """
 
 from .sdk import BeProduct
@@ -11,28 +11,30 @@ from ._common_upload import UploadMixin
 from ._common import CommonMixin
 
 
-class Style(UploadMixin, CommonMixin):
+class Material(UploadMixin, CommonMixin):
     """
-    Implements Style API
+    Implements Material API
     """
 
     def __init__(self, client: BeProduct):
         self.client = client
-        UploadMixin.__init__(self, master_folder='Style')
-        CommonMixin.__init__(self, master_folder='Style')
+        UploadMixin.__init__(self, master_folder='Material')
+        CommonMixin.__init__(self, master_folder='Material')
 
     def attributes_update(self,
                           header_id: str,
                           fields=None,
                           colorways=None,
-                          sizes=None):
-        """Updates style attributes
+                          sizes=None,
+                          suppliers=None):
+        """Updates material attributes
 
-        :header_id: ID of the style
+        :header_id: ID of the material 
         :fields: Dictionary of fields {'field_id':'field_value'}
-        :colorways Dictionary in Colorway update format
-        :sizes Dictionary in Size format
-        :returns: dictionary of the requested style attributes
+        :colorways: Dictionary in Colorway update format
+        :sizes: Dictionary in Size format
+        :suppliers: List of supplier dictionaries
+        :returns: dictionary of the requested material attributes
 
         """
 
@@ -62,27 +64,29 @@ class Style(UploadMixin, CommonMixin):
                     'fields': unwound_colorway_fields
                 })
 
-        return self.client.raw_api.post(f"Style/Header/{header_id}/Update",
+        return self.client.raw_api.post(f"Material/Header/{header_id}/Update",
                                         {
                                             'fields': unwound_attributes_fields,
                                             'colorways': colorway_fields,
-                                            'sizes': sizes
+                                            'sizes': sizes,
+                                            'suppliers': suppliers
                                         })
 
     def update(self, header_id: str):
         """ Same as attributes_update method. 
-            Updates Style Attributes
-        :returns: Updated style attributes
+            Updates material Attributes
+        :returns: Updated material attributes
         """
         return self.attributes_update(header_id=header_id)
 
-    def create(self, fields, colorways, sizes):
-        """Creates new style
+    def create(self, fields, colorways, sizes, suppliers):
+        """Creates new material
 
         :fields: Dictionary of fields {'field_id':'field_value'}
         :colorways Dictionary of colorway fields
         :sizes Dictionary in Size format
-        :returns: dictionary of the created style attributes
+        :suppliers: List of supplier dictionaries
+        :returns: dictionary of the created material attributes
         """
 
         # transform attributes dictionary
@@ -112,9 +116,10 @@ class Style(UploadMixin, CommonMixin):
                 })
 
         return self.client.raw_api.post(
-            'Style/Header/Create',
+            'material/Header/Create',
             {
                 'fields': unwound_attributes_fields,
                 'colorways': colorway_fields,
-                'sizes': sizes
+                'sizes': sizes,
+                'suppliers': suppliers
             })

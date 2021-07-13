@@ -7,6 +7,9 @@ Description: Common Mixin for every master folder
 """
 
 
+from requests.api import head
+
+
 class CommonMixin:
     """
     Common mixin class for every master folder
@@ -14,7 +17,7 @@ class CommonMixin:
     def __init__(self, master_folder):
         self.master_folder = master_folder
 
-    def get_folders(self):
+    def folders(self):
         """
         :returns: List of folders
         """
@@ -23,10 +26,12 @@ class CommonMixin:
     def list(self,
              folder_id: str = "",
              filters=None,
-             colorway_filters=None):
+             colorway_filters=None,
+             page_size = 30):
         """
         :folder_id: Folder ID
         :filters: List of filter dictionaries
+        :colorway_filters: List of colorway filter dictionaries
         :returns: Enumerator of Attributes
         """
 
@@ -41,7 +46,6 @@ class CommonMixin:
         total = 0
         processed = 0
         page_number = 0
-        page_size = 30
 
         while True:
             page = get_batch(self, folder_id, page_size, page_number)
@@ -55,6 +59,31 @@ class CommonMixin:
                 break
 
             page_number += 1
+
+    def attributes_get(self, header_id: str):
+        """Returns style attibutes
+
+        :header_id: ID of the style, material, image etc.
+        :returns: dictionary of the requested style attributes
+
+        """
+        return self.client.raw_api.get(f"{self.master_folder}/Header/{header_id}")
+
+    def get(self, header_id: str):
+        """Same method as attributes_get
+        :returns: Attributes
+        """
+        return self.attributes_get(header_id=header_id)
+
+    def delete(self, header_id:str):
+        """Deletes Style/Material/Image by ID
+
+        :header_id: ID of the Style/Material/Image
+        :returns: 
+
+        """
+        return self.client.raw_api.get(f"{self.master_folder}/Header/Delete/{header_id}")
+
 
     def get_apps(self, header_id: str):
         """ Returns list of apps/pages
@@ -92,3 +121,13 @@ class CommonMixin:
         return self.client.raw_api.post(
             f"{self.master_folder}/PageForm?headerId={header_id}&pageId={app_id}",
             body=[{'id': field_id, 'value': fields[field_id]} for field_id in fields])
+
+    def grid_app_update(self, header_id: str, app_id:str, rows):
+        """ Updates form application
+        :header_id: ID of the style, material, etc
+        :app_id: ID of the application / page
+        :fields: List of row dictionaries
+        """
+        return self.client.raw_api.post(
+            f"{self.master_folder}/PageGrid?headerId={header_id}&pageId={app_id}",
+            body=rows)
