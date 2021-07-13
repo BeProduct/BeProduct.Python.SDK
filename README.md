@@ -5,7 +5,9 @@ Install:
 `pip install --upgrade beproduct`
 
 Use:
-```
+```python
+from beproduct.sdk import BeProduct
+
 client = BeProduct(client_id='YOUR_CLIENT_ID',
                    client_secret='YOUR_CLIENT_SECRET',
                    refresh_token='YOUR_REFRESH_TOKEN',
