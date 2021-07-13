@@ -72,12 +72,23 @@ class Material(UploadMixin, CommonMixin):
                                             'suppliers': suppliers
                                         })
 
-    def update(self, header_id: str):
-        """ Same as attributes_update method. 
+    def update(self,
+               header_id: str,
+               fields=None,
+               colorways=None,
+               sizes=None,
+               suppliers=None):
+        """ Same as attributes_update method.
             Updates material Attributes
         :returns: Updated material attributes
         """
-        return self.attributes_update(header_id=header_id)
+        return self.attributes_update(
+            header_id=header_id,
+            fields=fields,
+            colorways=colorways,
+            sizes=sizes,
+            suppliers=suppliers
+        )
 
     def create(self, fields, colorways, sizes, suppliers):
         """Creates new material

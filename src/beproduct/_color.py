@@ -47,12 +47,14 @@ class Color(UploadMixin, CommonMixin):
                 'colors': colors
             })
 
-    def update(self, header_id: str):
+    def update(self, header_id: str, fields=None, colors=None):
         """ Same as attributes_update method.
             Updates color Attributes
         :returns: Updated color attributes
         """
-        return self.attributes_update(header_id=header_id)
+        return self.attributes_update(header_id=header_id,
+                                      fields=fields,
+                                      colors=colors)
 
     def create(self, fields, colors):
         """Creates new color palette

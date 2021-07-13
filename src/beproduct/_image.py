@@ -45,12 +45,12 @@ class Image(UploadMixin, CommonMixin):
                 'fields': unwound_attributes_fields
             })
 
-    def update(self, header_id: str):
+    def update(self, header_id: str, fields=None):
         """ Same as attributes_update method.
             Updates image Attributes
         :returns: Updated image attributes
         """
-        return self.attributes_update(header_id=header_id)
+        return self.attributes_update(header_id=header_id, fields=fields)
 
     def create(self, fields):
         """Creates new image

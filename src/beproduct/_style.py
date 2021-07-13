@@ -69,12 +69,19 @@ class Style(UploadMixin, CommonMixin):
                                             'sizes': sizes
                                         })
 
-    def update(self, header_id: str):
+    def update(self,
+               header_id: str,
+               fields=None,
+               colorways=None,
+               sizes=None):
         """ Same as attributes_update method. 
             Updates Style Attributes
         :returns: Updated style attributes
         """
-        return self.attributes_update(header_id=header_id)
+        return self.attributes_update(header_id=header_id,
+                                      fields=fields,
+                                      colorways=colorways,
+                                      sizes=sizes)
 
     def create(self, fields, colorways, sizes):
         """Creates new style
