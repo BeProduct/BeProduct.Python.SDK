@@ -279,7 +279,7 @@ Example output:
    }
 ]
 ```
-You may want to *cache* the output above for every style folder to prevent this from calling the same function again and again for every style. 
+You may want to *cache* the output above for every style folder to prevent calling the same method again and again for every style. 
 
 After you know your **application id** from the previous function you can retrieve a particular style app as follows:
 ```python
