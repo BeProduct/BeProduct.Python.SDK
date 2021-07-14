@@ -11,6 +11,9 @@ It allows for a rapid and simple integration development using Python programmin
 [Getting Refresh Token](./003-getting-refresh-token.md)
 
 [Style API](./040-style-api.md)
+
 [Material API](./050-material-api.md)
+
 [Image API](./060-image-api.md)
+
 [Color API](./070-color-api.md)
