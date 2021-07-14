@@ -1,5 +1,5 @@
 # Image API
-## See Style API as a reference
+## Use Style API as a reference
 
 ```python
 client.image. .......
