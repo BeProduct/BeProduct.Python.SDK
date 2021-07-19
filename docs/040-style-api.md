@@ -225,7 +225,7 @@ while True:
         # WE_ARE_OK logic
         print('Success.')
         break
-    if is_finised and is_error:
+    if is_finished and is_error:
         # OMG_ERROR logic
         print('Error occured:', error_msg)
         break
