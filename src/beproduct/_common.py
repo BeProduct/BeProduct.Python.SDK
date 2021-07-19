@@ -84,8 +84,7 @@ class CommonMixin:
         """
         return self.client.raw_api.get(f"{self.master_folder}/Header/Delete/{header_id}")
 
-
-    def get_apps(self, header_id: str):
+    def apps(self, header_id: str):
         """ Returns list of apps/pages
         for a specific style, material, etc
 
@@ -95,11 +94,11 @@ class CommonMixin:
         return self.client.raw_api.get(
             f"{self.master_folder}/Pages?headerId={header_id}")
 
-    def get_pages(self, header_id: str):
-        """ Same as get_apps method """
-        return self.get_apps(header_id)
+    def pages(self, header_id: str):
+        """ Same as apps method """
+        return self.apps(header_id)
 
-    def get_app(self, header_id: str, app_id: str):
+    def app_get(self, header_id: str, app_id: str):
         """ Returns a particular app
 
         :header_id: ID of the style, material, etc
@@ -108,9 +107,9 @@ class CommonMixin:
         """
         return self.client.raw_api.get(f"{self.master_folder}/Page?headerId={header_id}&pageId={app_id}")
 
-    def get_page(self, header_id: str, page_id: str):
-        """ Same as get_app """
-        return self.get_app(header_id=header_id, app_id=page_id)
+    def page_get(self, header_id: str, page_id: str):
+        """ Same as app_get """
+        return self.app_get(header_id=header_id, app_id=page_id)
 
     def form_app_update(self, header_id: str, app_id:str, fields):
         """ Updates form application
@@ -131,3 +130,74 @@ class CommonMixin:
         return self.client.raw_api.post(
             f"{self.master_folder}/PageGrid?headerId={header_id}&pageId={app_id}",
             body=rows)
+
+    def attributes_share(self, header_id: str, partner_list):
+        """Shares attributes page
+
+        :header_id: ID of style/material/image etc
+        :partner_list: list of partner IDs
+
+        """
+        return self.client.raw_api.post(
+            f"Share/Header/{header_id}/Share",
+            body=partner_list
+        )
+
+    def app_share(self, header_id: str, app_id: str, partner_list):
+        """Shares application
+
+        :header_id: ID of style/material/image etc
+        :app_id: ID of the application
+        :partner_list: list of partner IDs
+
+        """
+        return self.client.raw_api.post(
+            f"Share/Page/{header_id}/{app_id}/Share",
+            body=partner_list
+        )
+
+    def attributes_unshare(self, header_id: str, partner_list):
+        """Unshares attributes page
+
+        :header_id: ID of style/material/image etc
+        :partner_list: list of partner IDs
+
+        """
+        return self.client.raw_api.post(
+            f"Share/Header/{header_id}/Unshare",
+            body=partner_list
+        )
+
+    def app_unshare(self, header_id: str, app_id: str, partner_list):
+        """Shares application
+
+        :header_id: ID of style/material/image etc
+        :app_id: ID of the application
+        :partner_list: list of partner IDs
+
+        """
+        return self.client.raw_api.post(
+            f"Share/Page/{header_id}/{app_id}/Unshare",
+            body=partner_list
+        )
+
+    def attributes_shared_with(self, header_id: str):
+        """ Gets list of all partners with whom
+            attributes page is shared
+
+        :header_id: ID of style/material/image etc
+        :returns: List of partners
+
+        """
+        return self.client.raw_api.get(f"Share/Header/{header_id}/Get")
+
+    def app_shared_with(self, header_id: str, app_id: str):
+        """ Gets list of all partners with whom
+            app is shared
+
+        :header_id: ID of style/material/image etc
+        :app_id: ID of the application
+        :returns: List of partners
+
+        """
+        return self.client.raw_api.get(f"Share/Page/{header_id}/{app_id}/Get")

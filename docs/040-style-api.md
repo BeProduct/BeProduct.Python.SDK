@@ -241,7 +241,7 @@ Every *style folder* has the same application ID's for every style.
 
 Example:
 ```python
-apps = client.style.get_apps(header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b') # header_id = ID of the style
+apps = client.style.apps(header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b') # header_id = ID of the style
 print(apps)
 ```
 Example output:
@@ -283,7 +283,7 @@ You may want to *cache* the output above for every style folder to prevent calli
 
 After you know your **application id** from the previous function you can retrieve a particular style app as follows:
 ```python
-my_app_content = client.style.get_app(
+my_app_content = client.style.app_get(
     header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b',
     app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9')
 ```
@@ -339,6 +339,50 @@ update_row = {
 
 client.style.grid_app_update(
     header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b', # Style ID
-    app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9', # Grid app id
+    app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9',    # Grid app id
     rows=[delete_row, new_row, update_row])
+```
+
+
+## Sharing
+Every partner in BeProduct has own ID. That ID is used to share and unshare attributes and apps
+
+```python
+# list of partners with home attributes and app is shared
+
+client.style.attributes_shared_with(
+    header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b' # Style ID
+    )
+
+client.style.app_shared_with(
+    header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b', # Style ID
+    app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9'    # App id
+    )
+
+
+# to share with a partner or several
+
+client.style.attributes_share(
+    header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b', # Style ID
+    partner_list=['34f353a4-7ce2-46d1-a4ce-b7bb09ea70f8','Some different partner id']
+    )
+
+client.style.app_share(
+    header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b', # Style ID
+    app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9'    # App id
+    partner_list=['34f353a4-7ce2-46d1-a4ce-b7bb09ea70f8','Some different partner id']
+    )
+
+# to unshare
+
+client.style.attributes_unshare(
+    header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b', # Style ID
+    partner_list=['34f353a4-7ce2-46d1-a4ce-b7bb09ea70f8','Some different partner id']
+    )
+
+client.style.app_unshare(
+    header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b', # Style ID
+    app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9'    # App id
+    partner_list=['34f353a4-7ce2-46d1-a4ce-b7bb09ea70f8','Some different partner id']
+    )
 ```
