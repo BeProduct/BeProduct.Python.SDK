@@ -29,12 +29,12 @@ Function result example:
 
 ## Listing and Searching Styles
 ### Getting all styles
-You can iterate over *all* styles using `list()` method which returns an iterator.
+You can iterate over *all* styles using `attributes_list()` method which returns an iterator.
 Styles are retrieved by batches/pages as you iterate over them and loaded as you progress.
 
 Example:
 ```python
-for style in client.style.list():
+for style in client.style.attributes_list():
     print(style['id'], style['headerNumber'], sep=': ')
 ```
 
@@ -71,7 +71,7 @@ Logical **OR** filter lists are *not supported*.
 
 Example of usage:
 ```python
-for style in client.style.list(filters=[filter_1, filter_2]):
+for style in client.style.attributes_list(filters=[filter_1, filter_2]):
     print(style['id'], style['headerNumber'], sep=': ')
 ```
 
@@ -103,7 +103,7 @@ filter_by_any_modified_app_date = {
 Example below returns Style Attributes as a dictionary
 
 ```python
-style_dict = client.style.get(header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
+style_dict = client.style.attributes_get(header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
 ```
 
 ## Creating new Style or Updating Style Attibutes
@@ -125,10 +125,10 @@ fields_update = {
     }
     
 # Creates new style
-client.style.create(fields=fields_update)
+client.style.attributes_create(fields=fields_update)
 
 # Updates a style
-client.style.update(
+client.style.attributes_update(
             header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
             fields=fields_update)
 ```
@@ -150,7 +150,7 @@ colorway_update = [
         }
     }
 ]
-client.style.update(
+client.style.attributes_update(
                 header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
                 colorways=colorway_update)
 ```
@@ -167,7 +167,7 @@ size1 = {
     }
 size2 = {....
         
-client.style.udpate(
+client.style.attributes_update(
                 header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
                 sizes=[size1, size2, ...])
 ```
@@ -175,13 +175,13 @@ client.style.udpate(
 ### Creating a Style or Updating all of the above fields within the same call 
 ```python
 # Creates a style
-client.style.create(
+client.style.attributes_create(
                 fields=fields_update,
                 colorway_update=colorway_update,
                 sizes=[size1, size2, ...])
 
 # Updates a style
-client.style.update(
+client.style.attributes_update(
                 header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
                 fields=fields_update,
                 colorway_update=colorway_update,
@@ -190,7 +190,7 @@ client.style.update(
 
 ## Deleting a Style
 ```python
-client.style.delete(header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
+client.style.attributes_delete(header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
 ```
 
 ## Uploading images to the Style Attributes
@@ -212,7 +212,7 @@ upload_id = client.style.attributes_upload(
 # Uploading from remote URL
 upload_id = client.style.attributes_upload(
     header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
-    file_url="https://us.beproduct.com/your_image.jpg") # File URL
+    fileurl="https://us.beproduct.com/your_image.jpg") # File URL
 
 ```
 After that the image is being processed and we have to make sure the process has finished sucessfully before proceeding working with that style. 
@@ -241,7 +241,7 @@ Every *style folder* has the same application ID's for every style.
 
 Example:
 ```python
-apps = client.style.apps(header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b') # header_id = ID of the style
+apps = client.style.app_list(header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b') # header_id = ID of the style
 print(apps)
 ```
 Example output:
@@ -294,7 +294,7 @@ Form application is just a dictionary of the attributes.
 You may update a **form** app as follows:
 ```python
 
-client.style.form_app_update(
+client.style.app_form_update(
     header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b',
     app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9',
     fields={
@@ -337,7 +337,7 @@ update_row = {
     ]
 }
 
-client.style.grid_app_update(
+client.style.app_grid_update(
     header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b', # Style ID
     app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9',    # Grid app id
     rows=[delete_row, new_row, update_row])
