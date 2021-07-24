@@ -20,11 +20,11 @@ class UploadMixin:
     def attributes_upload(self,
                           header_id: str,
                           filepath: str = None,
-                          file_url: str = None):
+                          fileurl: str = None):
         """ Uploads file to Attributes
         :id: ID of the Style, Material etc
         :filepath: Local file path
-        :file_url: Remote file URL
+        :fileurl: Remote file URL
         :returns File ID
         """
         if filepath:
@@ -32,9 +32,9 @@ class UploadMixin:
                 filepath,
                 f"{self.master_folder}/Header/{header_id}/Image/Upload"
             )
-        if file_url:
+        if fileurl:
             return self.client.raw_api.upload_from_url(
-                file_url,
+                fileurl,
                 f"{self.master_folder}/Header/{header_id}/Image/Upload",
             )
         return BeProductException("No file provided")
