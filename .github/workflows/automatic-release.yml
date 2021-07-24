@@ -1,5 +1,5 @@
 ---
-name: "tagged-release"
+name: "Create Github Release"
 
 on:
   push:
