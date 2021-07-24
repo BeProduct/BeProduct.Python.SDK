@@ -201,6 +201,7 @@ Upload process consists of two stages.
 * **PROCESSING** of the file in BeProduct. It is **highly recommended** that you don't do any changes to the style which is in processing stage until it's completed.
 
 You have 2 options for uploading a file to BeProduct: either from *file system* or by providing a *file url*. In both cases *upload id* is returned.
+You also have a choice to specify style position where you want to upload your image;
 
 Uploading stage looks as follows:
 ```python
