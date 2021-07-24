@@ -214,6 +214,11 @@ upload_id = client.style.attributes_upload(
     header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
     fileurl="https://us.beproduct.com/your_image.jpg") # File URL
 
+# Uploading only to front side or back
+upload_id = client.style.attributes_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
+    filepath='/home/beproduct/your_image.jpg',          # File location
+    position='front')                                   # Position 'front', 'side' or 'back'
 ```
 After that the image is being processed and we have to make sure the process has finished sucessfully before proceeding working with that style. 
 

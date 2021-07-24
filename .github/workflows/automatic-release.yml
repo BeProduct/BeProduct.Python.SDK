@@ -21,4 +21,3 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           title: "BeProduct Python SDK"
           prerelease: false
-          automatic_release_tag: "latest"
