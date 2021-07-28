@@ -158,4 +158,4 @@ class RawApi:
         """
         status = self.get(f"Style/GetImageProcessingStatus/{file_id}")
 
-        return status["finished"], status["errorOccured"], status["message"] 
+        return status["finished"], status["errorOccured"], status["message"]

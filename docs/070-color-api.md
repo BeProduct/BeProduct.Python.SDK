@@ -32,7 +32,6 @@ colors = [
   'hex': '000000'
 },
 {
-  'Id': ''
   'colorNumber': 'G1',
   'colorName': 'Grey',
   'hex': '0F0F0F'
