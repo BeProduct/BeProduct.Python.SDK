@@ -12,7 +12,7 @@ Example:
    result = client.raw_api.get(f"{self.master_folder}/Header/{header_id}")
 
    # post request
-   result = self.client.raw_api.post(
+   result = client.raw_api.post(
         f"Share/Page/{header_id}/{app_id}/Share",
         body=<dict or list>
     )
