@@ -17,3 +17,11 @@ It allows for a rapid and simple integration development using Python programmin
 [Image API](./060-image-api.md)
 
 [Color API](./070-color-api.md)
+
+[Application API](./075-apps.md)
+
+[Share API](./077-sharing.md)
+
+[Directory API](./080-directory.md)
+
+

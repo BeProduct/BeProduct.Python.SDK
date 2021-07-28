@@ -41,15 +41,17 @@ class BeProduct():
         # ### Constructing API handlers ###
         # importing here to prevent cyclic dependency
 
-        from ._raw_api import RawApi 
+        from ._raw_api import RawApi
         self.raw_api = RawApi(self)
 
-        from ._style import Style 
+        from ._style import Style
         from ._image import Image
-        from ._material import Material 
-        from ._color import Color 
+        from ._material import Material
+        from ._color import Color
+        from ._directory import Directory
 
         self.style = Style(self)
         self.image = Image(self)
         self.material = Material(self)
         self.color = Color(self)
+        self.directory = Directory(self)
