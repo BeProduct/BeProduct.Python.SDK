@@ -26,6 +26,8 @@ always present if you save/host your integration script in/with BeProduct.
 
 Example:
 ```python
+import requests
+
 r = requests.get('https://api.github.com/events')
 r = requests.post('https://httpbin.org/post', data = {'key':'value'})
 r = requests.put('https://httpbin.org/put', data = {'key':'value'})
