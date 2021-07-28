@@ -24,6 +24,6 @@ It allows for a rapid and simple integration development using Python programmin
 
 [Directory API](./080-directory.md)
 
-[Custom Integration](./090-custom-integration.md)
+[Making HTTP calls manually](./090-custom-integration.md)
 
 
