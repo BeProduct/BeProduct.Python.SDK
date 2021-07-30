@@ -33,7 +33,7 @@ class _Throttle:
         :returns: True if waited, False not going to wait anymore
 
         """
-        if len(self.strategy) >= self.current:
+        if len(self.strategy) <= self.current:
             return False
 
         logging.info(f"Throttling. Waiting {self.strategy[self.current]} sec.")
