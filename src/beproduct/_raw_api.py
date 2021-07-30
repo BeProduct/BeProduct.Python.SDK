@@ -10,11 +10,37 @@ import json
 from typing import Dict
 import os
 import requests
-from requests import api
+import time
+import logging
 
 from ._exception import BeProductException
 from ._encoder import MultipartEncoder, FileFromURLWrapper
 from .sdk import BeProduct
+
+
+class _Throttle:
+
+    """ Implements throttling policy """
+
+    def __init__(self, strategy):
+        """ Constrictor """
+        self.strategy = strategy or [1, 3, 5, 15, 30]  # seconds to wait
+        self.current = 0  # index in strategy
+
+    def wait_or_die(self):
+        """ Used to retry api calls
+
+        :returns: True if waited, False not going to wait anymore
+
+        """
+        if len(self.strategy) >= self.current:
+            return False
+
+        logging.info(f"Throttling. Waiting {self.strategy[self.current]} sec.")
+        time.sleep(self.strategy[self.current])
+
+        self.current += 1
+        return True
 
 
 class RawApi:
@@ -41,10 +67,15 @@ class RawApi:
         :returns: response body as string or throws an error
 
         """
+        throttle = _Throttle()
         full_url = f"{self.client.public_api_url}/{url.lstrip('/')}"
-        response = requests.get(
-            url=full_url,
-            headers=self.__get_headers())
+        while True:
+            response = requests.get(
+                url=full_url,
+                headers=self.__get_headers())
+            if response.status_code == 429 and throttle.wait_or_die():
+                continue
+            break
 
         if response.status_code != 200:
             raise BeProductException(
@@ -65,11 +96,17 @@ class RawApi:
 
         """
 
+        throttle = _Throttle()
         full_url = f"{self.client.public_api_url}/{url.lstrip('/')}"
-        response = requests.post(
-            url=full_url,
-            json=body,
-            headers=self.__get_headers())
+
+        while True:
+            response = requests.post(
+                url=full_url,
+                json=body,
+                headers=self.__get_headers())
+            if response.status_code == 429 and throttle.wait_or_die():
+                continue
+            break
 
         if response.status_code != 200:
             raise BeProductException(
@@ -89,6 +126,7 @@ class RawApi:
         :returns: File ID. Check status using upload_completed
         """
 
+        throttle = _Throttle()
         full_url = f"{self.client.public_api_url}/{url.lstrip('/')}"
 
         request_body = {} if body is None else body.copy()
@@ -101,10 +139,14 @@ class RawApi:
         headers = self.__get_auth_header()
         headers['Content-Type'] = stream_encoder.content_type
 
-        response = requests.post(
-            url=full_url,
-            data=stream_encoder,
-            headers=headers)
+        while True:
+            response = requests.post(
+                url=full_url,
+                data=stream_encoder,
+                headers=headers)
+            if response.status_code == 429 and throttle.wait_or_die():
+                continue
+            break
 
         if response.status_code != 200:
             raise BeProductException(
@@ -124,6 +166,7 @@ class RawApi:
         :returns: File ID. Check status using upload_completed
         """
 
+        throttle = _Throttle()
         full_url = f"{self.client.public_api_url}/{api_url.lstrip('/')}"
 
         request_body = {} if body is None else body.copy()
@@ -136,10 +179,14 @@ class RawApi:
         headers = self.__get_auth_header()
         headers['Content-Type'] = stream_encoder.content_type
 
-        response = requests.post(
-            url=full_url,
-            data=stream_encoder,
-            headers=headers)
+        while True:
+            response = requests.post(
+                url=full_url,
+                data=stream_encoder,
+                headers=headers)
+            if response.status_code == 429 and throttle.wait_or_die():
+                continue
+            break
 
         if response.status_code != 200:
             raise BeProductException(
