@@ -22,7 +22,7 @@ class _Throttle:
 
     """ Implements throttling policy """
 
-    def __init__(self, strategy):
+    def __init__(self, strategy=None):
         """ Constrictor """
         self.strategy = strategy or [1, 3, 5, 15, 30]  # seconds to wait
         self.current = 0  # index in strategy
