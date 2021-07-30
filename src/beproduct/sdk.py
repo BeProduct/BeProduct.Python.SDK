@@ -49,9 +49,11 @@ class BeProduct():
         from ._material import Material
         from ._color import Color
         from ._directory import Directory
+        from ._user import User
 
         self.style = Style(self)
         self.image = Image(self)
         self.material = Material(self)
         self.color = Color(self)
         self.directory = Directory(self)
+        self.user = User(self)
