@@ -118,6 +118,16 @@ class CommonMixin:
             f"{self.master_folder}/PageGrid?headerId={header_id}&pageId={app_id}",
             body=rows)
 
+    def app_list_update(self, header_id: str, app_id: str, list_items):
+        """ Updates List application
+        :header_id: ID of the style, material, etc
+        :app_id: ID of the application / page
+        :list_items: Items of the list app
+        """
+        return self.client.raw_api.post(
+            f"{self.master_folder}/PageList?headerId={header_id}&pageId={app_id}",
+            body=list_items)
+
     def attributes_share(self, header_id: str, partner_list):
         """Shares attributes page
 

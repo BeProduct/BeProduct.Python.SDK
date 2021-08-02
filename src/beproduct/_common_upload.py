@@ -23,7 +23,7 @@ class UploadMixin:
                           fileurl: str = None,
                           position: str = None):
         """ Uploads file to Attributes
-        :id: ID of the Style, Material etc
+        :header_id: ID of the Style, Material etc
         :filepath: Local file path
         :fileurl: Remote file URL
         :position: Position to upload. Leave empty for default upload
@@ -42,6 +42,37 @@ class UploadMixin:
                 fileurl,
                 f"{self.master_folder}/Header/{header_id}/Image/Upload" +
                 (f"/Position/{position}" if position else '')
+            )
+        return BeProductException("No file provided")
+
+    def app_list_upload(self,
+                        header_id: str,
+                        app_id: str,
+                        list_item_id: str,
+                        filepath: str = None,
+                        fileurl: str = None):
+        """ Uploads image to List/List-Form/List-Grid apps
+        :header_id: ID of the Style, Material etc
+        :app_id: Application ID
+        :list_item_id: Id of the List item
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: File ID
+        """
+
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"{self.master_folder}/ListAppImageUpload?" +
+                f"{self.master_folder.lower()}Id={header_id}" +
+                f"&pageId={app_id}&listItemId={list_item_id}"
+            )
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"{self.master_folder}/ListAppImageUpload?" +
+                f"{self.master_folder.lower()}Id={header_id}" +
+                f"&pageId={app_id}&listItemId={list_item_id}"
             )
         return BeProductException("No file provided")
 

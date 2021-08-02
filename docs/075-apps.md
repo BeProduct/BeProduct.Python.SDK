@@ -113,3 +113,64 @@ client.style.app_grid_update(
     app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9',    # Grid app id
     rows=[delete_row, new_row, update_row])
 ```
+
+## Updating LIST-based applications
+You can create, update and delete list items using a single call. Also there is a separate sdk/api call to upload images into list items.
+### Updating LIST items
+Below example performs 3 changes:
+
+* Removes a list item
+* Creates a new list item
+* Updates a list item
+
+```python
+# deletes list item with id
+delete_list_item = {
+    'itemId': '1af353a4-7ce2-46d1-a4ce-b7bb09ea70f8',
+    'deleteItem': True
+}
+
+# creates a new list item
+new_list_item = {
+    'itemFields': [ # NOTE that all required fields must be present
+        {'id':'some_field_id','value':'some value'},
+        {'id':'another_field_id','value':'some value'},
+    ]
+}
+
+# updates a list item
+update_list_item = {
+    'itemId': '2af353a4-7ce2-46d1-a4ce-b7bb09ea70f8',
+    'itemFields': [
+        {'id':'some_field_id','value':'some value'},
+        {'id':'another_field_id','value':'some value'},
+    ]
+}
+
+client.style.app_list_update(
+    header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b', # Style ID
+    app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9',    # Grid app id
+    list_items=[delete_list_item, new_list_item, update_list_item])
+```
+
+### Uploading images into LIST items
+```python
+# Uploading local file
+upload_id = client.style.app_list_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    list_item_id="430a9ddc-0889-4995-92c0-94db1ca37cbb",# List item ID
+    filepath='/home/beproduct/your_image.jpg')          # File location 
+
+# Uploading from remote URL
+upload_id = client.style.app_list_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    list_item_id="430a9ddc-0889-4995-92c0-94db1ca37cbb",# List item ID
+    fileurl="https://us.beproduct.com/your_image.jpg")  # File URL
+```
+
+To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+
+
