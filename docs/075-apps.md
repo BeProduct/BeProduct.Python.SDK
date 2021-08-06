@@ -114,6 +114,24 @@ client.style.app_grid_update(
     rows=[delete_row, new_row, update_row])
 ```
 
+## Uploading images to Artboard app
+
+Artboard app exist only in Styles and Materials. SDK allows to add new versions to the Artboard app
+
+```python
+# Uploading local file
+upload_id = client.style.app_artboard_version_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
+    filepath='/home/beproduct/your_image.jpg')          # File location 
+
+# Uploading from remote URL
+upload_id = client.style.app_artboard_version_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
+    fileurl="https://us.beproduct.com/your_image.jpg")  # File URL
+```
+To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+
 ## Updating LIST-based applications
 You can create, update and delete list items using a single call. Also there is a separate sdk/api call to upload images into list items.
 ### Updating LIST items
@@ -122,6 +140,7 @@ Below example performs 3 changes:
 * Removes a list item
 * Creates a new list item
 * Updates a list item
+
 
 ```python
 # deletes list item with id
@@ -173,4 +192,146 @@ upload_id = client.style.app_list_upload(
 To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
 
 
+## Working with SKU app
 
+Only Styles in BeProduct can have SKU apps.
+
+### Generating SKUs
+To generate all SKUs for your dimensions from Attributes page we could use code below:
+
+```python
+client.style.app_sku_generate(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    )
+```
+
+### Updating SKU's fields
+```python
+client.style.app_sku_generate(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    fields = [
+      {
+          "id": "GUID of the SKU row",
+          "fields": [
+                      {
+                        "id": "field_id",
+                        "value": "my value"
+                      }
+                    ]
+      }, .... # more items follow if needed
+    ]
+  ) 
+```
+
+## Uploading new turntable version into 3D Style app
+You can upload new 3D turntable version into **3D style** app using below example:
+```python
+# Uploading from file system
+upload_id = client.style.app_3D_style_turntable_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
+    filepath='/home/beproduct/your_image.jpg')          # File location 
+
+# Uploading from remote URL
+upload_id = client.style.app_3D_style_turntable_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
+    fileurl="https://us.beproduct.com/your_image.jpg") # File URL
+
+```
+To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+## Updating BOM app
+```python
+
+# delete material by row ID
+delete_bom_material = {
+  'materialUpdate': {
+      'rowId': '2af353a4-7ce2-46d1-a4ce-b7bb09ea70f8',
+      'deleteRow': True
+  }
+}
+
+# Insert material by material ID
+insert_existing_material = {
+  'materialIdToInsert': '1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9'
+}
+
+# update or ad-hoc new material
+update_bom_material = {
+  'materialUpdate': {
+      'rowId': '2af353a4-7ce2-46d1-a4ce-b7bb09ea70f8', # Create new ad-hoc if row id is None, otherwise update
+      'rowFields': [
+        {
+          'id': 'field_id',
+          'value': 'value'
+        },
+        .... # other fields
+      ],
+  },
+  'colorUpdate': [
+    {
+      'colorId': '<ANY GUID>',
+      'colorNumber': 'color number',
+      'colorName': 'color name',
+      'hex': '000000',
+      'colorwayId': 'string'
+    }
+  ]
+}
+
+
+client.style.app_bom_update(
+    header_id='bab33ce0-867f-4141-b849-1b0c41f68c8b', # Style ID
+    app_id='1af353a4-7ce2-46d1-a4ce-b7bb09ea70f9',    # Bom app id
+    rows=[delete_bom_material, insert_existing_material, update_bom_material])
+```
+
+
+## Attachments app
+
+### Uploading a file into Attachments app
+```python
+# Uploading local file
+upload_id = client.style.app_attachments_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    filepath='/home/beproduct/your_image.jpg')          # File location 
+
+# Uploading from remote URL
+upload_id = client.style.app_attachments_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    fileurl="https://us.beproduct.com/your_image.jpg")  # File URL
+```
+To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+### Deleting a file from Attachments app
+```python
+client.style.app_attachments_delete(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',        # Style or Material ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",           # App ID
+    filenames_to_remove = ['file1.name', 'file2.name',...]): # Filenames to remove
+```
+
+## ImageGrid and ImageForm Apps
+To update grid and form components use `app_form_update` and `app_grid_update` correspondingly.
+To upload images 
+```python
+
+# Uploading local file
+# Uncomment needed below
+#upload_id = client.style.app_imageform_upload(
+#upload_id = client.style.app_imagegrid_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    filepath='/home/beproduct/your_image.jpg')          # File location 
+
+# Uploading from remote URL
+# Uncomment needed below
+# upload_id = client.style.app_imageform_upload(
+# upload_id = client.style.app_imagegrid_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    fileurl="https://us.beproduct.com/your_image.jpg")  # File URL
+```

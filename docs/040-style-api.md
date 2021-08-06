@@ -134,6 +134,7 @@ client.style.attributes_update(
 ```
 
 ### Updating Style colorway fields
+
 ```python
 colorway_update = [
     {
@@ -154,8 +155,17 @@ client.style.attributes_update(
                 header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
                 colorways=colorway_update)
 ```
+### Deleting colorway
+You can delete colorway by ID
+```python
+client.style.attributes_colorway_delete(
+                header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
+                colorway_id = 'f71d3be5-f5c2-450f-888e-8a854dfc2835')
+```
 
-### Updating Style sizes
+
+### Replacing Style sizes
+Sizes are replaced. You cant update individual sizes. You should provide a whole size range.
 ```python
 size1 = {
     'name': 'XXS',
@@ -224,6 +234,7 @@ upload_id = client.style.attributes_upload(
 After that the image is being processed and we have to make sure the process has finished sucessfully before proceeding working with that style. 
 
 To check the image processing status you may want to implement something that looks as follows:
+
 ```python
 while True:
     (is_finished, is_error, error_msg) = client.style.upload_status(upload_id=upload_id)
@@ -238,3 +249,20 @@ while True:
     sleep(3) # Let's wait 3 sec and try again
 ```
 
+## Uploading Colorway images
+
+```python
+# Uploading from file system
+upload_id = client.style.attributes_colorway_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',     # Style ID
+    colorway_id = 'b71d3be5-f5c2-450f-888e-8a854dfc2824', # Colorway ID
+    filepath='/home/beproduct/your_image.jpg')            # File location 
+
+# Uploading from remote URL
+upload_id = client.style.attributes_colorway_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
+    colorway_id = 'b71d3be5-f5c2-450f-888e-8a854dfc2824', # Colorway ID
+    fileurl="https://us.beproduct.com/your_image.jpg") # File URL
+```
+
+Use example from the previous section to check the upload status.

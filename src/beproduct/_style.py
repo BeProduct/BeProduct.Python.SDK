@@ -9,6 +9,7 @@ Description: BeProduct Public API Style methods
 from .sdk import BeProduct
 from ._common_upload import UploadMixin
 from ._common import CommonMixin
+from ._exception import BeProductException
 
 
 class Style(UploadMixin, CommonMixin):
@@ -20,6 +21,18 @@ class Style(UploadMixin, CommonMixin):
         self.client = client
         UploadMixin.__init__(self, master_folder='Style')
         CommonMixin.__init__(self, master_folder='Style')
+
+    def folder_colorway_schema(self, folder_id: str):
+        """Gets colorway schema (list of fields ) for a folder
+
+        :folder_id: ID of the folder
+        :returns: Colorway schema
+
+        """
+        return self.client.raw_api.get(
+            f"Style/ColorwaySchema?folderId={folder_id}")
+
+    # ATTRIBUTES
 
     def attributes_update(self,
                           header_id: str,
@@ -111,3 +124,127 @@ class Style(UploadMixin, CommonMixin):
                 'colorways': colorway_fields,
                 'sizes': sizes
             })
+
+    def attributes_colorway_delete(self, header_id: str, colorway_id: str):
+        """Deletes single colorway from Attributes app
+
+        :header_id: Style ID
+        :colorway_id: ID of the colorway to be deleted
+
+        """
+        return self.client.raw_api.get(
+            f"Style/Header/{header_id}/Colorway/Delete/{colorway_id}")
+
+    def attributes_colorway_upload(
+            self,
+            header_id: str,
+            colorway_id: str = None,
+            filepath: str = None,
+            fileurl: str = None,
+            color_number: str = None):
+        """Uploads colorway image
+        :header_id: Style ID
+        :colorway_id: Colorway ID
+        :color_number: Color number
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: File ID
+
+        """
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"Style/Header/{header_id}/ColorwayImage/Upload?" +
+                f"colorNumber={color_number}&colorId={colorway_id}")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"Style/Header/{header_id}/ColorwayImage/Upload?" +
+                f"colorNumber={color_number}&colorId={colorway_id}")
+
+        return BeProductException("No file provided")
+
+    # APPS
+
+    def app_sku_generate(self, header_id: str, app_id: str):
+        """Populates SKU with actual data from Attributes app
+
+        :header_id: ID of the Style
+        :app_id: App ID
+        :returns: SKU app dictionary
+
+        """
+        return self.client.raw_api.post(
+            f"Style/Sku/{header_id}/{app_id}/Generate", {})
+
+    def app_sku_update(self, header_id, app_id, fields):
+        """Updates fields in individual SKU rows
+
+        :header_id: ID of the Style
+        :app_id: App ID
+        :fields: Fields dictionary
+        :returns: SKU app dictionary
+
+        """
+        return self.client.raw_api.post(
+            f"Style/Sku/PageSku?headerId={header_id}&pageId={app_id}",
+            body=fields)
+
+    def app_artboard_version_upload(
+            self,
+            header_id: str,
+            filepath: str = None,
+            fileurl: str = None):
+        """Uploads an image as a new version into Artboard application
+
+        :header_id: Style ID
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: File ID
+
+        """
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath, f"Style/Header/{header_id}/Image/Upload")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl, f"Style/Header/{header_id}/Image/Upload")
+
+        return BeProductException("No file provided")
+
+    def app_3D_style_turntable_upload(
+            self,
+            header_id: str,
+            filepath: str = None,
+            fileurl: str = None):
+        """Uploads new turntable version into 3D style app
+
+        :header_id: Style ID
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: File ID
+
+        """
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"Style/Header/{header_id}/Image/Upload/Turntable" +
+                + "?updateHeader=false")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"Style/Header/{header_id}/Image/Upload/Turntable" +
+                + "?updateHeader=false")
+
+        return BeProductException("No file provided")
+
+    def app_bom_update(self, header_id: str, app_id: str, rows):
+        """ Updates BOM application
+        :header_id: ID of the style, material, etc
+        :app_id: ID of the application / page
+        :row: List of row/material dictionaries
+        """
+
+        return self.client.raw_api.post(
+            f"Style/PageCBOM?headerId={header_id}&pageId={app_id}",
+            body=rows)

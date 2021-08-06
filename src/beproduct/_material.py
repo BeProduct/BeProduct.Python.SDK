@@ -9,6 +9,7 @@ Description: BeProduct Public API material methods
 from .sdk import BeProduct
 from ._common_upload import UploadMixin
 from ._common import CommonMixin
+from ._exception import BeProductException
 
 
 class Material(UploadMixin, CommonMixin):
@@ -72,25 +73,7 @@ class Material(UploadMixin, CommonMixin):
                                             'suppliers': suppliers
                                         })
 
-    def update(self,
-               header_id: str,
-               fields=None,
-               colorways=None,
-               sizes=None,
-               suppliers=None):
-        """ Same as attributes_update method.
-            Updates material Attributes
-        :returns: Updated material attributes
-        """
-        return self.attributes_update(
-            header_id=header_id,
-            fields=fields,
-            colorways=colorways,
-            sizes=sizes,
-            suppliers=suppliers
-        )
-
-    def create(self, fields, colorways, sizes, suppliers):
+    def attributes_create(self, fields, colorways, sizes, suppliers):
         """Creates new material
 
         :fields: Dictionary of fields {'field_id':'field_value'}
@@ -127,10 +110,73 @@ class Material(UploadMixin, CommonMixin):
                 })
 
         return self.client.raw_api.post(
-            'material/Header/Create',
+            'Material/Header/Create',
             {
                 'fields': unwound_attributes_fields,
                 'colorways': colorway_fields,
                 'sizes': sizes,
                 'suppliers': suppliers
             })
+
+    def attributes_colorway_delete(self, header_id: str, colorway_id: str):
+        """Deletes single colorway from Attributes app
+
+        :header_id: Material ID
+        :colorway_id: ID of the colorway to be deleted
+
+        """
+        return self.client.raw_api.get(
+            f"Material/Header/{header_id}/Colorway/Delete/{colorway_id}")
+
+    def attributes_colorway_upload(
+            self,
+            header_id: str,
+            colorway_id: str = None,
+            filepath: str = None,
+            fileurl: str = None,
+            color_number: str = None):
+        """Uploads colorway image
+        :header_id: Material ID
+        :colorway_id: Colorway ID
+        :color_number: Color number
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: File ID
+
+        """
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"Material/Header/{header_id}/ColorwayImage/Upload?" +
+                f"colorNumber={color_number}&colorId={colorway_id}")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"Material/Header/{header_id}/ColorwayImage/Upload?" +
+                f"colorNumber={color_number}&colorId={colorway_id}")
+
+        return BeProductException("No file provided")
+
+    # APPS
+
+    def app_artboard_version_upload(
+            self,
+            header_id: str,
+            filepath: str = None,
+            fileurl: str = None):
+        """Uploads an image as a new version into Artboard application
+
+        :header_id: Material ID
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: File ID
+
+        """
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath, f"Material/Header/{header_id}/Image/Upload")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl, f"Material/Header/{header_id}/Image/Upload")
+
+        return BeProductException("No file provided")

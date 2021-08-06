@@ -21,6 +21,18 @@ class CommonMixin:
         """
         return self.client.raw_api.get(f"{self.master_folder}/Folders")
 
+    def folder_schema(self, folder_id: str):
+        """Gets attributes schema (list of fields ) for a folder
+
+        :folder_id: ID of the folder
+        :returns: Attributes schema
+
+        """
+        return self.client.raw_api.get(
+            f"{self.master_folder}/FolderSchema?folderId={folder_id}")
+
+    # ATTRIBUTES
+
     def attributes_list(
             self,
             folder_id: str = "",
@@ -73,10 +85,18 @@ class CommonMixin:
 
         :header_id: ID of the Style/Material/Image
         :returns:
-
         """
         return self.client.raw_api.get(
-                f"{self.master_folder}/Header/Delete/{header_id}")
+            f"{self.master_folder}/Header/Delete/{header_id}")
+
+    # APPLICATIONS
+    def app_schema(self, app_id: str):
+        """ Returns an app schema
+        :app_id: ID of the application / page
+        :returns: Dictionary with app schema data
+        """
+        return self.client.raw_api.get(
+            f"{self.master_folder}/PageSchema?pageId={app_id}")
 
     def app_list(self, header_id: str):
         """ Returns list of apps/pages
@@ -96,7 +116,7 @@ class CommonMixin:
         :returns: Dictionary with app data
         """
         return self.client.raw_api.get(
-                f"{self.master_folder}/Page?headerId={header_id}&pageId={app_id}")
+            f"{self.master_folder}/Page?headerId={header_id}&pageId={app_id}")
 
     def app_form_update(self, header_id: str, app_id: str, fields):
         """ Updates form application
@@ -112,7 +132,7 @@ class CommonMixin:
         """ Updates form application
         :header_id: ID of the style, material, etc
         :app_id: ID of the application / page
-        :fields: List of row dictionaries
+        :rows: List of row dictionaries
         """
         return self.client.raw_api.post(
             f"{self.master_folder}/PageGrid?headerId={header_id}&pageId={app_id}",
@@ -127,6 +147,22 @@ class CommonMixin:
         return self.client.raw_api.post(
             f"{self.master_folder}/PageList?headerId={header_id}&pageId={app_id}",
             body=list_items)
+
+    def app_attachments_delete(
+            self,
+            header_id: str,
+            app_id: str,
+            filenames_to_remove):
+        """ Deletes files from Attachments app
+        :header_id: ID of the style, material, etc
+        :app_id: ID of the application / page
+        :filenames_to_remove: List of filenames to be removed
+        """
+        return self.client.raw_api.post(
+            f"{self.master_folder}/AttachmentRemove?headerId={header_id}&pageId={app_id}",
+            body=filenames_to_remove)
+
+    # SHARE
 
     def attributes_share(self, header_id: str, partner_list):
         """Shares attributes page

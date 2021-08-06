@@ -27,7 +27,7 @@ In material Attributes you may create or update:
 
 You can update all of the above within the same call.
 
-### Creating a Material or Updating Material Attributes 
+### Creating a Material or Updating Material Attributes
 Example:
 ```python
 fields_update = {
@@ -65,7 +65,16 @@ client.material.attributes_update(
                 colorways=colorway_update)
 ```
 
+### Deleting colorway
+You can delete colorway by ID
+```python
+client.material.attributes_colorway_delete(
+                header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
+                colorway_id = 'f71d3be5-f5c2-450f-888e-8a854dfc2835')
+```
+
 ### Updating Material sizes
+Sizes are replaced. You cant update individual sizes. You should provide a whole size range.
 ```python
 size1 = {
     'name': 'XXS',
@@ -138,17 +147,17 @@ Uploading stage looks as follows:
 ```python
 # Uploading from file system
 upload_id = client.material.attributes_upload(
-    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # material ID
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Material ID
     filepath='/home/beproduct/your_image.jpg')          # File location 
 
 # Uploading from remote URL
 upload_id = client.material.attributes_upload(
-    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # material ID
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Material ID
     fileurl="https://us.beproduct.com/your_image.jpg") # File URL
 
 # Uploading only to front side or back
 upload_id = client.material.attributes_upload(
-    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # material ID
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Material ID
     filepath='/home/beproduct/your_image.jpg',          # File location
     position='main')                                    # Position 'main', 'detail'
 ```
@@ -169,3 +178,20 @@ while True:
     sleep(3) # Let's wait 3 sec and try again
 ```
 
+## Uploading Colorway images
+
+```python
+# Uploading from file system
+upload_id = client.material.attributes_colorway_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',     # Material ID
+    colorway_id = 'b71d3be5-f5c2-450f-888e-8a854dfc2824', # Colorway ID
+    filepath='/home/beproduct/your_image.jpg')            # File location 
+
+# Uploading from remote URL
+upload_id = client.material.attributes_colorway_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Material ID
+    colorway_id = 'b71d3be5-f5c2-450f-888e-8a854dfc2824', # Colorway ID
+    fileurl="https://us.beproduct.com/your_image.jpg") # File URL
+```
+
+Use example from the previous section to check the upload status.
