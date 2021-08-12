@@ -73,9 +73,16 @@ class Material(UploadMixin, CommonMixin):
                                             'suppliers': suppliers
                                         })
 
-    def attributes_create(self, fields, colorways, sizes, suppliers):
+    def attributes_create(
+            self,
+            folder_id: str,
+            fields,
+            colorways=None,
+            sizes=None,
+            suppliers=None):
         """Creates new material
 
+        :folder_id: ID of the folder to create in
         :fields: Dictionary of fields {'field_id':'field_value'}
         :colorways Dictionary of colorway fields
         :sizes Dictionary in Size format
@@ -85,12 +92,11 @@ class Material(UploadMixin, CommonMixin):
 
         # transform attributes dictionary
         unwound_attributes_fields = []
-        if fields:
-            for field_id in fields:
-                unwound_attributes_fields.append({
-                    'id': field_id,
-                    'value': fields[field_id]
-                })
+        for field_id in fields:
+            unwound_attributes_fields.append({
+                'id': field_id,
+                'value': fields[field_id]
+            })
 
         # transform colorway dictionary
         colorway_fields = []
@@ -110,7 +116,7 @@ class Material(UploadMixin, CommonMixin):
                 })
 
         return self.client.raw_api.post(
-            'Material/Header/Create',
+            f"Material/Header/Create?folderId={folder_id}",
             {
                 'fields': unwound_attributes_fields,
                 'colorways': colorway_fields,

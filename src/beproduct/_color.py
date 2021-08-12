@@ -47,18 +47,14 @@ class Color(UploadMixin, CommonMixin):
                 'colors': colors
             })
 
-    def update(self, header_id: str, fields=None, colors=None):
-        """ Same as attributes_update method.
-            Updates color Attributes
-        :returns: Updated color attributes
-        """
-        return self.attributes_update(header_id=header_id,
-                                      fields=fields,
-                                      colors=colors)
-
-    def create(self, fields, colors):
+    def attributes_create(
+            self,
+            folder_id: str,
+            fields,
+            colors=None):
         """Creates new color palette
 
+        :folder_id: ID of the folder to create in
         :fields: Dictionary of fields {'field_id':'field_value'}
         :returns: dictionary of the created color attributes
         :colors: List of colors in the palette/attributes 
@@ -66,15 +62,14 @@ class Color(UploadMixin, CommonMixin):
 
         # transform attributes dictionary
         unwound_attributes_fields = []
-        if fields:
-            for field_id in fields:
-                unwound_attributes_fields.append({
-                    'id': field_id,
-                    'value': fields[field_id]
-                })
+        for field_id in fields:
+            unwound_attributes_fields.append({
+                'id': field_id,
+                'value': fields[field_id]
+            })
 
         return self.client.raw_api.post(
-            'color/Header/Create',
+            f"color/Header/Create{folder_id}",
             {
                 'fields': unwound_attributes_fields,
                 'colors': colors

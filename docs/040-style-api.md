@@ -125,7 +125,7 @@ fields_update = {
     }
     
 # Creates new style
-client.style.attributes_create(fields=fields_update)
+client.style.attributes_create(folder_id='f81d3be5-f5c2-450f-888e-8a854dfc2824',fields=fields_update)
 
 # Updates a style
 client.style.attributes_update(

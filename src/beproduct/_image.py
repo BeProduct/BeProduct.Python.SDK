@@ -40,36 +40,32 @@ class Image(UploadMixin, CommonMixin):
                 })
 
         return self.client.raw_api.post(
-            f"image/Header/{header_id}/Update",
+            f"Image/Header/{header_id}/Update",
             {
                 'fields': unwound_attributes_fields
             })
 
-    def update(self, header_id: str, fields=None):
-        """ Same as attributes_update method.
-            Updates image Attributes
-        :returns: Updated image attributes
-        """
-        return self.attributes_update(header_id=header_id, fields=fields)
-
-    def create(self, fields):
+    def attributes_create(
+            self,
+            folder_id: str,
+            fields):
         """Creates new image
 
+        :folder_id: ID of the folder to create in
         :fields: Dictionary of fields {'field_id':'field_value'}
         :returns: dictionary of the created image attributes
         """
 
         # transform attributes dictionary
         unwound_attributes_fields = []
-        if fields:
-            for field_id in fields:
-                unwound_attributes_fields.append({
-                    'id': field_id,
-                    'value': fields[field_id]
-                })
+        for field_id in fields:
+            unwound_attributes_fields.append({
+                'id': field_id,
+                'value': fields[field_id]
+            })
 
         return self.client.raw_api.post(
-            'image/Header/Create',
+            f"Image/Header/Create?folderId={folder_id}",
             {
                 'fields': unwound_attributes_fields
             })

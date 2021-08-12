@@ -25,7 +25,7 @@ fields_update = {
     }
     
 # Creates new image
-client.image.attributes_create(fields=fields_update)
+client.image.attributes_create(folder_id='f81d3be5-f5c2-450f-888e-8a854dfc2824',fields=fields_update)
 
 # Updates a image
 client.image.attributes_update(

@@ -6,6 +6,8 @@ Github: https://github.com/BeProduct
 Description: Common Mixin for every master folder
 """
 
+from ._helpers import beproduct_paging_iterator
+
 
 class CommonMixin:
     """
@@ -46,30 +48,15 @@ class CommonMixin:
         :returns: Enumerator of Attributes
         """
 
-        def get_batch(self, folder_id, page_size, page_number):
-            return self.client.raw_api.post(
-                f"{self.master_folder}/Headers?folderId={folder_id}&pageSize={page_size}&pageNumber={page_number}",
+        return beproduct_paging_iterator(
+            page_size,
+            lambda psize, pnum: self.client.raw_api.post(
+                f"{self.master_folder}/Headers?folderId={folder_id}" +
+                f"&pageSize={psize}&pageNumber={pnum}",
                 body={
                     'filters':  filters,
                     'colorwayFilters': colorway_filters
-                })
-
-        total = 0
-        processed = 0
-        page_number = 0
-
-        while True:
-            page = get_batch(self, folder_id, page_size, page_number)
-            total = page['total']
-
-            for attr in page['result']:
-                processed += 1
-                yield attr
-
-            if processed >= total:
-                break
-
-            page_number += 1
+                }))
 
     def attributes_get(self, header_id: str):
         """Returns style attibutes
@@ -234,3 +221,337 @@ class CommonMixin:
 
         """
         return self.client.raw_api.get(f"Share/Page/{header_id}/{app_id}/Get")
+
+    # COMMENTS
+
+    def attributes_comment_list(self, header_id: str):
+        """ Returns Attributes app comments
+
+        :header_id: ID of style/material/image etc
+        :returns: List of comments
+
+        """
+        return self.client.raw_api.get(
+            f"Comment/Heeader/{header_id}")
+
+    def attributes_comment_add(self, header_id: str, comment: str):
+        """Adds a comment to Attributes app
+
+        :header_id: ID of style/material/image etc
+        :comment: Comment text
+        :returns: Added comment
+
+        """
+        return self.client.raw_api.post(
+            f"Comment/Header/{header_id}/Create",
+            body={
+                'comment': comment
+            })
+
+    def attributes_comment_edit(self, header_id: str, comment_id: str, comment: str):
+        """Edits a comment in Attributes app
+
+        :header_id: ID of style/material/image etc
+        :comment_id: Comment ID
+        :comment: Comment text
+        :returns: Edited comment
+
+        """
+        return self.client.raw_api.post(
+            f"Comment/Header/{header_id}/Edit?commentId={comment_id}",
+            body={
+                'comment': comment
+            })
+
+    def attributes_comment_delete(self, header_id: str, comment_id: str):
+        """Deletes a comment from Attributes app
+
+        :header_id: ID of style/material/image etc
+        :comment_id: Comment ID
+        :returns: 
+
+        """
+        return self.client.raw_api.delete(
+            f"Comment/Header/{header_id}/Delete?commentId={comment_id}")
+
+    def app_comment_list(self, header_id: str, app_id: str):
+        """ Returns application comments
+
+        :header_id: ID of style/material/image etc
+        :app_id: App ID
+        :returns: List of comments
+
+        """
+        return self.client.raw_api.get(
+            f"Comment/Page/{header_id}/{app_id}")
+
+    def app_comment_add(self, header_id: str, app_id: str,  comment: str):
+        """Adds a comment to application
+
+        :header_id: ID of style/material/image etc
+        :app_id: App ID
+        :comment: Comment text
+        :returns: Added comment
+
+        """
+        return self.client.raw_api.post(
+            f"Comment/Page/{header_id}/{app_id}/Create",
+            body={
+                'comment': comment
+            })
+
+    def app_comment_edit(self, header_id: str, app_id: str, comment_id: str, comment: str):
+        """Edits a comment in application
+
+        :header_id: ID of style/material/image etc
+        :app_id: App ID
+        :comment_id: Comment ID
+        :comment: Comment text
+        :returns: Edited comment
+
+        """
+        return self.client.raw_api.post(
+            f"Comment/Page/{header_id}/{app_id}/Edit?commentId={comment_id}",
+            body={
+                'comment': comment
+            })
+
+    def app_comment_delete(self, header_id: str, app_id: str, comment_id: str):
+        """Deletes a comment from Attributes app
+
+        :header_id: ID of style/material/image etc
+        :app_id: App ID
+        :comment_id: Comment ID
+        :returns:
+
+        """
+        return self.client.raw_api.delete(
+            f"Comment/Page/{header_id}/{app_id}/Delete?commentId={comment_id}")
+
+    # REVISIONS
+
+    def attributes_revision_list(self, header_id: str):
+        """ Returns Attributes app revisions
+
+        :header_id: ID of style/material/image etc
+        :returns: List of revisions
+
+        """
+        return self.client.raw_api.get(
+            f"Revision/Heeader/{header_id}")
+
+    def attributes_revision_add(self, header_id: str, revision: str):
+        """Adds a revision to Attributes app
+
+        :header_id: ID of style/material/image etc
+        :revision: revision text
+        :returns: Added revision
+
+        """
+        return self.client.raw_api.post(
+            f"Revision/Header/{header_id}/Create",
+            body={
+                'revision': revision
+            })
+
+    def attributes_revision_edit(self, header_id: str, revision_id: str, revision: str):
+        """Edits a revision in Attributes app
+
+        :header_id: ID of style/material/image etc
+        :revision_id: revision ID
+        :revision: revision text
+        :returns: Edited revision
+
+        """
+        return self.client.raw_api.post(
+            f"Revision/Header/{header_id}/Edit?revisionId={revision_id}",
+            body={
+                'revision': revision
+            })
+
+    def attributes_revision_delete(self, header_id: str, revision_id: str):
+        """Deletes a revision from Attributes app
+
+        :header_id: ID of style/material/image etc
+        :revision_id: revision ID
+        :returns: 
+
+        """
+        return self.client.raw_api.delete(
+            f"Revision/Header/{header_id}/Delete?revisionId={revision_id}")
+
+    def app_revision_list(self, header_id: str, app_id: str):
+        """ Returns application revisions
+
+        :header_id: ID of style/material/image etc
+        :app_id: App ID
+        :returns: List of revisions
+
+        """
+        return self.client.raw_api.get(
+            f"Revision/Page/{header_id}/{app_id}")
+
+    def app_revision_add(self, header_id: str, app_id: str,  revision: str):
+        """Adds a revision to application
+
+        :header_id: ID of style/material/image etc
+        :app_id: App ID
+        :revision: revision text
+        :returns: Added revision
+
+        """
+        return self.client.raw_api.post(
+            f"Revision/Page/{header_id}/{app_id}/Create",
+            body={
+                'revision': revision
+            })
+
+    def app_revision_edit(self, header_id: str, app_id: str, revision_id: str, revision: str):
+        """Edits a revision in application
+
+        :header_id: ID of style/material/image etc
+        :app_id: App ID
+        :revision_id: revision ID
+        :revision: revision text
+        :returns: Edited revision
+
+        """
+        return self.client.raw_api.post(
+            f"Revision/Page/{header_id}/{app_id}/Edit?revisionId={revision_id}",
+            body={
+                'revision': revision
+            })
+
+    def app_revision_delete(
+            self,
+            header_id: str,
+            app_id: str,
+            revision_id: str):
+        """Deletes a revision from Attributes app
+
+        :header_id: ID of style/material/image etc
+        :app_id: App ID
+        :revision_id: revision ID
+        :returns:
+
+        """
+        return self.client.raw_api.delete(
+            f"Revision/Page/{header_id}/{app_id}/Delete?" +
+            f"revisionId={revision_id}")
+
+    # TAGS
+
+    def tag_list(self):
+        """List of Style/Material/Image/Color tags
+
+        :master_folder: Must be equal Style or Material or Image or Color
+        :returns: List of tags
+
+        """
+        return self.client.raw_api.get(
+            f"Tag/{self.master_folder}/List")
+
+    def tag_create(self, name: str, integration: str = None, share_with=None):
+        """Creates new tag
+
+        :name: Tag name
+        :integration: 'Browzwear' if needs to be integrated with Browzwear otherwise none
+        :share_with: List of user IDs
+        :returns: Created tag
+
+        """
+        return self.client.raw_api.post(
+            f"Tag/{self.master_folder}/Create",
+            body={
+                'name': name,
+                'integration': integration,
+                'shareWith': share_with if share_with else []
+            }
+        )
+
+    def tag_update(self, tag_id: str, name: str, integration: str = None):
+        """Updates a tag
+
+        :tag_id: Tag ID
+        :name: Tag name
+        :integration: 'Browzwear' if needs to be integrated with Browzwear otherwise none
+        :returns: Updated tag
+
+        """
+        return self.client.raw_api.post(
+            f"Tag/{tag_id}/Update",
+            body={
+                'name': name,
+                'integration': integration,
+            }
+        )
+
+    def tag_share(self, tag_id: str, share_with):
+        """Shares a tag
+
+        :tag_id: Tag ID
+        :share_with: List of User IDs to share with
+        :returns:
+
+        """
+        return self.client.raw_api.post(
+            f"Tag/{tag_id}/Share",
+            body=share_with
+        )
+
+    def tag_unshare(self, tag_id: str, unshare_with):
+        """Unshares a tag
+
+        :tag_id: Tag ID
+        :share_with: List of User IDs to unshare with
+        :returns:
+
+        """
+        return self.client.raw_api.post(
+            f"Tag/{tag_id}/Unshare",
+            body=unshare_with
+        )
+
+    def tag_delete(self, tag_id: str):
+        """Deletes a tag
+
+        :tag_id: Tag ID
+        :returns:
+
+        """
+        return self.client.raw_api.delete(f"Tag/{tag_id}/Delete")
+
+    def attributes_tag_list(self, header_id: str):
+        """List of Style/Material/Image/Color tags
+
+        :header_id: ID of the style, material, image etc.
+        :returns: List of tags
+
+        """
+        return self.client.raw_api.get(f"Tag/Header/{header_id}")
+
+    def attributes_tag_add(self, header_id: str, tag_names):
+        """Adds tags to the Attributes app
+
+        :header_id: ID of the style, material, image etc.
+        :tag_names: List of strings (tag names)
+        :returns:
+
+        """
+        return self.client.raw_api.post(
+            f"Tag/Header/{header_id}/Add",
+            body=tag_names
+        )
+
+    def attributes_tag_remove(self, header_id: str, tag_names):
+        """Remove tags from the Attributes app
+
+        :header_id: ID of the style, material, image etc.
+        :tag_names: List of strings (tag names)
+        :returns:
+
+        """
+        return self.client.raw_api.post(
+            f"Tag/Header/{header_id}/Remove",
+            body=tag_names
+        )

@@ -40,14 +40,15 @@ colors = [
     
 # Creates new color palette
 client.color.attributes_create(
-  fields=fields_update,
-  colors=colors)
+    folder_id='f81d3be5-f5c2-450f-888e-8a854dfc2824',
+    fields=fields_update,
+    colors=colors)
 
 # Updates a color palette
 client.color.attributes_update(
-            header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
-            fields=fields_update,
-            colors=colors)
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
+    fields=fields_update,
+    colors=colors)
 ```
 
 

@@ -50,6 +50,7 @@ class BeProduct():
         from ._color import Color
         from ._directory import Directory
         from ._user import User
+        from ._tracking import Tracking
 
         self.style = Style(self)
         self.image = Image(self)
@@ -57,3 +58,4 @@ class BeProduct():
         self.color = Color(self)
         self.directory = Directory(self)
         self.user = User(self)
+        self.tracking = Tracking(self)

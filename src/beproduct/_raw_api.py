@@ -61,7 +61,7 @@ class RawApi:
         }
 
     def get(self, url):
-        """ Get Request to BeProduct Public API
+        """ GET Request to BeProduct Public API
 
         :url: url to call
         :returns: response body as string or throws an error
@@ -86,8 +86,34 @@ class RawApi:
 
         return response.json()
 
+    def delete(self, url):
+        """ DELETE Request to BeProduct Public API
+
+        :url: url to call
+        :returns: response body as string or throws an error
+
+        """
+        throttle = _Throttle()
+        full_url = f"{self.client.public_api_url}/{url.lstrip('/')}"
+        while True:
+            response = requests.delete(
+                url=full_url,
+                headers=self.__get_headers())
+            if response.status_code == 429 and throttle.wait_or_die():
+                continue
+            break
+
+        if response.status_code != 200:
+            raise BeProductException(
+                "API call failed. Details: \n" +
+                f"URL: {full_url} \n" +
+                f"Status code: {response.status_code} \n" +
+                f"Response body: {response.text} \n")
+
+        return response.json()
+
     def post(self, url, body):
-        """ Post Request to BeProduct Public API
+        """ POST Request to BeProduct Public API
 
         :url: api url
         :body: json body

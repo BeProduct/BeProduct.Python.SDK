@@ -82,9 +82,15 @@ class Style(UploadMixin, CommonMixin):
                                             'sizes': sizes
                                         })
 
-    def attributes_create(self, fields, colorways, sizes):
+    def attributes_create(
+            self,
+            folder_id: str,
+            fields,
+            colorways=None,
+            sizes=None):
         """Creates new style
 
+        :folder_id: ID of the folder to create style in
         :fields: Dictionary of fields {'field_id':'field_value'}
         :colorways Dictionary of colorway fields
         :sizes Dictionary in Size format
@@ -93,12 +99,11 @@ class Style(UploadMixin, CommonMixin):
 
         # transform attributes dictionary
         unwound_attributes_fields = []
-        if fields:
-            for field_id in fields:
-                unwound_attributes_fields.append({
-                    'id': field_id,
-                    'value': fields[field_id]
-                })
+        for field_id in fields:
+            unwound_attributes_fields.append({
+                'id': field_id,
+                'value': fields[field_id]
+            })
 
         # transform colorway dictionary
         colorway_fields = []
@@ -118,7 +123,7 @@ class Style(UploadMixin, CommonMixin):
                 })
 
         return self.client.raw_api.post(
-            'Style/Header/Create',
+            f"Style/Header/Create?folderId={folder_id}",
             {
                 'fields': unwound_attributes_fields,
                 'colorways': colorway_fields,
@@ -248,3 +253,45 @@ class Style(UploadMixin, CommonMixin):
         return self.client.raw_api.post(
             f"Style/PageCBOM?headerId={header_id}&pageId={app_id}",
             body=rows)
+
+    def app_request_list(self, header_id: str):
+        """ List of request apps
+
+        :header_id: Style ID
+        :returns: List of Style Request Applications
+
+        """
+        return self.client.raw_api.get(
+            f"Style/RequestPages?headerId={header_id}")
+
+    def app_request_get(self, header_id: str, app_id: str, timeline_id: str = None):
+        """TODO: Docstring for app_request_get.
+
+        :header_id: Style ID
+        :app_id: App ID
+        :timeline_id: (Optional) Plan Timeline ID if you need a specific app record
+        :returns: List of Request Apps for all plan timelines where app exists
+
+        """
+
+        return self.client.raw_api.get(
+            f"Style/RequestPage?headerId={header_id}&pageId={app_id}" +
+            (f"&timelineId={timeline_id}" if timeline_id else ""))
+
+    def app_request_form_update(
+            self,
+            header_id: str,
+            app_id: str,
+            timeline_id: str,
+            fields):
+        """ Updates form application
+        :header_id: ID of the style, material, etc
+        :app_id: ID of the application / page
+        :timeline_id: Plan Timeline Id
+        :fields: Dictionary of fields to update {'field_id':'value'}
+        """
+        return self.client.raw_api.post(
+            f"Style/RequestPageForm?headerId={header_id}" +
+            f"&pageId={app_id}&timelineId={timeline_id}",
+            body=[{'id': field_id, 'value': fields[field_id]}
+                  for field_id in fields])
