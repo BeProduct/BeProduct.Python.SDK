@@ -8,19 +8,31 @@ Description: BeProduct Public API material methods
 
 from .sdk import BeProduct
 from ._common_upload import UploadMixin
-from ._common import CommonMixin
+from ._common_attributes import AttributesMixin
+from ._common_apps import AppsMixin
+from ._common_comments import CommentsMixin
+from ._common_revisions import RevisionsMixin
+from ._common_share import ShareMixin
+from ._common_tags import TagsMixin
 from ._exception import BeProductException
 
 
-class Material(UploadMixin, CommonMixin):
+class Material(
+        UploadMixin,
+        AttributesMixin,
+        AppsMixin,
+        CommentsMixin,
+        RevisionsMixin,
+        ShareMixin,
+        TagsMixin):
+
     """
     Implements Material API
     """
 
     def __init__(self, client: BeProduct):
         self.client = client
-        UploadMixin.__init__(self, master_folder='Material')
-        CommonMixin.__init__(self, master_folder='Material')
+        self.master_folder = 'Material'
 
     def attributes_update(self,
                           header_id: str,
@@ -30,7 +42,7 @@ class Material(UploadMixin, CommonMixin):
                           suppliers=None):
         """Updates material attributes
 
-        :header_id: ID of the material 
+        :header_id: ID of the material
         :fields: Dictionary of fields {'field_id':'field_value'}
         :colorways: Dictionary in Colorway update format
         :sizes: Dictionary in Size format
@@ -184,5 +196,33 @@ class Material(UploadMixin, CommonMixin):
         if fileurl:
             return self.client.raw_api.upload_from_url(
                 fileurl, f"Material/Header/{header_id}/Image/Upload")
+
+        return BeProductException("No file provided")
+
+    def app_3d_material_upload(
+            self,
+            header_id: str,
+            app_id: str,
+            filepath: str = None,
+            fileurl: str = None):
+        """Uploads new file into 3D material app
+
+        :header_id: Material ID
+        :app_id: 3D material app id
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: File ID
+
+        """
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"Material/Material3DAppImageUpload?materialId={header_id}" +
+                f"&pageId={app_id}")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"Material/Material3DAppImageUpload?materialId={header_id}" +
+                f"&pageId={app_id}")
 
         return BeProductException("No file provided")

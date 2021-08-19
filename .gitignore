@@ -7,7 +7,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-tests/
 .Python
 build/
 develop-eggs/
@@ -128,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Test configs 
+tests/playground.py
+tests/configs/auth.json

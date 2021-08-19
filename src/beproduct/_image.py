@@ -7,19 +7,32 @@ Description: BeProduct Public API Image methods
 """
 
 from .sdk import BeProduct
+
 from ._common_upload import UploadMixin
-from ._common import CommonMixin
+from ._common_attributes import AttributesMixin
+from ._common_apps import AppsMixin
+from ._common_comments import CommentsMixin
+from ._common_revisions import RevisionsMixin
+from ._common_share import ShareMixin
+from ._common_tags import TagsMixin
 
 
-class Image(UploadMixin, CommonMixin):
+class Image(
+        UploadMixin,
+        AttributesMixin,
+        AppsMixin,
+        CommentsMixin,
+        RevisionsMixin,
+        ShareMixin,
+        TagsMixin):
+
     """
     Implements Image API
     """
 
     def __init__(self, client: BeProduct):
         self.client = client
-        UploadMixin.__init__(self, master_folder='Image')
-        CommonMixin.__init__(self, master_folder='Image')
+        self.master_folder = 'Image'
 
     def attributes_update(self, header_id: str, fields=None):
         """Updates image attributes

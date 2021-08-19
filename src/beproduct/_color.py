@@ -7,19 +7,32 @@ Description: BeProduct Public API color methods
 """
 
 from .sdk import BeProduct
+
 from ._common_upload import UploadMixin
-from ._common import CommonMixin
+from ._common_attributes import AttributesMixin
+from ._common_apps import AppsMixin
+from ._common_comments import CommentsMixin
+from ._common_revisions import RevisionsMixin
+from ._common_share import ShareMixin
+from ._common_tags import TagsMixin
 
 
-class Color(UploadMixin, CommonMixin):
+class Color(
+        UploadMixin,
+        AttributesMixin,
+        AppsMixin,
+        CommentsMixin,
+        RevisionsMixin,
+        ShareMixin,
+        TagsMixin):
+
     """
     Implements color API
     """
 
     def __init__(self, client: BeProduct):
         self.client = client
-        UploadMixin.__init__(self, master_folder='color')
-        CommonMixin.__init__(self, master_folder='color')
+        self.master_folder = 'Color'
 
     def attributes_update(self, header_id: str, fields=None, colors=None):
         """Updates color attributes

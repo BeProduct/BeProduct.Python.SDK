@@ -8,19 +8,32 @@ Description: BeProduct Public API Style methods
 
 from .sdk import BeProduct
 from ._common_upload import UploadMixin
-from ._common import CommonMixin
+from ._common_attributes import AttributesMixin
+from ._common_apps import AppsMixin
+from ._common_comments import CommentsMixin
+from ._common_revisions import RevisionsMixin
+from ._common_share import ShareMixin
+from ._common_tags import TagsMixin
+
 from ._exception import BeProductException
 
 
-class Style(UploadMixin, CommonMixin):
+class Style(
+        UploadMixin,
+        AttributesMixin,
+        AppsMixin,
+        CommentsMixin,
+        RevisionsMixin,
+        ShareMixin,
+        TagsMixin):
+
     """
     Implements Style API
     """
 
     def __init__(self, client: BeProduct):
         self.client = client
-        UploadMixin.__init__(self, master_folder='Style')
-        CommonMixin.__init__(self, master_folder='Style')
+        self.master_folder = 'Style'
 
     def folder_colorway_schema(self, folder_id: str):
         """Gets colorway schema (list of fields ) for a folder
