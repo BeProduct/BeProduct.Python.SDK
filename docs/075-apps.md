@@ -335,3 +335,18 @@ To upload images
     app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
     fileurl="https://us.beproduct.com/your_image.jpg")  # File URL
 ```
+
+## Uploading a file into 3D material app
+```python
+# Uploading local file
+upload_id = client.style.app_3d_material_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    filepath='/home/beproduct/your_image.jpg')          # File location 
+
+# Uploading from remote URL
+upload_id = client.style.app_3d_material_upload(
+    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
+    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+    fileurl="https://us.beproduct.com/your_image.jpg")  # File URL
+```
