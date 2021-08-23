@@ -1,0 +1,22 @@
+{
+  "decimal":10, 
+  "color_drop_down":"f4f7ff",
+  "combo_box":"Choice 3",
+  "composite": [{"code":"1", "value":100}],
+  "measure": 123,
+  "users": "Yuri Feel the pain",
+  "true_false": true,
+  "currency": 321,
+  "text": "Integration",
+  "memo": "Memo text",
+  "drop_down": "Choice 2",
+  "date": "2021-08-01T00:00:00Z",
+  "partner_drop_down":  "127ece27-e004-4fc2-ba65-a75596cc7b42",
+  "number": 123456,
+  "percent": 0.125,
+  "multi_select": "Choice 2",
+  "tags": [
+    "hello",
+    "world"
+  ]
+}

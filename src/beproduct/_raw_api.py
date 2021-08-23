@@ -156,9 +156,10 @@ class RawApi:
         full_url = f"{self.client.public_api_url}/{url.lstrip('/')}"
 
         request_body = {} if body is None else body.copy()
+        f = open(filepath, 'rb')
         request_body['file'] = (
             os.path.basename(filepath),
-            open(filepath, 'rb'),
+            f,
             'application/octet-stream')
 
         stream_encoder = MultipartEncoder(fields=request_body)
@@ -174,6 +175,8 @@ class RawApi:
                 continue
             break
 
+        f.close()
+
         if response.status_code != 200:
             raise BeProductException(
                 "API POST call failed. Details:\n" +
@@ -182,7 +185,8 @@ class RawApi:
                 f"Status code: {response.status_code} \n" +
                 f"Response body: {response.text} \n")
 
-        return response.json()["imageId"]
+        resp = response.json()
+        return resp['imageId'] if 'imageId' in resp else None
 
     def upload_from_url(self, file_url: str, api_url: str, body: Dict = None):
         """ Uploads a file from the filesystem
@@ -222,7 +226,8 @@ class RawApi:
                 f"Status code: {response.status_code} \n" +
                 f"Response body: {response.text} \n")
 
-        return response.json()["imageId"]
+        resp = response.json()
+        return resp['imageId'] if 'imageId' in resp else None
 
     def upload_status(self, file_id: str):
         """

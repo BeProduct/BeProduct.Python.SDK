@@ -1,0 +1,116 @@
+{
+    "data": [
+        {
+            "id": "measure",
+            "name": "Measure",
+            "value": "123",
+            "type": "Measure",
+            "required": true
+        },
+        {
+            "id": "composite",
+            "name": "Composite Control",
+            "value": "[\r\n  {\r\n    \"code\": \"1\",\r\n    \"value\": 100.0\r\n  }\r\n]",
+            "type": "CompositeControl",
+            "required": true
+        },
+        {
+            "id": "users",
+            "name": "Users",
+            "value": "Yuri Feel the pain",
+            "type": "Users",
+            "required": true
+        },
+        {
+            "id": "true_false",
+            "name": "True/False",
+            "value": "True",
+            "type": "TrueFalse",
+            "required": false
+        },
+        {
+            "id": "currency",
+            "name": "Currency",
+            "value": "321",
+            "type": "Currency",
+            "required": true
+        },
+        {
+            "id": "combo_box",
+            "name": "ComboBox",
+            "value": "Choice 3",
+            "type": "ComboBox",
+            "required": true
+        },
+        {
+            "id": "text",
+            "name": "Text",
+            "value": "Integration",
+            "type": "Text",
+            "required": true
+        },
+        {
+            "id": "memo",
+            "name": "Memo",
+            "value": "Memo text",
+            "type": "Memo",
+            "required": true
+        },
+        {
+            "id": "drop_down",
+            "name": "Drop Down",
+            "value": "Choice 2",
+            "type": "DropDown",
+            "required": true
+        },
+        {
+            "id": "date",
+            "name": "Date",
+            "value": "8/1/2021 12:00:00 AM",
+            "type": "Date",
+            "required": true
+        },
+        {
+            "id": "partner_drop_down",
+            "name": "Partner Drop Down",
+            "value": "{\r\n  \"text\": null,\r\n  \"value\": \"CUSTOMER 1\",\r\n  \"code\": \"127ece27-e004-4fc2-ba65-a75596cc7b42\",\r\n  \"allowedFor\": null\r\n}",
+            "type": "PartnerDropDown",
+            "required": true
+        },
+        {
+            "id": "number",
+            "name": "Number",
+            "value": "123456",
+            "type": "Number",
+            "required": true
+        },
+        {
+            "id": "percent",
+            "name": "Percent",
+            "value": "0.125",
+            "type": "Percent",
+            "required": true
+        },
+        {
+            "id": "tags",
+            "name": "Tags",
+            "value": "[\r\n  \"hello\",\r\n  \"world\"\r\n]",
+            "type": "Tags",
+            "required": true
+        },
+        {
+            "id": "multi_select",
+            "name": "MultiSelect",
+            "value": "[\r\n  \"Choice 2\"\r\n]",
+            "type": "MultiSelect",
+            "required": true
+        },
+        {
+            "id": "decimal",
+            "name": "Decimal",
+            "value": "10",
+            "type": "Decimal",
+            "required": true
+        }
+    ]
+}

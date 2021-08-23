@@ -1,0 +1,149 @@
+{
+    "id": "b9faf86f-ae40-44f7-8333-a8b963f7fa9d",
+    "name": "FORM APP WIITH ALL FIELDS",
+    "data": [
+        {
+            "id": "Label",
+            "name": "Label",
+            "value": "Label text",
+            "type": "LabelText",
+            "required": false
+        },
+        {
+            "id": "formula_field",
+            "name": "FormulaField",
+            "value": "23",
+            "type": "FormulaField",
+            "required": false
+        },
+        {
+            "id": "measure",
+            "name": "Measure",
+            "value": "2",
+            "type": "Measure",
+            "required": true
+        },
+        {
+            "id": "composite",
+            "name": "Composite Control",
+            "value": "[\r\n  {\r\n    \"code\": \"1\",\r\n    \"value\": 90\r\n  },\r\n  {\r\n    \"code\": \"4\",\r\n    \"value\": 10\r\n  }\r\n]",
+            "type": "CompositeControl",
+            "required": true
+        },
+        {
+            "id": "users",
+            "name": "Users",
+            "value": "Daniel Pak",
+            "type": "Users",
+            "required": true
+        },
+        {
+            "id": "color_drop_down",
+            "name": "Color Drop Down",
+            "value": "{\r\n  \"Id\": \"172cdbf6-529b-4904-9421-1a089bc4a2ba\",\r\n  \"color_id\": \"efd75ad8-ae8c-4379-8276-ced49f6fdedf\",\r\n  \"hex\": \"f4f7ff\",\r\n  \"rgb_r\": 244,\r\n  \"rgb_g\": 247,\r\n  \"rgb_b\": 255,\r\n  \"cmyk_c\": 0.043137254901960742,\r\n  \"cmyk_m\": 0.031372549019607843,\r\n  \"cmyk_y\": 0,\r\n  \"cmyk_k\": 0,\r\n  \"hsl_h\": 223.63636363636363,\r\n  \"hsl_s\": 1,\r\n  \"hsl_l\": 0.97843137254901957,\r\n  \"hsb_h\": 223.63636363636363,\r\n  \"hsb_s\": 0.043137254901960742,\r\n  \"hsb_b\": 1,\r\n  \"lab_l\": 97.217301987154869,\r\n  \"lab_a\": 0.45865652289472925,\r\n  \"lab_b\": -4.1835423133501859,\r\n  \"xyz_x\": 88.618991127396143,\r\n  \"xyz_y\": 92.974625158566141,\r\n  \"xyz_z\": 107.88291749840997,\r\n  \"family\": \"White\",\r\n  \"suggested_name\": \"Lucent White\",\r\n  \"suggested_hex\": \"11-0700 TCX\",\r\n  \"color_library\": \"default\",\r\n  \"company_id\": \"\",\r\n  \"palette_name\": \"Pantone FHI Cotton TCX\",\r\n  \"sort\": 2,\r\n  \"order\": 2,\r\n  \"row\": 1\r\n}",
+            "type": "ColorDropDown",
+            "required": true
+        },
+        {
+            "id": "true_false",
+            "name": "True/False",
+            "value": "True",
+            "type": "TrueFalse",
+            "required": false
+        },
+        {
+            "id": "currency",
+            "name": "Currency",
+            "value": "3",
+            "type": "Currency",
+            "required": true
+        },
+        {
+            "id": "combo_box",
+            "name": "ComboBox",
+            "value": "Choice 2",
+            "type": "ComboBox",
+            "required": true
+        },
+        {
+            "id": "text",
+            "name": "Text",
+            "value": "Integration",
+            "type": "Text",
+            "required": true
+        },
+        {
+            "id": "memo",
+            "name": "Memo",
+            "value": "Memo text",
+            "type": "Memo",
+            "required": true
+        },
+        {
+            "id": "drop_down",
+            "name": "Drop Down",
+            "value": "Choice 2",
+            "type": "DropDown",
+            "required": true
+        },
+        {
+            "id": "date",
+            "name": "Date",
+            "value": "8/1/2021 12:00:00 AM",
+            "type": "Date",
+            "required": true
+        },
+        {
+            "id": "partner_drop_down",
+            "name": "Partner Drop Down",
+            "value": "{\r\n  \"text\": null,\r\n  \"value\": \"CUSTOMER 1\",\r\n  \"code\": \"127ece27-e004-4fc2-ba65-a75596cc7b42\",\r\n  \"allowedFor\": null\r\n}",
+            "type": "PartnerDropDown",
+            "required": true
+        },
+        {
+            "id": "number",
+            "name": "Number",
+            "value": "1",
+            "type": "Number",
+            "required": true
+        },
+        {
+            "id": "percent",
+            "name": "Percent",
+            "value": "0.05",
+            "type": "Percent",
+            "required": true
+        },
+        {
+            "id": "tags",
+            "name": "Tags",
+            "value": "[\r\n  \"hi\"\r\n]",
+            "type": "Tags",
+            "required": true
+        },
+        {
+            "id": "multi_select",
+            "name": "MultiSelect",
+            "value": "Choice 2",
+            "type": "MultiSelect",
+            "required": true
+        },
+        {
+            "id": "decimal",
+            "name": "Decimal",
+            "value": "23",
+            "type": "Decimal",
+            "required": true
+        }
+    ],
+    "createdBy": {
+        "id": "973356ef-542b-4470-87a5-14bb383415bd",
+        "name": "yuri.golub@winks.io"
+    },
+    "createdAt": "2021-08-13T06:43:20.616Z",
+    "modifiedBy": {
+        "id": "yuri.golub@winks.io",
+        "name": "yuri.golub@winks.io"
+    },
+    "modifiedAt": "2021-08-13T13:35:37.883Z"
+}

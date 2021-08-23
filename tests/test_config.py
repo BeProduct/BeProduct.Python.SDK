@@ -18,14 +18,11 @@ class TestConfiguration(object):
         self.TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
         # load default.json first
-        if os.path.exists(
-                os.path.join(self.TEST_DIR, 'configs', 'default.json')):
-            self.set_conf('default')
+        self.set_conf('default')
 
         # auth
-        if os.path.exists(os.path.join(self.TEST_DIR, 'configs', 'auth.json')):
-            self.set_conf('auth')
-        else:
+        self.set_conf('auth')
+        if 'CLIENT_ID' not in dir(self):
             self.CLIENT_ID = os.environ.get('CLIENT_ID')
             self.CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
             self.REFRESH_TOKEN = os.environ.get('REFRESH_TOKEN')
@@ -37,10 +34,21 @@ class TestConfiguration(object):
     def set_conf(self, *args):
         """ Sets properties of config classes from local files """
         for arg in args:
-            with open(
-                    os.path.join(
+            if os.path.exists(os.path.join(self.TEST_DIR, 'configs', arg + '.json')):
+                with open(os.path.join(
                         self.TEST_DIR, 'configs', arg + '.json'), 'r') as f:
-                conf_dict = json.load(f)
+                    conf_dict = json.load(f)
+                for k in conf_dict:
+                    self.__setattr__(k, conf_dict[k])
 
-            for k in conf_dict:
-                self.__setattr__(k, conf_dict[k])
+            elif os.path.isdir(os.path.join(self.TEST_DIR, 'configs', arg)):
+                for json_file in os.listdir(
+                        os.path.join(self.TEST_DIR, 'configs', arg)):
+                    with open(
+                            os.path.join(self.TEST_DIR, 'configs',
+                                         arg, json_file),
+                            'r') as f:
+                        conf_dict = json.load(f)
+                        for k in conf_dict:
+                            self.__setattr__(
+                                json_file.replace('.json', '').upper(), conf_dict)

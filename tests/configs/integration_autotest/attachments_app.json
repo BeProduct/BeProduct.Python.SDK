@@ -1,0 +1,19 @@
+{
+    "id": "3adfd8dd-59bd-4b7c-afee-4e90e35e3a77",
+    "name": "ATTACHMENTS APP",
+    "data": {
+        "files": [
+            {
+                "fileName": "1kb",
+                "fileType": "jpg",
+                "fileSize": "1.49KB",
+                "url": "https://beproduct.blob.core.windows.net//storage/a9f75fd8-c913-4d65-92f1-f4601ec3bb2c/33255c68-0e25-4fe9-a538-07f000636d2d/1/1kb.jpg"
+            }
+        ]
+    },
+    "createdBy": {
+        "id": "973356ef-542b-4470-87a5-14bb383415bd",
+        "name": "yuri.golub@winks.io"
+    },
+    "createdAt": "2021-08-23T14:52:52.243Z"
+}

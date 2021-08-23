@@ -23,6 +23,7 @@ class UploadMixin:
                           fileurl: str = None,
                           position: str = None):
         """ Uploads file to Attributes
+
         :header_id: ID of the Style, Material etc
         :filepath: Local file path
         :fileurl: Remote file URL
@@ -31,6 +32,7 @@ class UploadMixin:
                    For material: 'main' or 'detail'
         :returns: Upload ID
         """
+
         if filepath:
             return self.client.raw_api.upload_local_file(
                 filepath,
@@ -84,25 +86,26 @@ class UploadMixin:
             filepath: str = None,
             fileurl: str = None):
         """ Uploads image to Attachment app
+
         :header_id: ID of the Style, Material etc
         :app_id: Application ID
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: Upload ID
+        :returns: None. Upload is effective after call is finished
         """
 
         if filepath:
             return self.client.raw_api.upload_local_file(
                 filepath,
                 f"{self.master_folder}/AttachmentUpload?" +
-                f"{self.master_folder.lower()}Id={header_id}" +
+                f"headerId={header_id}" +
                 f"&pageId={app_id}"
             )
         if fileurl:
             return self.client.raw_api.upload_from_url(
                 fileurl,
                 f"{self.master_folder}/AttachmentUpload?" +
-                f"{self.master_folder.lower()}Id={header_id}" +
+                f"headerId={header_id}" +
                 f"&pageId={app_id}"
             )
         return BeProductException("No file provided")
@@ -122,6 +125,7 @@ class UploadMixin:
         :returns: Upload ID
 
         """
+
         if filepath:
             return self.client.raw_api.upload_local_file(
                 filepath,
@@ -153,6 +157,7 @@ class UploadMixin:
         :returns: Upload ID
 
         """
+
         return self.app_imageform_upload(
             header_id=header_id,
             app_id=app_id,

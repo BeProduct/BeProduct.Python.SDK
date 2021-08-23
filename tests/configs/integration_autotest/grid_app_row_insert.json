@@ -1,0 +1,18 @@
+[
+  {
+    "id":"text",
+    "value":"automation_test"
+  },
+  {
+    "id":"percent",
+    "value":0.123
+  },
+  {
+    "id":"number",
+    "value":"321"
+  },
+  {
+    "id":"multi_select",
+    "value":"Choice 3"
+  }
+]

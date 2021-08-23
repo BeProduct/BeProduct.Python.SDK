@@ -1,0 +1,32 @@
+{
+    "id": "08ec8aec-4378-4bd2-b901-9bd13e52e0a8",
+    "name": "LIST APP",
+    "data": [
+        {
+            "id": "50c63d7b-21cf-4104-a677-362e0a67b5c4",
+            "controls": [
+                {
+                    "id": "text",
+                    "name": "Text",
+                    "value": "10",
+                    "type": "Text",
+                    "required": false
+                },
+                {
+                    "id": "number",
+                    "name": "Number",
+                    "value": "20",
+                    "type": "Number",
+                    "required": false
+                }
+            ],
+            "image": "https://winks-share-svc-prod-eastus.azurewebsites.net/media/preview/a9f75fd8-c913-4d65-92f1-f4601ec3bb2c/413ee0f8-9377-40fd-b1cf-a6021d9a27b5/1/0/413ee0f8-9377-40fd-b1cf-a6021d9a27b5.jpg?width=1000",
+            "origin": "https://beproduct-cdn.azureedge.net/storage/a9f75fd8-c913-4d65-92f1-f4601ec3bb2c/413ee0f8-9377-40fd-b1cf-a6021d9a27b5/1/wallpaperbetter.jpg"
+        }
+    ],
+    "createdBy": {
+        "id": "973356ef-542b-4470-87a5-14bb383415bd",
+        "name": "yuri.golub@winks.io"
+    },
+    "createdAt": "2021-08-23T12:42:05.03Z"
+}

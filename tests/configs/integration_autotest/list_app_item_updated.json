@@ -1,0 +1,16 @@
+[
+    {
+        "id": "text",
+        "name": "Text",
+        "value": "automation_test update",
+        "type": "Text",
+        "required": false
+    },
+    {
+        "id": "number",
+        "name": "Number",
+        "value": "123",
+        "type": "Number",
+        "required": false
+    }
+]

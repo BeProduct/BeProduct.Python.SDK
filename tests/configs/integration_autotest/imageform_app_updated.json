@@ -1,0 +1,16 @@
+[
+    {
+        "id": "drop_down",
+        "name": "Drop Down",
+        "value": "Choice 1",
+        "type": "DropDown",
+        "required": true
+    },
+    {
+        "id": "decimal",
+        "name": "Decimal",
+        "value": "321",
+        "type": "Decimal",
+        "required": true
+    }
+]

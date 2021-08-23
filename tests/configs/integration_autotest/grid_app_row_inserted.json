@@ -1,0 +1,32 @@
+[
+    {
+        "id": "text",
+        "name": "Text",
+        "value": "automation_test",
+        "type": "Text",
+        "required": true
+    },
+    {
+        "id": "percent",
+        "name": "Percent",
+        "value": 0.123,
+        "type": "Percent",
+        "required": true
+    },
+    {
+        "id": "number",
+        "name": "Number",
+        "value": 321,
+        "type": "Number",
+        "required": true
+    },
+    {
+        "id": "multi_select",
+        "name": "MultiSelect",
+        "value": [
+            "Choice 3"
+        ],
+        "type": "MultiSelect",
+        "required": true
+    }
+]

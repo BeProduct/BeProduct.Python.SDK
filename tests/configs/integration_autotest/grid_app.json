@@ -1,0 +1,162 @@
+{
+    "id": "62e5b614-9df7-4beb-a437-777d783a5582",
+    "name": "GRID APP",
+    "data": {
+        "appName": "GRID APP",
+        "gridData": [
+            {
+                "rowId": "0e726a11-207c-41cb-9d7d-d4598d17e8f0",
+                "fields": [
+                    {
+                        "id": "text",
+                        "name": "Text",
+                        "value": "First ROW",
+                        "type": "Text",
+                        "required": true
+                    },
+                    {
+                        "id": "percent",
+                        "name": "Percent",
+                        "value": 10,
+                        "type": "Percent",
+                        "required": true
+                    },
+                    {
+                        "id": "number",
+                        "name": "Number",
+                        "value": 1,
+                        "type": "Number",
+                        "required": true
+                    },
+                    {
+                        "id": "multi_select",
+                        "name": "MultiSelect",
+                        "value": [
+                            "Choice 2",
+                            "Choice 1"
+                        ],
+                        "type": "MultiSelect",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "rowId": "7b48023a-a4e2-4e38-977b-b84bc8ceab7d",
+                "fields": [
+                    {
+                        "id": "text",
+                        "name": "Text",
+                        "value": "Second ROW",
+                        "type": "Text",
+                        "required": true
+                    },
+                    {
+                        "id": "percent",
+                        "name": "Percent",
+                        "value": 1,
+                        "type": "Percent",
+                        "required": true
+                    },
+                    {
+                        "id": "number",
+                        "name": "Number",
+                        "value": 2,
+                        "type": "Number",
+                        "required": true
+                    },
+                    {
+                        "id": "multi_select",
+                        "name": "MultiSelect",
+                        "value": [
+                            "Choice 2",
+                            "Choice 3"
+                        ],
+                        "type": "MultiSelect",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "rowId": "e7cafa5e-839a-42ff-ab31-426cfa272f99",
+                "fields": [
+                    {
+                        "id": "text",
+                        "name": "Text",
+                        "value": "Third ROW",
+                        "type": "Text",
+                        "required": true
+                    },
+                    {
+                        "id": "percent",
+                        "name": "Percent",
+                        "value": 0.1,
+                        "type": "Percent",
+                        "required": true
+                    },
+                    {
+                        "id": "number",
+                        "name": "Number",
+                        "value": 3,
+                        "type": "Number",
+                        "required": true
+                    },
+                    {
+                        "id": "multi_select",
+                        "name": "MultiSelect",
+                        "value": [
+                            "Choice 2",
+                            "Choice 3"
+                        ],
+                        "type": "MultiSelect",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "rowId": "d7e94413-c834-4c82-a7b6-79d2ab433083",
+                "fields": [
+                    {
+                        "id": "text",
+                        "name": "Text",
+                        "value": "Fourth ROW",
+                        "type": "Text",
+                        "required": true
+                    },
+                    {
+                        "id": "percent",
+                        "name": "Percent",
+                        "value": 1,
+                        "type": "Percent",
+                        "required": true
+                    },
+                    {
+                        "id": "number",
+                        "name": "Number",
+                        "value": 4,
+                        "type": "Number",
+                        "required": true
+                    },
+                    {
+                        "id": "multi_select",
+                        "name": "MultiSelect",
+                        "value": [
+                            "Choice 2"
+                        ],
+                        "type": "MultiSelect",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    "createdBy": {
+        "id": "973356ef-542b-4470-87a5-14bb383415bd",
+        "name": "yuri.golub@winks.io"
+    },
+    "createdAt": "2021-08-13T13:35:49.604Z",
+    "modifiedBy": {
+        "id": "yuri.golub@winks.io",
+        "name": "yuri.golub@winks.io"
+    },
+    "modifiedAt": "2021-08-16T11:23:40.719Z"
+}

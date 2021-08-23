@@ -1,0 +1,16 @@
+[
+    {
+        "id": "text",
+        "name": "Text",
+        "value": "automation_test",
+        "type": "Text",
+        "required": false
+    },
+    {
+        "id": "number",
+        "name": "Number",
+        "value": "321",
+        "type": "Number",
+        "required": false
+    }
+]
