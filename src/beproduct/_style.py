@@ -166,7 +166,7 @@ class Style(
         :color_number: Color number
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
 
         """
         if filepath:
@@ -218,7 +218,7 @@ class Style(
         :header_id: Style ID
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
 
         """
         if filepath:
@@ -240,7 +240,7 @@ class Style(
         :header_id: Style ID
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
 
         """
         if filepath:

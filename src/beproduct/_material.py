@@ -159,7 +159,7 @@ class Material(
         :color_number: Color number
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
 
         """
         if filepath:
@@ -187,7 +187,7 @@ class Material(
         :header_id: Material ID
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
 
         """
         if filepath:
@@ -211,7 +211,7 @@ class Material(
         :app_id: 3D material app id
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
 
         """
         if filepath:

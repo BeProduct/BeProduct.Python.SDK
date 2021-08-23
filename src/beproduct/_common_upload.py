@@ -29,7 +29,7 @@ class UploadMixin:
         :position: Position to upload. Leave empty for default upload
                    For style 'front','side' or 'back'.
                    For material: 'main' or 'detail'
-        :returns: File ID
+        :returns: Upload ID
         """
         if filepath:
             return self.client.raw_api.upload_local_file(
@@ -52,12 +52,13 @@ class UploadMixin:
                         filepath: str = None,
                         fileurl: str = None):
         """ Uploads image to List/List-Form/List-Grid apps
+
         :header_id: ID of the Style, Material etc
         :app_id: Application ID
         :list_item_id: Id of the List item
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
         """
 
         if filepath:
@@ -87,7 +88,7 @@ class UploadMixin:
         :app_id: Application ID
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
         """
 
         if filepath:
@@ -118,7 +119,7 @@ class UploadMixin:
         :app_id: Application ID
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
 
         """
         if filepath:
@@ -149,7 +150,7 @@ class UploadMixin:
         :app_id: Application ID
         :filepath: Local file path
         :fileurl: Remote file URL
-        :returns: File ID
+        :returns: Upload ID
 
         """
         return self.app_imageform_upload(
@@ -160,6 +161,7 @@ class UploadMixin:
 
     def upload_status(self, upload_id: str):
         """ Checks upload status
+
         :returns: Tuple (is_finished, is_error, error_msg)
         """
         return self.client.raw_api.upload_status(upload_id)

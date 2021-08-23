@@ -149,7 +149,7 @@ class RawApi:
         :filepath: path of the file
         :url: api url
         :body: Dict body
-        :returns: File ID. Check status using upload_completed
+        :returns: Upload ID. Check status using upload_completed
         """
 
         throttle = _Throttle()
@@ -189,7 +189,7 @@ class RawApi:
         :file_url: url of the file
         :api_url: api url
         :body: Dict body
-        :returns: File ID. Check status using upload_completed
+        :returns: Upload ID. Check status using upload_completed
         """
 
         throttle = _Throttle()
