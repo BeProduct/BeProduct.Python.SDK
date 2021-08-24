@@ -47,7 +47,7 @@ fb321339-7597-44be-85ef-fdcaccb3b647: BA0121
 
 You can also specify a folder to fetch only styles from a particular style folder:
 ```python
-for style in client.style.list(folder_id='592413ca-9ecd-4899-be24-b70cb42944bf'):
+for style in client.style.attributes_list(folder_id='592413ca-9ecd-4899-be24-b70cb42944bf'):
     print(style['id'], style['headerNumber'], sep=': ')
 ```
 
