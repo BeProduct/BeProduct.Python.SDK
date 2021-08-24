@@ -293,18 +293,19 @@ client.style.app_bom_update(
 ### Uploading a file into Attachments app
 ```python
 # Uploading local file
-upload_id = client.style.app_attachments_upload(
+client.style.app_attachments_upload(
     header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
     app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
     filepath='/home/beproduct/your_image.jpg')          # File location 
 
 # Uploading from remote URL
-upload_id = client.style.app_attachments_upload(
+client.style.app_attachments_upload(
     header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
     app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
     fileurl="https://us.beproduct.com/your_image.jpg")  # File URL
 ```
-To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+Attachments app doesn't have a preview on files hence checking upload status is not required.
+Upload is effective after the method call is finished.
 
 ### Deleting a file from Attachments app
 ```python
