@@ -40,7 +40,7 @@ We can craft the necessary url by using next template:
 Place your client id and callback url and open URL in a webbrowser.
 
 ### 2. Authentication 
-Identity server asks for login and password. After that it redirects you to your callback url (which in our case is not a valid listening endpoint). You should see in your browser that you was redirected to a url which looks like this:
+Identity server asks for login and password. After that it redirects you to your callback url (which in our case is not a valid listening endpoint). You should see in your browser that you were redirected to a url which looks like this:
 
 `<CALLBACK_URL>?code=6850c396e36e42ddcbc5af2844bd18ef&session_state=...nonimportant`
 

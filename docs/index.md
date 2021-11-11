@@ -1,6 +1,6 @@
 # BeProduct Python SDK
 
-BeProduct Python SDK is wrapper package for [BeProduct Public API](https://developers.beproduct.com).
+BeProduct Python SDK is a wrapper package for [BeProduct Public API](https://developers.beproduct.com).
 It allows for a rapid and simple integration development using Python programming language.
 
 
