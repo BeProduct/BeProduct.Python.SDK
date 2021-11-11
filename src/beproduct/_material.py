@@ -199,16 +199,25 @@ class Material(
 
         return BeProductException("No file provided")
 
-    def app_3d_material_upload(
+    def app_3d_material_upload(self, *params):
+        """
+        DEPRECATED! WILL BE REMOVED IN FUTURE VERSION!
+        USE app_3d_material_asset_upload """
+
+        return self.app_3d_material_asset_upload(*params)
+
+    def app_3d_material_asset_upload(
             self,
             header_id: str,
             app_id: str,
+            colorway_id: str,
             filepath: str = None,
             fileurl: str = None):
         """Uploads new file into 3D material app
 
         :header_id: Material ID
-        :app_id: 3D material app id
+        :app_id: 3D Material App ID
+        :colorway_id: Colorway ID,
         :filepath: Local file path
         :fileurl: Remote file URL
         :returns: Upload ID
@@ -218,11 +227,73 @@ class Material(
             return self.client.raw_api.upload_local_file(
                 filepath,
                 f"Material/Material3DAppImageUpload?materialId={header_id}" +
-                f"&pageId={app_id}")
+                f"&pageId={app_id}&colorwayId={colorway_id}")
         if fileurl:
             return self.client.raw_api.upload_from_url(
                 fileurl,
                 f"Material/Material3DAppImageUpload?materialId={header_id}" +
-                f"&pageId={app_id}")
+                f"&pageId={app_id}&colorwayId={colorway_id}")
+
+        return BeProductException("No file provided")
+
+    def app_3d_material_preview_upload(
+            self,
+            header_id: str,
+            app_id: str,
+            colorway_id: str,
+            filepath: str = None,
+            fileurl: str = None):
+        """Uploads new preview into 3D material app
+
+        :header_id: Material ID
+        :app_id: 3D Material App ID
+        :colorway_id: Colorway ID,
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: Upload ID
+
+        """
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"Material/Material3DPreviewUpload?materialId={header_id}" +
+                f"&pageId={app_id}&colorwayId={colorway_id}")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"Material/Material3DPreviewUpload?materialId={header_id}" +
+                f"&pageId={app_id}&colorwayId={colorway_id}")
+
+        return BeProductException("No file provided")
+
+    def app_3d_material_texture_upload(
+            self,
+            header_id: str,
+            app_id: str,
+            colorway_id: str,
+            side: str = 'front',
+            filepath: str = None,
+            fileurl: str = None):
+        """Uploads new front or back texture into 3D material app
+
+        :header_id: Material ID
+        :app_id: 3D Material App ID
+        :colorway_id: Colorway ID,
+        :side: Upload side 'front' or 'back'
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: Upload ID
+
+        """
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"Material/Material3D{side}TextureUpload?materialId={header_id}" +
+                f"&pageId={app_id}&colorwayId={colorway_id}")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"Material/Material3D{side}TextureUpload?materialId={header_id}" +
+                f"&pageId={app_id}&colorwayId={colorway_id}")
 
         return BeProductException("No file provided")

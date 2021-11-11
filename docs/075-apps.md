@@ -1,11 +1,11 @@
 # Applications
-**NOTE: Below examples are provided for the style API but it is the same for every other master folder
+**NOTE: Below examples are provided for the style API, but it is the same for every other master folder
 (material/color/image/style).**
 Make sure to call correct API `client.<material/style/color/image>.<api method>`
 
 ## Getting Style/Material/Image/Color applications
 
-Each style within the **same style folder** has an identical set of appications(pages) associated with it.
+Each style within the **same style folder** has an identical set of applications(pages) associated with it.
 
 **Important note**: Application IDs are not unique for a particular *style* but are unique for a *style folder*. Put it simply: 
 Every *style folder* has the same application ID's for every style.
@@ -116,7 +116,7 @@ client.style.app_grid_update(
 
 ## Uploading images to Artboard app
 
-Artboard app exist only in Styles and Materials. SDK allows to add new versions to the Artboard app
+Artboard app exist only in Styles and Materials. SDK allows adding new versions to the Artboard app
 
 ```python
 # Uploading local file
@@ -133,7 +133,7 @@ To check the image upload processing status use the same technique as in [Attrib
 
 
 ## Updating LIST-based applications
-You can create, update and delete list items using a single call. Also there is a separate sdk/api call to upload images into list items.
+You can create, update and delete list items using a single call. Also, there is a separate sdk/api call to upload images into list items.
 ### Updating LIST items
 Below example performs 3 changes:
 
@@ -224,23 +224,6 @@ client.style.app_sku_generate(
     ]
   ) 
 ```
-
-## Uploading new turntable version into 3D Style app
-You can upload new 3D turntable version into **3D style** app using below example:
-```python
-# Uploading from file system
-upload_id = client.style.app_3D_style_turntable_upload(
-    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
-    filepath='/home/beproduct/your_image.jpg')          # File location 
-
-# Uploading from remote URL
-upload_id = client.style.app_3D_style_turntable_upload(
-    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
-    fileurl="https://us.beproduct.com/your_image.jpg") # File URL
-
-```
-To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
-
 ## Updating BOM app
 ```python
 
@@ -337,17 +320,197 @@ To upload images
     fileurl="https://us.beproduct.com/your_image.jpg")  # File URL
 ```
 
-## Uploading a file into 3D material app
+## 3D Style App
+### Create 3D Style version
+
+To create new 3D Style version:
+```python
+header_id = '46812b88-22ac-456a-b6df-ef4560ab3b13'
+app_id = '3ad18337-b612-4eb1-af54-e639e81b0c97'
+
+res = client.style.app_3D_style_version_create(
+    header_id, app_id, 'Version Name')
+
+print(res['id'])
+```
+
+### Update 3D Style version
+To update existing 3D Style version:
+```python
+header_id = '46812b88-22ac-456a-b6df-ef4560ab3b13'
+app_id = '3ad18337-b612-4eb1-af54-e639e81b0c97'
+version_id = '6bee4817-8894-4c83-a20d-cc116db53322'
+
+version_update = {
+    'versionName': {
+        'value': 'Updated version name'
+    },
+    'versionStatus': {
+        'value': 'OnHold'  # Updating version status
+    },
+    'colorways': [
+        # TO DELETE COLORWAY
+        {
+            'id': '74cf935e-a846-47c7-8a8e-dbaa02067aed',
+            'deleteColorway': True,
+        },
+        # TO CREATE COLORWAY
+        {
+            'colorName': 'New color name'
+        },
+        # TO UPDATE COLORWAY
+        {
+            'id': 'b256fcd6-69d1-48ca-b0bc-65201d99e49c',
+            # To map to the attributes colorway uncomment below
+            # 'colorwayId': {
+            #    'value': 'Attributes colorway ID'
+            # },
+
+            # 'mainImage': True, # make colorway a style main image
+            # 'colorwayImage': True, # push to attributes colorway image if color is mapped
+
+            'colorName': 'Updated name',
+            'status': 'ForReview'
+        }
+    ]
+}
+
+client.style.app_3D_style_version_update(
+    header_id, app_id, version_id, version_update)
+```
+
+### Copy 3D Style version
+To copy/clone existing 3D Style version:
+```python
+header_id = '46812b88-22ac-456a-b6df-ef4560ab3b13'
+app_id = '3ad18337-b612-4eb1-af54-e639e81b0c97'
+copy_from_version_id = "e2ac0240-c086-414f-a03a-ec77e352a307"
+
+res = client.style.app_3D_style_version_copy(
+    header_id, app_id, copy_from_version_id, 'New Version Name')
+
+print(res['id'])
+```
+
+### Delete 3D Style version
+To delete existing 3D Style version:
+```python
+header_id = '46812b88-22ac-456a-b6df-ef4560ab3b13'
+app_id = '3ad18337-b612-4eb1-af54-e639e81b0c97'
+version_id = '0338df8d-1561-490a-89e3-6e7e4448774d'
+client.style.app_3D_style_version_delete(header_id, app_id, version_id)
+```
+
+### Upload turntable into 3D Style app
+You can upload new 3D turntable version into **3D style** app using below example:
+```python
+header_id = '46812b88-22ac-456a-b6df-ef4560ab3b13'
+tt_zip_path = '/home/demo/demo_tt/turntable.zip' # must be None if you upload from url
+tt_zip_url = None # because we are uploading local file this is None 
+version_id = None  # if this is None new version will be created
+# if version id is not None then you may choose to replace turntable images
+replace_images = False
+
+upload_id = client.style.app_3D_style_turntable_upload(
+    header_id,
+    version_id=version_id,
+    replace_images=replace_images,
+    filepath=tt_zip_path, # Uploading from file system
+    fileurl=tt_zip_url    # Uploading from remote URL
+    )
+```
+To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+### Upload 3D Style working files
+To upload a working file into existing 3D Style version:
+
+```python
+header_id = '46812b88-22ac-456a-b6df-ef4560ab3b13'
+app_id = "3ad18337-b612-4eb1-af54-e639e81b0c97"
+version_id = '6bee4817-8894-4c83-a20d-cc116db53322'
+working_file_path = '/home/demo/file.bw'
+
+upload_id = client.style.app_3D_style_working_file_upload(
+    header_id, app_id, version_id,
+    filepath=working_file_path
+    # ,fileurl='https://file.url'  # or use url instead of local file path
+    )
+```
+To check the upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+### Upload 3D Style preview files
+This method is used to upload a single preview file into existing 3D Style colorway within specific version. 
+
+**NOTE:** If you need to batch upload previews/turntable use [Turntable Upload](./075-apps.md#upload-turntable-into-3d-style-app) instead.
+
+```python
+header_id = '46812b88-22ac-456a-b6df-ef4560ab3b13'
+app_id = "3ad18337-b612-4eb1-af54-e639e81b0c97"
+version_id = '6bee4817-8894-4c83-a20d-cc116db53322'
+colorway_id = 'b256fcd6-69d1-48ca-b0bc-65201d99e49c'
+preview_file = '/home/demo/image.png'
+
+upload_id = client.style.app_3D_style_preview_upload(
+    header_id, app_id, version_id, colorway_id
+    filepath=preview_file
+    # ,fileurl='https://file.url'  # or use url instead of local file path
+    )
+```
+To check the upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+## 3D Material App
+### Uploading asset file into 3D material app
 ```python
 # Uploading local file
-upload_id = client.style.app_3d_material_upload(
-    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
-    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
+upload_id = client.material.app_3d_material_asset_upload(
+    header_id='c629fb8b-7a24-4773-b335-d0b6f38196f5',   # Style or Material ID
+    app_id='1ad3f9a0-4e71-4325-a55f-d6c004fef38d',      # App ID
+    colorway_id='70bb8273-7818-40f2-81e6-07931d8164f1', # Attributes colorway ID
     filepath='/home/beproduct/your_image.jpg')          # File location 
 
 # Uploading from remote URL
-upload_id = client.style.app_3d_material_upload(
-    header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style or Material ID
-    app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
-    fileurl="https://us.beproduct.com/your_image.jpg")  # File URL
+upload_id = client.material.app_3d_material_asset_upload(
+    header_id='c629fb8b-7a24-4773-b335-d0b6f38196f5',   # Style or Material ID
+    app_id='1ad3f9a0-4e71-4325-a55f-d6c004fef38d',      # App ID
+    colorway_id='70bb8273-7818-40f2-81e6-07931d8164f1', # Attributes colorway ID
+    fileurl='https://us.beproduct.com/your_image.jpg')  # File URL
 ```
+To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+### Uploading a preview file into 3D material app
+```python
+# Uploading local file
+upload_id = client.material.app_3d_material_preview_upload(
+    header_id='c629fb8b-7a24-4773-b335-d0b6f38196f5',   # Style or Material ID
+    app_id='1ad3f9a0-4e71-4325-a55f-d6c004fef38d',      # App ID
+    colorway_id='70bb8273-7818-40f2-81e6-07931d8164f1', # Attributes colorway ID
+    filepath='/home/beproduct/your_image.jpg')          # File location 
+
+# Uploading from remote URL
+upload_id = client.material.app_3d_material_preview_upload(
+    header_id='c629fb8b-7a24-4773-b335-d0b6f38196f5',   # Style or Material ID
+    app_id='1ad3f9a0-4e71-4325-a55f-d6c004fef38d',      # App ID
+    colorway_id='70bb8273-7818-40f2-81e6-07931d8164f1', # Attributes colorway ID
+    fileurl='https://us.beproduct.com/your_image.jpg')  # File URL
+```
+To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+### Uploading front/back texture file into 3D material app
+```python
+# Uploading local file
+upload_id = client.material.app_3d_material_texture_upload(
+    header_id='c629fb8b-7a24-4773-b335-d0b6f38196f5',   # Style or Material ID
+    app_id='1ad3f9a0-4e71-4325-a55f-d6c004fef38d',      # App ID
+    colorway_id='70bb8273-7818-40f2-81e6-07931d8164f1', # Attributes colorway ID
+    side='front', # or back
+    filepath='/home/beproduct/your_image.jpg')          # File location 
+
+# Uploading from remote URL
+upload_id = client.material.app_3d_material_texture_upload(
+    header_id='c629fb8b-7a24-4773-b335-d0b6f38196f5',   # Style or Material ID
+    app_id='1ad3f9a0-4e71-4325-a55f-d6c004fef38d',      # App ID
+    colorway_id='70bb8273-7818-40f2-81e6-07931d8164f1', # Attributes colorway ID
+    side='front', # or back
+    fileurl='https://us.beproduct.com/your_image.jpg')  # File URL
+```
+To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)

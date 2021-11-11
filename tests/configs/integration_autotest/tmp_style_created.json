@@ -1,0 +1,110 @@
+{
+    "headerNumber": "tmp01",
+    "headerName": "tmp 01",
+    "folder": {
+        "id": "6cee240d-467a-416a-87ee-800019f3cb28",
+        "name": "TEST FOLDER 1"
+    },
+    "headerData": {
+        "fields": [
+            {
+                "id": "header_number",
+                "name": "Style Number",
+                "value": "tmp01",
+                "type": "Text",
+                "required": true
+            },
+            {
+                "id": "header_name",
+                "name": "Style Name",
+                "value": "tmp 01",
+                "type": "Text",
+                "required": true
+            },
+            {
+                "id": "active",
+                "name": "Active",
+                "value": "Yes",
+                "type": "TrueFalse",
+                "required": false
+            },
+            {
+                "id": "version",
+                "name": "Version",
+                "value": "1",
+                "type": "Text",
+                "required": true
+            }
+        ],
+        "frontImage": {
+            "preview": null,
+            "origin": null
+        },
+        "sideImage": {
+            "preview": null,
+            "origin": null
+        },
+        "backImage": {
+            "preview": null,
+            "origin": null
+        },
+        "availableArtboards": []
+    },
+    "colorways": [
+        {
+            "colorNumber": "#1",
+            "colorName": "My color",
+            "primaryColor": "000000",
+            "secondaryColor": "",
+            "comments": "",
+            "hideColorway": false,
+            "fields": {
+                "core_colorway_main_material": null
+            },
+            "image": null
+        },
+        {
+            "colorNumber": "#2",
+            "colorName": "My color",
+            "primaryColor": "ffffff",
+            "secondaryColor": "",
+            "comments": "",
+            "hideColorway": false,
+            "fields": {
+                "core_colorway_main_material": null
+            },
+            "image": null
+        }
+    ],
+    "sizeRange": [
+        {
+            "name": "S",
+            "price": 0.1,
+            "currency": "USD",
+            "unitOfMeasure": "inch",
+            "comments": "Awesome size!",
+            "isSampleSize": false,
+            "fields": {}
+        },
+        {
+            "name": "M",
+            "price": 0.5,
+            "currency": "USD",
+            "unitOfMeasure": "inch",
+            "comments": "Awesome size!",
+            "isSampleSize": true,
+            "fields": {}
+        },
+        {
+            "name": "L",
+            "price": 1.0,
+            "currency": "USD",
+            "unitOfMeasure": "inch",
+            "comments": "Awesome size!",
+            "isSampleSize": false,
+            "fields": {}
+        }
+    ],
+    "planIds": null,
+    "isDeleted": false
+}

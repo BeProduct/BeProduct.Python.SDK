@@ -161,6 +161,7 @@ class Style(
             fileurl: str = None,
             color_number: str = None):
         """Uploads colorway image
+
         :header_id: Style ID
         :colorway_id: Colorway ID
         :color_number: Color number
@@ -230,37 +231,13 @@ class Style(
 
         return BeProductException("No file provided")
 
-    def app_3D_style_turntable_upload(
-            self,
-            header_id: str,
-            filepath: str = None,
-            fileurl: str = None):
-        """Uploads new turntable version into 3D style app
-
-        :header_id: Style ID
-        :filepath: Local file path
-        :fileurl: Remote file URL
-        :returns: Upload ID
-
-        """
-        if filepath:
-            return self.client.raw_api.upload_local_file(
-                filepath,
-                f"Style/Header/{header_id}/Image/Upload/Turntable" +
-                + "?updateHeader=false")
-        if fileurl:
-            return self.client.raw_api.upload_from_url(
-                fileurl,
-                f"Style/Header/{header_id}/Image/Upload/Turntable" +
-                + "?updateHeader=false")
-
-        return BeProductException("No file provided")
-
     def app_bom_update(self, header_id: str, app_id: str, rows):
         """ Updates BOM application
+
         :header_id: ID of the style, material, etc
         :app_id: ID of the application / page
         :row: List of row/material dictionaries
+
         """
 
         return self.client.raw_api.post(
@@ -278,7 +255,7 @@ class Style(
             f"Style/RequestPages?headerId={header_id}")
 
     def app_request_get(self, header_id: str, app_id: str, timeline_id: str = None):
-        """TODO: Docstring for app_request_get.
+        """ Gets request level app
 
         :header_id: Style ID
         :app_id: App ID
@@ -298,13 +275,193 @@ class Style(
             timeline_id: str,
             fields):
         """ Updates form application
+
         :header_id: ID of the style, material, etc
         :app_id: ID of the application / page
         :timeline_id: Plan Timeline Id
         :fields: Dictionary of fields to update {'field_id':'value'}
+
         """
         return self.client.raw_api.post(
             f"Style/RequestPageForm?headerId={header_id}" +
             f"&pageId={app_id}&timelineId={timeline_id}",
             body=[{'id': field_id, 'value': fields[field_id]}
                   for field_id in fields])
+
+    def app_3D_style_turntable_upload(
+            self,
+            header_id: str,
+            version_id: str = None,
+            replace_images: bool = False,
+            filepath: str = None,
+            fileurl: str = None):
+        """ Uploads a zipped turntable images into 3D style app version
+
+        :header_id: Style ID
+        :version_id: Version ID or if None new version is created,
+        :replace_images: Replace 3D style previews instead of adding
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: Upload ID
+
+        """
+
+        query = ""
+        if version_id:
+            query += f"versionId={version_id}&"
+        if replace_images:
+            query += "replaceImages=true&"
+
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"Style/Header/{header_id}/Image/Upload/Turntable?" +
+                (query if query else ""))
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"Style/Header/{header_id}/Image/Upload/Turntable?" +
+                (query if query else ""))
+
+        return BeProductException("No file provided")
+
+    def app_3D_style_version_create(
+            self,
+            header_id: str,
+            app_id: str,
+            version_name: str):
+        """ Creates new 3D Style version
+
+        :header_id: str,
+        :app_id: str,
+        :version_name: Version name
+        :returns: Created version
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/" +
+            f"Page3DStyle/{app_id}/CreateVersion",
+            body={"versionName": version_name})
+
+    def app_3D_style_version_copy(
+            self,
+            header_id: str,
+            app_id: str,
+            copy_from_version_id: str,
+            version_name: str):
+        """ Copy 3D Style version
+
+        :header_id: Header ID,
+        :app_id: 3D Style App Id,
+        :copy_from_version_id: Version id to copy from
+        :version_name: New version name
+        :returns: Created version
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/" +
+            f"Page3DStyle/{app_id}/CreateVersion",
+            body={
+                "copyVersionId": copy_from_version_id,
+                "versionName": version_name})
+
+    def app_3D_style_version_delete(
+            self,
+            header_id: str,
+            app_id: str,
+            version_id: str):
+        """ Delete 3D style version
+
+        :header_id: Header ID,
+        :app_id: 3D Style App id,
+        :version_id: Version ID
+        :copy_from_version_id: Version id to delete
+        :returns: Throws BeProductException in case of error
+
+        """
+        return self.client.raw_api.delete(
+            f"Style/{header_id}/" +
+            f"Page3DStyle/{app_id}/Version/{version_id}")
+
+    def app_3D_style_version_update(
+            self,
+            header_id: str,
+            app_id: str,
+            version_id: str,
+            version_update):
+        """ Update 3D Style version
+
+        :header_id: Header ID,
+        :app_id: 3D Style App id,
+        :version_id: Version ID
+        :updated_version: Dict with version data to update
+        :returns: Updated version
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/" +
+            f"Page3DStyle/{app_id}/Version/{version_id}/Update",
+            body=version_update)
+
+    def app_3D_style_working_file_upload(
+            self,
+            header_id: str,
+            app_id: str,
+            version_id: str,
+            filepath: str = None,
+            fileurl: str = None):
+        """ Upload a file into 3D Style version
+
+        :header_id: Header ID,
+        :app_id: 3D Style App id,
+        :version_id: Version ID
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: Upload ID
+
+        """
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"Style/{header_id}/Page3DStyle/{app_id}/Version/" +
+                f"{version_id}/WorkingFile/Upload")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"Style/{header_id}/Page3DStyle/{app_id}/Version/" +
+                f"{version_id}/WorkingFile/Upload")
+
+        return BeProductException("No file provided")
+
+    def app_3D_style_preview_upload(
+            self,
+            header_id: str,
+            app_id: str,
+            version_id: str,
+            colorway_id: str,
+            filepath: str = None,
+            fileurl: str = None):
+        """ Upload a file into 3D Style version
+
+        :header_id: Header ID,
+        :app_id: 3D Style App id,
+        :version_id: Version ID
+        :colorway_id: Colorway ID,
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: Upload ID
+
+        """
+
+        if filepath:
+            return self.client.raw_api.upload_local_file(
+                filepath,
+                f"Style/{header_id}/Page3DStyle/{app_id}/Version/" +
+                f"{version_id}/Colorway/{colorway_id}/Preview/Upload")
+        if fileurl:
+            return self.client.raw_api.upload_from_url(
+                fileurl,
+                f"Style/{header_id}/Page3DStyle/{app_id}/Version/" +
+                f"{version_id}/Colorway/{colorway_id}/Preview/Upload")
+
+        return BeProductException("No file provided")

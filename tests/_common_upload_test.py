@@ -133,6 +133,24 @@ class TestUploadMixin(unittest.TestCase):
         )
         self.assertTrue(app['data']['image'][0]['origin'].endswith(fname))
 
+    def test_app_imagegrid_upload(self):
+        """App ImageGrid upload"""
+
+        tmp_style = test_helpers.create_tmp_style(self)
+        _, fname = os.path.split(self.image_path)
+
+        upload_id = self.client.style.app_imagegrid_upload(
+            header_id=tmp_style['id'],
+            app_id=self.config.IMAGEFORM_APP['id'],
+            filepath=self.image_path)
+        self.assertTrue(test_helpers.check_upload_status(self, upload_id))
+
+        app = self.client.style.app_get(
+            header_id=tmp_style['id'],
+            app_id=self.config.IMAGEFORM_APP['id']
+        )
+        self.assertTrue(app['data']['image'][0]['origin'].endswith(fname))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

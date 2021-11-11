@@ -1,0 +1,26 @@
+[
+    {
+        "name": "S",
+        "price": 0.1,
+        "currency": "USD",
+        "unitOfMeasure": "inch",
+        "comments": "Awesome size!",
+        "isSampleSize": false
+    },
+    {
+        "name": "M",
+        "price": 0.5,
+        "currency": "USD",
+        "unitOfMeasure": "inch",
+        "comments": "Awesome size!",
+        "isSampleSize": true
+    },
+    {
+        "name": "L",
+        "price": 1,
+        "currency": "USD",
+        "unitOfMeasure": "inch",
+        "comments": "Awesome size!",
+        "isSampleSize": false
+    }
+]

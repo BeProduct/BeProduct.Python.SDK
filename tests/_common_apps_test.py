@@ -63,7 +63,8 @@ class TestAppsMixin(unittest.TestCase):
                 self.config.GRID_APP,
                 self.config.LIST_APP,
                 self.config.ATTACHMENTS_APP,
-                self.config.IMAGEFORM_APP]:
+                self.config.IMAGEFORM_APP,
+                self.config.IMAGEGRID_APP]:
             test_app(app)
 
     def test_app_form_update(self):
@@ -152,6 +153,61 @@ class TestAppsMixin(unittest.TestCase):
         app = get_app()
         row = list(filter(lambda r: r['rowId'] ==
                           row_id, app['data']['gridData']))
+
+        self.assertTrue(len(row) == 0)
+
+        # SAME FOR IMAGEGRID
+        def get_imagegrid_app(): return self.client.style.app_get(
+            header_id=tmp_style['id'],
+            app_id=self.config.IMAGEGRID_APP['id'])
+
+        # row insert
+        self.client.style.app_grid_update(
+            header_id=tmp_style['id'],
+            app_id=self.config.IMAGEGRID_APP['id'],
+            rows=[{
+                'rowId': row_id,
+                'rowFields': self.config.IMAGEGRID_APP_ROW_INSERT
+            }])
+
+        app = get_imagegrid_app()
+        row = list(filter(lambda r: r['rowId'] ==
+                          row_id, app['data']['grid']['gridData']))
+
+        self.assertTrue(len(row) == 1)
+        for field in self.config.IMAGEGRID_APP_ROW_INSERTED:
+            self.assertIn(field, row[0]['fields'])
+
+        # row update
+        self.client.style.app_grid_update(
+            header_id=tmp_style['id'],
+            app_id=self.config.IMAGEGRID_APP['id'],
+            rows=[{
+                'rowId': row_id,
+                'rowFields': self.config.IMAGEGRID_APP_ROW_UPDATE
+            }])
+
+        app = get_imagegrid_app()
+        row = list(filter(lambda r: r['rowId'] ==
+                          row_id, app['data']['grid']['gridData']))
+
+        self.assertTrue(len(row) == 1)
+        for field in self.config.IMAGEGRID_APP_ROW_UPDATED:
+            self.assertIn(field, row[0]['fields'])
+
+        # row delete
+        self.client.style.app_grid_update(
+            header_id=tmp_style['id'],
+            app_id=self.config.IMAGEGRID_APP['id'],
+            rows=[{
+                'rowId': row_id,
+                'rowFields': [],  # TODO: remove this line
+                'deleteRow': True
+            }])
+
+        app = get_imagegrid_app()
+        row = list(filter(lambda r: r['rowId'] ==
+                          row_id, app['data']['grid']['gridData']))
 
         self.assertTrue(len(row) == 0)
 

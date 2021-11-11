@@ -1,0 +1,94 @@
+[
+    {
+        "fieldId": "image",
+        "fieldName": "IMAGE",
+        "fieldType": "ImageColor",
+        "required": false,
+        "properties": {
+            "DefaultValue": "",
+            "TooltipMessage": "Text control"
+        }
+    },
+    {
+        "fieldId": "primary",
+        "fieldName": "PRIMARY",
+        "fieldType": "ImageColor",
+        "required": true,
+        "properties": {
+            "TooltipMessage": "Text control",
+            "Required": true
+        }
+    },
+    {
+        "fieldId": "secondary",
+        "fieldName": "SECONDARY",
+        "fieldType": "ImageColor",
+        "required": true,
+        "properties": {
+            "TooltipMessage": "Text control",
+            "Required": true,
+            "Active": true
+        }
+    },
+    {
+        "fieldId": "color_number",
+        "fieldName": "COLOR NUMBER",
+        "fieldType": "Text",
+        "required": true,
+        "properties": {
+            "DefaultValue": "",
+            "MaxValueCharacters": 240,
+            "TooltipMessage": "Text control",
+            "Required": true
+        }
+    },
+    {
+        "fieldId": "color_name",
+        "fieldName": "COLOR NAME",
+        "fieldType": "Text",
+        "required": true,
+        "properties": {
+            "DefaultValue": "",
+            "MaxValueCharacters": 240,
+            "TooltipMessage": "Text control",
+            "Required": true
+        }
+    },
+    {
+        "fieldId": "hide_colorway",
+        "fieldName": "HIDE COLOR",
+        "fieldType": "TrueFalse",
+        "required": false,
+        "properties": {
+            "DefaultValue": false,
+            "TooltipMessage": "Hide Color",
+            "Required": false
+        }
+    },
+    {
+        "fieldId": "comments",
+        "fieldName": "COMMENTS",
+        "fieldType": "Text",
+        "required": false,
+        "properties": {
+            "DefaultValue": "",
+            "MaxValueCharacters": 240,
+            "TooltipMessage": "Text control",
+            "Required": false,
+            "Active": true
+        }
+    },
+    {
+        "fieldId": "core_colorway_main_material",
+        "fieldName": "Colorway Main Material",
+        "fieldType": "LabelMaterialColor",
+        "required": false,
+        "properties": {
+            "DefaultValue": null,
+            "TooltipMessage": "Colorway Main Material",
+            "Required": false,
+            "Formula": null,
+            "ColumnWidth": 250
+        }
+    }
+]
