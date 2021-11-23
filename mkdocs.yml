@@ -2,8 +2,8 @@ site_name: BeProduct Python SDK
 site_url: https://python.beproduct.com
 theme:
   name: readthedocs
-markdown_extensions:
-  - pymdownx.highlight
-  - pymdownx.inlinehilite
-    #  - pymdownx.superfences
-  - pymdownx.snippets 
+    #markdown_extensions:
+    #  - pymdownx.highlight
+    #  - pymdownx.inlinehilite
+    #    #  - pymdownx.superfences
+    #  - pymdownx.snippets 
