@@ -48,6 +48,7 @@ class BeProduct():
         from ._image import Image
         from ._material import Material
         from ._color import Color
+        from ._block import Block
         from ._directory import Directory
         from ._user import User
         from ._tracking import Tracking
@@ -56,6 +57,7 @@ class BeProduct():
         self.image = Image(self)
         self.material = Material(self)
         self.color = Color(self)
+        self.block = Block(self)
         self.directory = Directory(self)
         self.user = User(self)
         self.tracking = Tracking(self)

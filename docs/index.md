@@ -18,6 +18,8 @@ It allows for a rapid and simple integration development using Python programmin
 
 [Color API](./070-color-api.md)
 
+[Block API](./072-block-api.md)
+
 [Application API](./075-apps.md)
 
 [Share API](./077-sharing.md)
