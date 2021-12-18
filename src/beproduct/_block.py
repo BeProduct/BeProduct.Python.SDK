@@ -36,31 +36,35 @@ class Block(
         self.client = client
         self.master_folder = 'Block'
 
-    # def attributes_update(self, header_id: str, fields=None, size_classes=None):
-    #     """Updates image attributes
+    def attributes_update(
+            self,
+            header_id: str,
+            fields=None,
+            size_classes=None):
+        """Updates Block attributes
 
-    #     :header_id: ID of the Block
-    #     :fields: Dictionary of fields {'field_id':'field_value'}
-    #     :size_classes: Size Classes dictionary
-    #     :returns: dictionary of the requested image attributes
+        :header_id: ID of the Block
+        :fields: Dictionary of fields {'field_id':'field_value'}
+        :size_classes: Size Classes dictionary
+        :returns: dictionary of the requested image attributes
 
-    #     """
+        """
 
-    #     # transform attributes dictionary
-    #     unwound_attributes_fields = []
-    #     if fields:
-    #         for field_id in fields:
-    #             unwound_attributes_fields.append({
-    #                 'id': field_id,
-    #                 'value': fields[field_id]
-    #             })
+        # transform attributes dictionary
+        unwound_attributes_fields = []
+        if fields:
+            for field_id in fields:
+                unwound_attributes_fields.append({
+                    'id': field_id,
+                    'value': fields[field_id]
+                })
 
-    #     return self.client.raw_api.post(
-    #         f"Block/Header/{header_id}/Update",
-    #         {
-    #             'fields': unwound_attributes_fields,
-    #             'sizeClasses': size_classes
-    #         })
+        return self.client.raw_api.post(
+            f"Block/Header/{header_id}/Update",
+            {
+                'fields': unwound_attributes_fields,
+                'sizeClasses': size_classes
+            })
 
     def attributes_create(
             self,

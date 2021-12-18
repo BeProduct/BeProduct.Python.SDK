@@ -16,7 +16,7 @@ Example below returns image Attributes as a dictionary
 image_dict = client.image.attributes_get(header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
 ```
 
-## Creating new Image or Updating image Attibutes
+## Creating new Image or Updating Image Attibutes
 Example:
 ```python
 fields_update = {

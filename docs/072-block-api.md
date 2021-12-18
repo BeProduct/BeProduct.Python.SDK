@@ -41,7 +41,50 @@ size_classes = [
 ]
     
 # Creates new block
-client.block.attributes_create(folder_id='f81d3be5-f5c2-450f-888e-8a854dfc2824',fields=fields_update, size_classes=size_classes)
+client.block.attributes_create(folder_id='f81d3be5-f5c2-450f-888e-8a854dfc2824',fields=fields_dict, size_classes=size_classes)
+```
+
+##  Updating a Block
+Example:
+```
+fields_dict = {
+    'header_name': 'New Block Name',
+    'some_other_field_id': 'value'
+    }
+size_classes = [
+    # deletes size class
+    {
+      'key': 'id or name',
+      'deleteSizeClass': True,
+    },
+    # updates size class
+    {
+      'key': 'id or name',
+      # optional
+      'name': { 
+        'value': 'new name '
+      },
+      # optional
+      'notes': {
+        'value': 'some notes'
+      },
+      # optional
+      'active': {
+        'value': True
+      },
+      # optional but if provided must be a full size range
+      'sizes': [
+        {
+          'name': 'size 1',
+          'isSampleSize': True,
+          'hideSize': False,
+          'comments': 'Nice size too'
+        }
+      ]
+    }
+  ]
+
+client.block.attributes_update(header_id='f81d3be5-f5c2-450f-888e-8a854dfc2824', fields=fields_dict, size_classes=size_classes)
 ```
 
 ## Deleting a Block
