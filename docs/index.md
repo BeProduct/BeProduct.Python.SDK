@@ -30,4 +30,6 @@ It allows for a rapid and simple integration development using Python programmin
 
 [Making HTTP calls manually](./090-custom-integration.md)
 
+[Automation Portal helper methods](./100-automation.md)
+
 

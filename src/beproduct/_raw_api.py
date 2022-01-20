@@ -117,7 +117,6 @@ class RawApi:
 
         :url: api url
         :body: json body
-        :file: optional file if file upload required
         :returns: response body as string or throws an error
 
         """

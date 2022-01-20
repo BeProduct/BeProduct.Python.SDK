@@ -20,7 +20,8 @@ class BeProduct():
                  refresh_token: str,
                  company_domain: str,
                  token_endpoint="https://id.winks.io/ids/connect/token",
-                 public_api_url="https://developers.beproduct.com"):
+                 public_api_url="https://developers.beproduct.com",
+                 automation_api_url="https://automation.beproduct.com"):
         """BeProduct Public API Client
 
         :client_id: client id
@@ -29,6 +30,7 @@ class BeProduct():
         :company_domain: BeProduct customer domain identifier
         :token_endpoint: token endpoint
         :public_api_url: BeProduct public api URL
+        :automation_api_url: BeProduct Automation URL
         :returns: Public API client instance
 
         """
@@ -37,6 +39,8 @@ class BeProduct():
                                           client_secret=client_secret)
         self.oauth2_client.refresh_token = refresh_token
         self.public_api_url = f"{public_api_url.rstrip('/')}/api/{company_domain}"
+        self.automation_api_url = f"{automation_api_url.rstrip('/')}/api"
+        self.company_domain = company_domain
 
         # ### Constructing API handlers ###
         # importing here to prevent cyclic dependency
@@ -52,6 +56,7 @@ class BeProduct():
         from ._directory import Directory
         from ._user import User
         from ._tracking import Tracking
+        from ._automation import Automation
 
         self.style = Style(self)
         self.image = Image(self)
@@ -61,3 +66,4 @@ class BeProduct():
         self.directory = Directory(self)
         self.user = User(self)
         self.tracking = Tracking(self)
+        self.automation = Automation(self)
