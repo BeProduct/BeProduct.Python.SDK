@@ -105,3 +105,19 @@ class Automation:
 
         return self.get(f"autonumber?id={id}&company=" +
                         f"{self.client.company_domain}")['generatedNumber']
+
+    def autonumber_list(self, name: str = ''):
+        """ Get autonumber list (filter by name if requested)"""
+
+        return self.get(f"autonumber-list?name={name}&company=" +
+                        f"{self.client.company_domain}")['autonumbers']
+
+    def autonumber_create(self, name: str, template='[00000]'):
+        """ Creates new autonumber generator"""
+
+        return self.post(f"autonumber?name={name}&company=" +
+                        f"{self.client.company_domain}",
+                        {
+                            "name": name,
+                            "template": template
+                        })
