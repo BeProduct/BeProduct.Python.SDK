@@ -4,15 +4,18 @@ from datetime import datetime, timedelta
 from time import mktime, time
 
 from urllib.parse import urlencode, parse_qsl
-from urllib.request import urlopen
+import requests
 
 
 class OAuth2Client(object):
     """ OAuth 2.0 client object
     """
 
-    def __init__(self, auth_endpoint=None, token_endpoint=None,
-                 client_id=None, client_secret=None):
+    def __init__(self,
+                 auth_endpoint=None,
+                 token_endpoint=None,
+                 client_id=None,
+                 client_secret=None):
         """ Instantiates a `OAuth2Client` to authorize and authenticate a user
         :param auth_endpoint: The authorization endpoint as issued by the
                               provider. This is where the user should be
@@ -33,9 +36,12 @@ class OAuth2Client(object):
         self.token_expires = -1
         self.refresh_token = None
 
-    def auth_uri(self, redirect_uri=None, scope=None,
-                 scope_delim=None, state=None, **kwargs):
-
+    def auth_uri(self,
+                 redirect_uri=None,
+                 scope=None,
+                 scope_delim=None,
+                 state=None,
+                 **kwargs):
         """  Builds the auth URI for the authorization endpoint
         :param scope: (optional) The `scope` parameter to pass for
                       authorization. The format should match that expected by
@@ -55,7 +61,6 @@ class OAuth2Client(object):
 
         if scope is not None:
             kwargs['scope'] = scope
-
         if state is not None:
             kwargs['state'] = state
 
@@ -96,11 +101,22 @@ class OAuth2Client(object):
             kwargs.update({'redirect_uri': redirect_uri})
 
         # TODO: maybe raise an exception here if status code isn't 200?
-        msg = urlopen(self.token_endpoint, urlencode(kwargs).encode(
-            'utf-8'))
-        data = parser(msg.read().decode(msg.info().get_content_charset() or
-            'utf-8'))
+        # msg = urlopen(self.token_endpoint, urlencode(kwargs).encode( 'utf-8'))
+        #data = parser(msg.read().decode(msg.info().get_content_charset() or 'utf-8'))
 
+        from js import XMLHttpRequest, Blob
+
+        http = XMLHttpRequest.new()
+        url = self.token_endpoint
+        params = urlencode(kwargs)
+        http.open('POST', url, False)
+        http.setRequestHeader('Content-type',
+                              'application/x-www-form-urlencoded')
+        http.send(params)
+        import json
+        data = json.loads(str(http.response))
+        print("resp is:" + str(data))
+        #data = requests.post(self.token_endpoint, urlencode(kwargs))
         for key in data:
             setattr(self, key, data[key])
 
@@ -108,12 +124,13 @@ class OAuth2Client(object):
         # provider, token_expires must be set manually
         if hasattr(self, 'expires_in'):
             seconds = int(self.expires_in)
-            self.token_expires = mktime((datetime.utcnow() + timedelta(
-                seconds=seconds)).timetuple()) - 300.0 # 5 min before 
+            self.token_expires = mktime(
+                (datetime.utcnow() + timedelta(seconds=seconds)
+                 ).timetuple()) - 300.0  # 5 min before
 
     def refresh(self):
         self.request_token(refresh_token=self.refresh_token,
-            grant_type='refresh_token')
+                           grant_type='refresh_token')
 
     def get_access_token(self):
         """ Returns access token 
@@ -123,7 +140,7 @@ class OAuth2Client(object):
 
         """
         if not self.access_token or self.token_expires < time():
-            self.request_token(grant_type='refresh_token', 
+            self.request_token(grant_type='refresh_token',
                                refresh_token=self.refresh_token)
 
         return self.access_token
