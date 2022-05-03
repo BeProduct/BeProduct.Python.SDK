@@ -19,7 +19,6 @@ from .sdk import BeProduct
 
 
 class _Throttle:
-
     """ Implements throttling policy """
 
     def __init__(self, strategy=None):
@@ -51,13 +50,15 @@ class RawApi:
 
     def __get_headers(self):
         return {
-            'Authorization': f"Bearer {self.client.oauth2_client.get_access_token()}",
+            'Authorization':
+            f"Bearer {self.client.oauth2_client.get_access_token()}",
             'Content-type': 'application/json',
         }
 
     def __get_auth_header(self):
         return {
-            'Authorization': f"Bearer {self.client.oauth2_client.get_access_token()}"
+            'Authorization':
+            f"Bearer {self.client.oauth2_client.get_access_token()}"
         }
 
     def get(self, url):
@@ -70,17 +71,14 @@ class RawApi:
         throttle = _Throttle()
         full_url = f"{self.client.public_api_url}/{url.lstrip('/')}"
         while True:
-            response = requests.get(
-                url=full_url,
-                headers=self.__get_headers())
+            response = requests.get(url=full_url, headers=self.__get_headers())
             if response.status_code == 429 and throttle.wait_or_die():
                 continue
             break
 
         if response.status_code != 200:
             raise BeProductException(
-                "API call failed. Details: \n" +
-                f"URL: {full_url} \n" +
+                "API call failed. Details: \n" + f"URL: {full_url} \n" +
                 f"Status code: {response.status_code} \n" +
                 f"Response body: {response.text} \n")
 
@@ -96,17 +94,15 @@ class RawApi:
         throttle = _Throttle()
         full_url = f"{self.client.public_api_url}/{url.lstrip('/')}"
         while True:
-            response = requests.delete(
-                url=full_url,
-                headers=self.__get_headers())
+            response = requests.delete(url=full_url,
+                                       headers=self.__get_headers())
             if response.status_code == 429 and throttle.wait_or_die():
                 continue
             break
 
         if response.status_code != 200:
             raise BeProductException(
-                "API call failed. Details: \n" +
-                f"URL: {full_url} \n" +
+                "API call failed. Details: \n" + f"URL: {full_url} \n" +
                 f"Status code: {response.status_code} \n" +
                 f"Response body: {response.text} \n")
 
@@ -125,18 +121,16 @@ class RawApi:
         full_url = f"{self.client.public_api_url}/{url.lstrip('/')}"
 
         while True:
-            response = requests.post(
-                url=full_url,
-                json=body,
-                headers=self.__get_headers())
+            response = requests.post(url=full_url,
+                                     json=body,
+                                     headers=self.__get_headers())
             if response.status_code == 429 and throttle.wait_or_die():
                 continue
             break
 
         if response.status_code != 200:
             raise BeProductException(
-                "API POST call failed. Details:\n" +
-                f"URL: {full_url} \n" +
+                "API POST call failed. Details:\n" + f"URL: {full_url} \n" +
                 f"Body: {json.dumps(body)} \n" +
                 f"Status code: {response.status_code} \n" +
                 f"Response body: {response.text} \n")
@@ -156,20 +150,17 @@ class RawApi:
 
         request_body = {} if body is None else body.copy()
         f = open(filepath, 'rb')
-        request_body['file'] = (
-            os.path.basename(filepath),
-            f,
-            'application/octet-stream')
+        request_body['file'] = (os.path.basename(filepath), f,
+                                'application/octet-stream')
 
         stream_encoder = MultipartEncoder(fields=request_body)
         headers = self.__get_auth_header()
         headers['Content-Type'] = stream_encoder.content_type
 
         while True:
-            response = requests.post(
-                url=full_url,
-                data=stream_encoder,
-                headers=headers)
+            response = requests.post(url=full_url,
+                                     data=stream_encoder,
+                                     headers=headers)
             if response.status_code == 429 and throttle.wait_or_die():
                 continue
             break
@@ -178,8 +169,7 @@ class RawApi:
 
         if response.status_code != 200:
             raise BeProductException(
-                "API POST call failed. Details:\n" +
-                f"URL: {full_url} \n" +
+                "API POST call failed. Details:\n" + f"URL: {full_url} \n" +
                 f"Body: {json.dumps(body)} \n" +
                 f"Status code: {response.status_code} \n" +
                 f"Response body: {response.text} \n")
@@ -199,28 +189,25 @@ class RawApi:
         full_url = f"{self.client.public_api_url}/{api_url.lstrip('/')}"
 
         request_body = {} if body is None else body.copy()
-        request_body['file'] = (
-            os.path.basename(file_url),
-            FileFromURLWrapper(file_url),
-            'application/octet-stream')
+        request_body['file'] = (os.path.basename(file_url).split('?')[0],
+                                FileFromURLWrapper(file_url),
+                                'application/octet-stream')
 
         stream_encoder = MultipartEncoder(fields=request_body)
         headers = self.__get_auth_header()
         headers['Content-Type'] = stream_encoder.content_type
 
         while True:
-            response = requests.post(
-                url=full_url,
-                data=stream_encoder,
-                headers=headers)
+            response = requests.post(url=full_url,
+                                     data=stream_encoder,
+                                     headers=headers)
             if response.status_code == 429 and throttle.wait_or_die():
                 continue
             break
 
         if response.status_code != 200:
             raise BeProductException(
-                "API POST call failed. Details:\n" +
-                f"URL: {full_url} \n" +
+                "API POST call failed. Details:\n" + f"URL: {full_url} \n" +
                 f"Body: {json.dumps(body)} \n" +
                 f"Status code: {response.status_code} \n" +
                 f"Response body: {response.text} \n")
