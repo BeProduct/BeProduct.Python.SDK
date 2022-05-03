@@ -1,9 +1,6 @@
+
 site_name: BeProduct Python SDK
 site_url: https://python.beproduct.com
-build:
-  os: ubuntu-20.04
-  tools:
-    python: "3.9"
 theme:
   name: readthedocs
     #markdown_extensions:
