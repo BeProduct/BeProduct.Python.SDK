@@ -18,23 +18,31 @@ from beproduct.sdk import BeProduct
 
 def get_papi_url(env: str):
     if env == "prod":
-        return "https://developers.beproduct.com"
+        return ("https://developers.beproduct.com",
+                "https://id.winks.io/ids/connect/token")
     elif env == "stage":
-        return "https://prod-public-api-beproduct-eastus-staging.azurewebsites.net"
+        return ("https://prod-public-api-beproduct-eastus-staging.azurewebsites.net", 
+                "https://id.winks.io/ids/connect/token")
+    elif env == "dev":
+        return ("https://dev-public-api-beproduct-eastus.azurewebsites.net", 
+                "https://id.winks.io/ids/connect/token")
     elif env == "local":
         os.environ["CURL_CA_BUNDLE"] = ""
-        return "https://localhost:44317"
+        return ("https://localhost:44317", 
+                "https://id.winks.io/ids/connect/token")
     else:
         return None
 
 
 def get_beproduct_client(config) -> BeProduct:
+    papi_url, token_url = get_papi_url(os.environ.get("BP_ENV", None) or "prod")
     client = BeProduct(
         client_id=config.CLIENT_ID,
         client_secret=config.CLIENT_SECRET,
         refresh_token=config.REFRESH_TOKEN,
         company_domain=config.COMPANY_DOMAIN,
-        public_api_url=get_papi_url(os.environ.get("BP_ENV", None) or "prod"),
+        public_api_url=papi_url,
+        token_endpoint=token_url
     )
     return client
 
