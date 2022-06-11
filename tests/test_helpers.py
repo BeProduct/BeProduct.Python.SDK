@@ -34,7 +34,7 @@ def get_beproduct_client(config) -> BeProduct:
         client_secret=config.CLIENT_SECRET,
         refresh_token=config.REFRESH_TOKEN,
         company_domain=config.COMPANY_DOMAIN,
-        public_api_url=get_papi_url("prod"),
+        public_api_url=get_papi_url(os.environ.get("BP_ENV", None) or "prod"),
     )
     return client
 
