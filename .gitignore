@@ -130,6 +130,7 @@ dmypy.json
 
 # Test configs 
 tests/playground.py
-tests/configs/auth.json
 
 .vscode
+# exclude configs
+tests/configs/**
