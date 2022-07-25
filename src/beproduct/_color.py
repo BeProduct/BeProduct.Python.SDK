@@ -17,15 +17,8 @@ from ._common_share import ShareMixin
 from ._common_tags import TagsMixin
 
 
-class Color(
-        UploadMixin,
-        AttributesMixin,
-        AppsMixin,
-        CommentsMixin,
-        RevisionsMixin,
-        ShareMixin,
-        TagsMixin):
-
+class Color(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
+            RevisionsMixin, ShareMixin, TagsMixin):
     """
     Implements color API
     """
@@ -53,18 +46,12 @@ class Color(
                     'value': fields[field_id]
                 })
 
-        return self.client.raw_api.post(
-            f"color/Header/{header_id}/Update",
-            {
-                'fields': unwound_attributes_fields,
-                'colors': colors
-            })
+        return self.client.raw_api.post(f"color/Header/{header_id}/Update", {
+            'fields': unwound_attributes_fields,
+            'colors': colors
+        })
 
-    def attributes_create(
-            self,
-            folder_id: str,
-            fields,
-            colors=None):
+    def attributes_create(self, folder_id: str, fields, colors=None):
         """Creates new color palette
 
         :folder_id: ID of the folder to create in
@@ -82,8 +69,7 @@ class Color(
             })
 
         return self.client.raw_api.post(
-            f"color/Header/Create{folder_id}",
-            {
+            f"color/Header/Create?folderId={folder_id}", {
                 'fields': unwound_attributes_fields,
                 'colors': colors
             })
