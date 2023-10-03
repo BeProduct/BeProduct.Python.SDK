@@ -28,47 +28,56 @@ class AttributesMixin:
 
         """
         return self.client.raw_api.get(
-            f"{self.master_folder}/FolderSchema?folderId={folder_id}")
+            f"{self.master_folder}/FolderSchema?folderId={folder_id}"
+        )
 
     # ATTRIBUTES
 
     def attributes_list(
-            self,
-            folder_id: str = "",
-            filters=None,
-            colorway_filters=None,
-            page_size=30):
-        """
+        self,
+        folder_id: str = "",
+        filters=None,
+        colorway_filters=None,
+        page_size=30,
+        **kwargs,
+    ):
+        """List of attributes
         :folder_id: Folder ID
         :filters: List of filter dictionaries
         :colorway_filters: List of colorway filter dictionaries
+        :**kwargs: Additional url parameters
         :returns: Enumerator of Attributes
         """
 
         return beproduct_paging_iterator(
             page_size,
             lambda psize, pnum: self.client.raw_api.post(
-                f"{self.master_folder}/Headers?folderId={folder_id}" +
-                f"&pageSize={psize}&pageNumber={pnum}",
-                body={
-                    'filters':  filters,
-                    'colorwayFilters': colorway_filters
-                }))
+                f"{self.master_folder}/Headers?folderId={folder_id}"
+                + f"&pageSize={psize}&pageNumber={pnum}",
+                body={"filters": filters, "colorwayFilters": colorway_filters},
+                **kwargs,
+            ),
+        )
 
-    def attributes_get(self, header_id: str):
+    def attributes_get(self, header_id: str, **kwargs):
         """Returns style attibutes
 
         :header_id: ID of the style, material, image etc.
+        :**kwargs: Additional url parameters
         :returns: dictionary of the requested style attributes
 
         """
-        return self.client.raw_api.get(f"{self.master_folder}/Header/{header_id}")
+        return self.client.raw_api.get(
+            f"{self.master_folder}/Header/{header_id}", **kwargs
+        )
 
-    def attributes_delete(self, header_id: str):
+    def attributes_delete(self, header_id: str, **kwargs):
         """Deletes Style/Material/Image by ID
 
         :header_id: ID of the Style/Material/Image
+        :**kwargs: Additional url parameters
         :returns:
         """
         return self.client.raw_api.get(
-            f"{self.master_folder}/Header/Delete/{header_id}")
+            f"{self.master_folder}/Header/Delete/{header_id}", **kwargs
+        )

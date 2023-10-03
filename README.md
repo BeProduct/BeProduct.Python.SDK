@@ -1,5 +1,5 @@
 # BeProduct Python SDK Package
-## Read full documentation at **[https://python.beproduct.com](https://python.beproduct.com)**
+## Read full documentation at **[https://sdk.beproduct.com](https://sdk.beproduct.com)**
 ## Example
 Install:
 `pip install --upgrade beproduct`

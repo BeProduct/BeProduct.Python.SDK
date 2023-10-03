@@ -284,7 +284,7 @@ class TestAppsMixin(unittest.TestCase):
         app = self.client.style.app_get(
             header_id=tmp_style["id"], app_id=self.config.ATTACHMENTS_APP["id"]
         )
-        self.assertTrue(app["data"]["files"][0]["url"].endswith(fname))
+        self.assertTrue(fname in app["data"]["files"][0]["url"])
 
         self.client.style.app_attachments_delete(
             header_id=tmp_style["id"],

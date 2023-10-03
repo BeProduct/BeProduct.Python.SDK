@@ -97,7 +97,7 @@ Result example is a Python dictionary:
          }
       ],
       'frontImage':{
-         'preview':'https://winks-share-svc-prod-eastus.azurewebsites.net/media/preview/469071e0-8e0f-47aa-b518-80ad83af9e5f/673e1744-d790-48e1-bf1a-cf143d86c318/1/0/673e1744-d790-48e1-bf1a-cf143d86c318.jpg?width=1000',
+         'preview':'https://prod-image-stream-svc-eastus.azureedge.net/media/preview/469071e0-8e0f-47aa-b518-80ad83af9e5f/673e1744-d790-48e1-bf1a-cf143d86c318/1/0/673e1744-d790-48e1-bf1a-cf143d86c318.jpg?width=1000',
          'origin':'https://beproduct-cdn.azureedge.net/storage/469071e0-8e0f-47aa-b518-80ad83af9e5f/673e1744-d790-48e1-bf1a-cf143d86c318/1/test-3d-1-test-3d-1.bw'
       },
       'sideImage':{
@@ -111,7 +111,7 @@ Result example is a Python dictionary:
       'availableArtboards':[
          {
             'artboarIndex':0,
-            'imageUrl':'https://winks-share-svc-prod-eastus.azurewebsites.net/media/preview/469071e0-8e0f-47aa-b518-80ad83af9e5f/673e1744-d790-48e1-bf1a-cf143d86c318/1/0/673e1744-d790-48e1-bf1a-cf143d86c318.jpg?width=1000'
+            'imageUrl':'https://prod-image-stream-svc-eastus.azureedge.net/media/preview/469071e0-8e0f-47aa-b518-80ad83af9e5f/673e1744-d790-48e1-bf1a-cf143d86c318/1/0/673e1744-d790-48e1-bf1a-cf143d86c318.jpg?width=1000'
          }
       ]
    },

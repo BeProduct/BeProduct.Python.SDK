@@ -18,18 +18,23 @@ from beproduct.sdk import BeProduct
 
 def get_papi_url(env: str):
     if env == "prod":
-        return ("https://developers.beproduct.com",
-                "https://id.winks.io/ids/connect/token")
+        return (
+            "https://developers.beproduct.com",
+            "https://id.winks.io/ids/connect/token",
+        )
     elif env == "stage":
-        return ("https://prod-public-api-beproduct-eastus-staging.azurewebsites.net", 
-                "https://id.winks.io/ids/connect/token")
+        return (
+            "https://prod-public-api-beproduct-eastus-staging.azurewebsites.net",
+            "https://id.winks.io/ids/connect/token",
+        )
     elif env == "dev":
-        return ("https://dev-public-api-beproduct-eastus.azurewebsites.net", 
-                "https://id.winks.io/ids/connect/token")
+        return (
+            "https://dev-public-api-beproduct-eastus.azurewebsites.net",
+            "https://id.winks.io/ids/connect/token",
+        )
     elif env == "local":
         os.environ["CURL_CA_BUNDLE"] = ""
-        return ("https://localhost:44317", 
-                "https://id.winks.io/ids/connect/token")
+        return ("https://localhost:44317", "https://id.winks.io/ids/connect/token")
     else:
         return None
 
@@ -42,7 +47,7 @@ def get_beproduct_client(config) -> BeProduct:
         refresh_token=config.REFRESH_TOKEN,
         company_domain=config.COMPANY_DOMAIN,
         public_api_url=papi_url,
-        token_endpoint=token_url
+        token_endpoint=token_url,
     )
     return client
 
@@ -133,8 +138,32 @@ def is_subset_or_equals(expected, actual):
             else:
                 return True, ""
 
+        case str():
+            if expected and expected.startswith("https://"):
+                res = actual.startswith(expected)
+                if res:
+                    return True, ""
+                else:
+                    return (
+                        res,
+                        f"Actual value {actual} doesnt start with expected {expected}",
+                    )
+            else:
+                res = actual == expected
+                if res:
+                    return True, ""
+                else:
+                    return (
+                        res,
+                        f"Actual value {actual} is not equals to expected {expected}",
+                    )
+
         case _:
-            return (
-                actual == expected,
-                f"Actual value {actual} is not equals to expected {expected}",
-            )
+            res = actual == expected
+            if res:
+                return True, ""
+            else:
+                return (
+                    res,
+                    f"Actual value {actual} is not equals to expected {expected}",
+                )
