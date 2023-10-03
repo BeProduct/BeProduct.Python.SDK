@@ -55,6 +55,7 @@ class RawApi:
             result_url += "&".join(
                 [f"{key}={value}" for key, value in param_dict.items()]
             )
+            return result_url
         return url
 
     def __get_headers(self):
