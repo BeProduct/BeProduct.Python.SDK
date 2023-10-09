@@ -8,12 +8,16 @@ from urllib.request import urlopen
 
 
 class OAuth2Client(object):
-    """ OAuth 2.0 client object
-    """
+    """OAuth 2.0 client object"""
 
-    def __init__(self, auth_endpoint=None, token_endpoint=None,
-                 client_id=None, client_secret=None):
-        """ Instantiates a `OAuth2Client` to authorize and authenticate a user
+    def __init__(
+        self,
+        auth_endpoint=None,
+        token_endpoint=None,
+        client_id=None,
+        client_secret=None,
+    ):
+        """Instantiates a `OAuth2Client` to authorize and authenticate a user
         :param auth_endpoint: The authorization endpoint as issued by the
                               provider. This is where the user should be
                               redirect to provider authorization for your
@@ -33,10 +37,10 @@ class OAuth2Client(object):
         self.token_expires = -1
         self.refresh_token = None
 
-    def auth_uri(self, redirect_uri=None, scope=None,
-                 scope_delim=None, state=None, **kwargs):
-
-        """  Builds the auth URI for the authorization endpoint
+    def auth_uri(
+        self, redirect_uri=None, scope=None, scope_delim=None, state=None, **kwargs
+    ):
+        """Builds the auth URI for the authorization endpoint
         :param scope: (optional) The `scope` parameter to pass for
                       authorization. The format should match that expected by
                       the provider (i.e. Facebook expects comma-delimited,
@@ -48,24 +52,26 @@ class OAuth2Client(object):
         :param **kwargs: Any other querystring parameters to be passed to the
                          provider.
         """
-        kwargs.update({
-            'client_id': self.client_id,
-            'response_type': 'code',
-        })
+        kwargs.update(
+            {
+                "client_id": self.client_id,
+                "response_type": "code",
+            }
+        )
 
         if scope is not None:
-            kwargs['scope'] = scope
+            kwargs["scope"] = scope
 
         if state is not None:
-            kwargs['state'] = state
+            kwargs["state"] = state
 
         if redirect_uri is not None:
-            kwargs['redirect_uri'] = redirect_uri
+            kwargs["redirect_uri"] = redirect_uri
 
-        return '%s?%s' % (self.auth_endpoint, urlencode(kwargs))
+        return "%s?%s" % (self.auth_endpoint, urlencode(kwargs))
 
     def request_token(self, parser=None, redirect_uri=None, **kwargs):
-        """ Request an access token from the token endpoint.
+        """Request an access token from the token endpoint.
         This is largely a helper method and expects the client code to
         understand what the server expects. Anything that's passed into
         ``**kwargs`` will be sent (``urlencode``d) to the endpoint. Client
@@ -86,45 +92,50 @@ class OAuth2Client(object):
         kwargs = kwargs and kwargs or {}
 
         parser = parser or _default_parser
-        kwargs.update({
-            'client_id': self.client_id,
-            'client_secret': self.client_secret,
-            'grant_type': 'grant_type' in kwargs and kwargs['grant_type'] or \
-                'authorization_code'
-        })
+        kwargs.update(
+            {
+                "client_id": self.client_id,
+                "client_secret": self.client_secret,
+                "grant_type": "grant_type" in kwargs
+                and kwargs["grant_type"]
+                or "authorization_code",
+            }
+        )
         if redirect_uri is not None:
-            kwargs.update({'redirect_uri': redirect_uri})
+            kwargs.update({"redirect_uri": redirect_uri})
 
         # TODO: maybe raise an exception here if status code isn't 200?
-        msg = urlopen(self.token_endpoint, urlencode(kwargs).encode(
-            'utf-8'))
-        data = parser(msg.read().decode(msg.info().get_content_charset() or
-            'utf-8'))
+        msg = urlopen(self.token_endpoint, urlencode(kwargs).encode("utf-8"))
+        data = parser(msg.read().decode(msg.info().get_content_charset() or "utf-8"))
 
         for key in data:
             setattr(self, key, data[key])
 
         # expires_in is RFC-compliant. if anything else is used by the
         # provider, token_expires must be set manually
-        if hasattr(self, 'expires_in'):
+        if hasattr(self, "expires_in"):
             seconds = int(self.expires_in)
-            self.token_expires = mktime((datetime.utcnow() + timedelta(
-                seconds=seconds)).timetuple()) - 300.0 # 5 min before 
+            self.token_expires = (
+                mktime((datetime.utcnow() + timedelta(seconds=seconds)).timetuple())
+                - 300.0
+            )  # 5 min before
 
     def refresh(self):
-        self.request_token(refresh_token=self.refresh_token,
-            grant_type='refresh_token')
+        self.request_token(refresh_token=self.refresh_token, grant_type="refresh_token")
 
     def get_access_token(self):
-        """ Returns access token 
+        """Returns access token
         Autorefresh is performed if necessary
 
         :returns: Access token
 
         """
-        if not self.access_token or self.token_expires < time():
-            self.request_token(grant_type='refresh_token', 
-                               refresh_token=self.refresh_token)
+        if not self.access_token or self.token_expires < mktime(
+            datetime.utcnow().timetuple()
+        ):
+            self.request_token(
+                grant_type="refresh_token", refresh_token=self.refresh_token
+            )
 
         return self.access_token
 
