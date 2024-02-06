@@ -125,3 +125,9 @@ class Automation:
     def lock_release(self, name: str):
         """Release lock by name"""
         return self.delete(f"locks?name={name}&company=" + self.client.company_domain)
+
+    def lock_check(self, names: list, timeout: int):
+        """Check if locks are acquired"""
+        return self.post(
+            f"locks?timeout={timeout}&company=" + self.client.company_domain, body=names
+        )
