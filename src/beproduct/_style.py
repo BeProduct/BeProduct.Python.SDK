@@ -18,15 +18,22 @@ from ._common_tags import TagsMixin
 from ._exception import BeProductException
 
 
-class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
-            RevisionsMixin, ShareMixin, TagsMixin):
+class Style(
+    UploadMixin,
+    AttributesMixin,
+    AppsMixin,
+    CommentsMixin,
+    RevisionsMixin,
+    ShareMixin,
+    TagsMixin,
+):
     """
     Implements Style API
     """
 
     def __init__(self, client: BeProduct):
         self.client = client
-        self.master_folder = 'Style'
+        self.master_folder = "Style"
 
     def folder_colorway_schema(self, folder_id: str):
         """Gets colorway schema (list of fields ) for a folder
@@ -35,16 +42,13 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         :returns: Colorway schema
 
         """
-        return self.client.raw_api.get(
-            f"Style/ColorwaySchema?folderId={folder_id}")
+        return self.client.raw_api.get(f"Style/ColorwaySchema?folderId={folder_id}")
 
     # ATTRIBUTES
 
-    def attributes_update(self,
-                          header_id: str,
-                          fields=None,
-                          colorways=None,
-                          sizes=None):
+    def attributes_update(
+        self, header_id: str, fields=None, colorways=None, sizes=None
+    ):
         """Updates style attributes
 
         :header_id: ID of the style
@@ -59,10 +63,9 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         unwound_attributes_fields = []
         if fields:
             for field_id in fields:
-                unwound_attributes_fields.append({
-                    'id': field_id,
-                    'value': fields[field_id]
-                })
+                unwound_attributes_fields.append(
+                    {"id": field_id, "value": fields[field_id]}
+                )
 
         # transform colorway dictionary
         colorway_fields = []
@@ -70,31 +73,25 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
             for color in colorways:
                 unwound_colorway_fields = []
 
-                for field_id in color['fields']:
-                    unwound_colorway_fields.append({
-                        'id':
-                        field_id,
-                        'value':
-                        color['fields'][field_id]
-                    })
+                for field_id in color["fields"]:
+                    unwound_colorway_fields.append(
+                        {"id": field_id, "value": color["fields"][field_id]}
+                    )
 
-                colorway_fields.append({
-                    'id': color['id'],
-                    'fields': unwound_colorway_fields
-                })
+                colorway_fields.append(
+                    {"id": color["id"], "fields": unwound_colorway_fields}
+                )
 
         return self.client.raw_api.post(
-            f"Style/Header/{header_id}/Update", {
-                'fields': unwound_attributes_fields,
-                'colorways': colorway_fields,
-                'sizes': sizes
-            })
+            f"Style/Header/{header_id}/Update",
+            {
+                "fields": unwound_attributes_fields,
+                "colorways": colorway_fields,
+                "sizes": sizes,
+            },
+        )
 
-    def attributes_create(self,
-                          folder_id: str,
-                          fields,
-                          colorways=None,
-                          sizes=None):
+    def attributes_create(self, folder_id: str, fields, colorways=None, sizes=None):
         """Creates new style
 
         :folder_id: ID of the folder to create style in
@@ -107,10 +104,9 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         # transform attributes dictionary
         unwound_attributes_fields = []
         for field_id in fields:
-            unwound_attributes_fields.append({
-                'id': field_id,
-                'value': fields[field_id]
-            })
+            unwound_attributes_fields.append(
+                {"id": field_id, "value": fields[field_id]}
+            )
 
         # transform colorway dictionary
         colorway_fields = []
@@ -118,25 +114,23 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
             for color in colorways:
                 unwound_colorway_fields = []
 
-                for field_id in color['fields']:
-                    unwound_colorway_fields.append({
-                        'id':
-                        field_id,
-                        'value':
-                        color['fields'][field_id]
-                    })
+                for field_id in color["fields"]:
+                    unwound_colorway_fields.append(
+                        {"id": field_id, "value": color["fields"][field_id]}
+                    )
 
-                colorway_fields.append({
-                    'id': color['id'],
-                    'fields': unwound_colorway_fields
-                })
+                colorway_fields.append(
+                    {"id": color["id"], "fields": unwound_colorway_fields}
+                )
 
         return self.client.raw_api.post(
-            f"Style/Header/Create?folderId={folder_id}", {
-                'fields': unwound_attributes_fields,
-                'colorways': colorway_fields,
-                'sizes': sizes
-            })
+            f"Style/Header/Create?folderId={folder_id}",
+            {
+                "fields": unwound_attributes_fields,
+                "colorways": colorway_fields,
+                "sizes": sizes,
+            },
+        )
 
     def attributes_colorway_delete(self, header_id: str, colorway_id: str):
         """Deletes single colorway from Attributes app
@@ -146,14 +140,17 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
 
         """
         return self.client.raw_api.get(
-            f"Style/Header/{header_id}/Colorway/Delete/{colorway_id}")
+            f"Style/Header/{header_id}/Colorway/Delete/{colorway_id}"
+        )
 
-    def attributes_colorway_upload(self,
-                                   header_id: str,
-                                   colorway_id: str = None,
-                                   filepath: str = None,
-                                   fileurl: str = None,
-                                   color_number: str = None):
+    def attributes_colorway_upload(
+        self,
+        header_id: str,
+        colorway_id: str = None,
+        filepath: str = None,
+        fileurl: str = None,
+        color_number: str = None,
+    ):
         """Uploads colorway image
 
         :header_id: Style ID
@@ -166,12 +163,16 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         """
         if filepath:
             return self.client.raw_api.upload_local_file(
-                filepath, f"Style/Header/{header_id}/ColorwayImage/Upload?" +
-                f"colorNumber={color_number}&colorId={colorway_id}")
+                filepath,
+                f"Style/Header/{header_id}/ColorwayImage/Upload?"
+                + f"colorNumber={color_number}&colorId={colorway_id}",
+            )
         if fileurl:
             return self.client.raw_api.upload_from_url(
-                fileurl, f"Style/Header/{header_id}/ColorwayImage/Upload?" +
-                f"colorNumber={color_number}&colorId={colorway_id}")
+                fileurl,
+                f"Style/Header/{header_id}/ColorwayImage/Upload?"
+                + f"colorNumber={color_number}&colorId={colorway_id}",
+            )
 
         return BeProductException("No file provided")
 
@@ -185,8 +186,7 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         :returns: SKU app dictionary
 
         """
-        return self.client.raw_api.post(
-            f"Style/Sku/{header_id}/{app_id}/Generate", {})
+        return self.client.raw_api.post(f"Style/Sku/{header_id}/{app_id}/Generate", {})
 
     def app_sku_update(self, header_id, app_id, fields):
         """Updates fields in individual SKU rows
@@ -198,12 +198,12 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
 
         """
         return self.client.raw_api.post(
-            f"Style/PageSku?headerId={header_id}&pageId={app_id}", body=fields)
+            f"Style/PageSku?headerId={header_id}&pageId={app_id}", body=fields
+        )
 
-    def app_artboard_version_upload(self,
-                                    header_id: str,
-                                    filepath: str = None,
-                                    fileurl: str = None):
+    def app_artboard_version_upload(
+        self, header_id: str, filepath: str = None, fileurl: str = None
+    ):
         """Uploads an image as a new version into Artboard application
 
         :header_id: Style ID
@@ -214,15 +214,17 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         """
         if filepath:
             return self.client.raw_api.upload_local_file(
-                filepath, f"Style/Header/{header_id}/Image/Upload")
+                filepath, f"Style/Header/{header_id}/Image/Upload"
+            )
         if fileurl:
             return self.client.raw_api.upload_from_url(
-                fileurl, f"Style/Header/{header_id}/Image/Upload")
+                fileurl, f"Style/Header/{header_id}/Image/Upload"
+            )
 
         return BeProductException("No file provided")
 
     def app_bom_update(self, header_id: str, app_id: str, rows):
-        """ Updates BOM application
+        """Updates BOM application
 
         :header_id: ID of the style, material, etc
         :app_id: ID of the application / page
@@ -231,23 +233,20 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         """
 
         return self.client.raw_api.post(
-            f"Style/PageCBOM?headerId={header_id}&pageId={app_id}", body=rows)
+            f"Style/PageCBOM?headerId={header_id}&pageId={app_id}", body=rows
+        )
 
     def app_request_list(self, header_id: str):
-        """ List of request apps
+        """List of request apps
 
         :header_id: Style ID
         :returns: List of Style Request Applications
 
         """
-        return self.client.raw_api.get(
-            f"Style/RequestPages?headerId={header_id}")
+        return self.client.raw_api.get(f"Style/RequestPages?headerId={header_id}")
 
-    def app_request_get(self,
-                        header_id: str,
-                        app_id: str,
-                        timeline_id: str = None):
-        """ Gets request level app
+    def app_request_get(self, header_id: str, app_id: str, timeline_id: str = None):
+        """Gets request level app
 
         :header_id: Style ID
         :app_id: App ID
@@ -257,12 +256,14 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         """
 
         return self.client.raw_api.get(
-            f"Style/RequestPage?headerId={header_id}&pageId={app_id}" +
-            (f"&timelineId={timeline_id}" if timeline_id else ""))
+            f"Style/RequestPage?headerId={header_id}&pageId={app_id}"
+            + (f"&timelineId={timeline_id}" if timeline_id else "")
+        )
 
-    def app_request_form_update(self, header_id: str, app_id: str,
-                                timeline_id: str, fields):
-        """ Updates form application
+    def app_request_form_update(
+        self, header_id: str, app_id: str, timeline_id: str, fields
+    ):
+        """Updates form application
 
         :header_id: ID of the style, material, etc
         :app_id: ID of the application / page
@@ -271,20 +272,20 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
 
         """
         return self.client.raw_api.post(
-            f"Style/RequestPageForm?headerId={header_id}" +
-            f"&pageId={app_id}&timelineId={timeline_id}",
-            body=[{
-                'id': field_id,
-                'value': fields[field_id]
-            } for field_id in fields])
+            f"Style/RequestPageForm?headerId={header_id}"
+            + f"&pageId={app_id}&timelineId={timeline_id}",
+            body=[{"id": field_id, "value": fields[field_id]} for field_id in fields],
+        )
 
-    def app_3D_style_turntable_upload(self,
-                                      header_id: str,
-                                      version_id: str = None,
-                                      replace_images: bool = False,
-                                      filepath: str = None,
-                                      fileurl: str = None):
-        """ Uploads a zipped turntable images into 3D style app version
+    def app_3D_style_turntable_upload(
+        self,
+        header_id: str,
+        version_id: str = None,
+        replace_images: bool = False,
+        filepath: str = None,
+        fileurl: str = None,
+    ):
+        """Uploads a zipped turntable images into 3D style app version
 
         :header_id: Style ID
         :version_id: Version ID or if None new version is created,
@@ -303,18 +304,23 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
 
         if filepath:
             return self.client.raw_api.upload_local_file(
-                filepath, f"Style/Header/{header_id}/Image/Upload/Turntable?" +
-                (query if query else ""))
+                filepath,
+                f"Style/Header/{header_id}/Image/Upload/Turntable?"
+                + (query if query else ""),
+            )
         if fileurl:
             return self.client.raw_api.upload_from_url(
-                fileurl, f"Style/Header/{header_id}/Image/Upload/Turntable?" +
-                (query if query else ""))
+                fileurl,
+                f"Style/Header/{header_id}/Image/Upload/Turntable?"
+                + (query if query else ""),
+            )
 
         return BeProductException("No file provided")
 
-    def app_3D_style_version_create(self, header_id: str, app_id: str,
-                                    version_name: str):
-        """ Creates new 3D Style version
+    def app_3D_style_version_create(
+        self, header_id: str, app_id: str, version_name: str
+    ):
+        """Creates new 3D Style version
 
         :header_id: str,
         :app_id: str,
@@ -322,14 +328,15 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         :returns: Created version
 
         """
-        return self.client.raw_api.post(f"Style/{header_id}/" +
-                                        f"Page3DStyle/{app_id}/CreateVersion",
-                                        body={"versionName": version_name})
+        return self.client.raw_api.post(
+            f"Style/{header_id}/" + f"Page3DStyle/{app_id}/CreateVersion",
+            body={"versionName": version_name},
+        )
 
-    def app_3D_style_version_copy(self, header_id: str, app_id: str,
-                                  copy_from_version_id: str,
-                                  version_name: str):
-        """ Copy 3D Style version
+    def app_3D_style_version_copy(
+        self, header_id: str, app_id: str, copy_from_version_id: str, version_name: str
+    ):
+        """Copy 3D Style version
 
         :header_id: Header ID,
         :app_id: 3D Style App Id,
@@ -340,14 +347,11 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         """
         return self.client.raw_api.post(
             f"Style/{header_id}/" + f"Page3DStyle/{app_id}/CreateVersion",
-            body={
-                "copyVersionId": copy_from_version_id,
-                "versionName": version_name
-            })
+            body={"copyVersionId": copy_from_version_id, "versionName": version_name},
+        )
 
-    def app_3D_style_version_delete(self, header_id: str, app_id: str,
-                                    version_id: str):
-        """ Delete 3D style version
+    def app_3D_style_version_delete(self, header_id: str, app_id: str, version_id: str):
+        """Delete 3D style version
 
         :header_id: Header ID,
         :app_id: 3D Style App id,
@@ -357,12 +361,13 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
 
         """
         return self.client.raw_api.delete(
-            f"Style/{header_id}/" +
-            f"Page3DStyle/{app_id}/Version/{version_id}")
+            f"Style/{header_id}/" + f"Page3DStyle/{app_id}/Version/{version_id}"
+        )
 
-    def app_3D_style_version_update(self, header_id: str, app_id: str,
-                                    version_id: str, version_update):
-        """ Update 3D Style version
+    def app_3D_style_version_update(
+        self, header_id: str, app_id: str, version_id: str, version_update
+    ):
+        """Update 3D Style version
 
         :header_id: Header ID,
         :app_id: 3D Style App id,
@@ -372,17 +377,19 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
 
         """
         return self.client.raw_api.post(
-            f"Style/{header_id}/" +
-            f"Page3DStyle/{app_id}/Version/{version_id}/Update",
-            body=version_update)
+            f"Style/{header_id}/" + f"Page3DStyle/{app_id}/Version/{version_id}/Update",
+            body=version_update,
+        )
 
-    def app_3D_style_working_file_upload(self,
-                                         header_id: str,
-                                         app_id: str,
-                                         version_id: str,
-                                         filepath: str = None,
-                                         fileurl: str = None):
-        """ Upload a file into 3D Style version
+    def app_3D_style_working_file_upload(
+        self,
+        header_id: str,
+        app_id: str,
+        version_id: str,
+        filepath: str = None,
+        fileurl: str = None,
+    ):
+        """Upload a file into 3D Style version
 
         :header_id: Header ID,
         :app_id: 3D Style App id,
@@ -394,23 +401,29 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         """
         if filepath:
             return self.client.raw_api.upload_local_file(
-                filepath, f"Style/{header_id}/Page3DStyle/{app_id}/Version/" +
-                f"{version_id}/WorkingFile/Upload")
+                filepath,
+                f"Style/{header_id}/Page3DStyle/{app_id}/Version/"
+                + f"{version_id}/WorkingFile/Upload",
+            )
         if fileurl:
             return self.client.raw_api.upload_from_url(
-                fileurl, f"Style/{header_id}/Page3DStyle/{app_id}/Version/" +
-                f"{version_id}/WorkingFile/Upload")
+                fileurl,
+                f"Style/{header_id}/Page3DStyle/{app_id}/Version/"
+                + f"{version_id}/WorkingFile/Upload",
+            )
 
         return BeProductException("No file provided")
 
-    def app_3D_style_preview_upload(self,
-                                    header_id: str,
-                                    app_id: str,
-                                    version_id: str,
-                                    colorway_id: str,
-                                    filepath: str = None,
-                                    fileurl: str = None):
-        """ Upload a file into 3D Style version
+    def app_3D_style_preview_upload(
+        self,
+        header_id: str,
+        app_id: str,
+        version_id: str,
+        colorway_id: str,
+        filepath: str = None,
+        fileurl: str = None,
+    ):
+        """Upload a file into 3D Style version
 
         :header_id: Header ID,
         :app_id: 3D Style App id,
@@ -424,11 +437,15 @@ class Style(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
 
         if filepath:
             return self.client.raw_api.upload_local_file(
-                filepath, f"Style/{header_id}/Page3DStyle/{app_id}/Version/" +
-                f"{version_id}/Colorway/{colorway_id}/Preview/Upload")
+                filepath,
+                f"Style/{header_id}/Page3DStyle/{app_id}/Version/"
+                + f"{version_id}/Colorway/{colorway_id}/Preview/Upload",
+            )
         if fileurl:
             return self.client.raw_api.upload_from_url(
-                fileurl, f"Style/{header_id}/Page3DStyle/{app_id}/Version/" +
-                f"{version_id}/Colorway/{colorway_id}/Preview/Upload")
+                fileurl,
+                f"Style/{header_id}/Page3DStyle/{app_id}/Version/"
+                + f"{version_id}/Colorway/{colorway_id}/Preview/Upload",
+            )
 
         return BeProductException("No file provided")

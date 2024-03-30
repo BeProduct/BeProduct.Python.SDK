@@ -51,14 +51,11 @@ class TestAppsMixin(unittest.TestCase):
         """Getting Apps"""
 
         def test_app(app_dict):
-            self.assertTrue(
-                *test_helpers.is_subset_or_equals(
-                    app_dict,
-                    self.client.style.app_get(
-                        header_id=self.config.STYLE["id"], app_id=app_dict["id"]
-                    ),
-                )
+            a = app_dict
+            b = self.client.style.app_get(
+                header_id=self.config.STYLE["id"], app_id=app_dict["id"]
             )
+            self.assertTrue(*test_helpers.is_subset_or_equals(a, b))
 
         for app in [
             self.config.FORM_APP,

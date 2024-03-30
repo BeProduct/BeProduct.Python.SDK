@@ -49,12 +49,27 @@ class AttributesMixin:
         :returns: Enumerator of Attributes
         """
 
+        # Convert filters to the format that the API expects
+        _filters = []
+        if filters:
+            for f in filters:
+                _filters.append(
+                    {
+                        **f,
+                        "value": (
+                            "■".join(f["value"])
+                            if isinstance(f["value"], list)
+                            else f["value"]
+                        ),
+                    }
+                )
+
         return beproduct_paging_iterator(
             page_size,
             lambda psize, pnum: self.client.raw_api.post(
                 f"{self.master_folder}/Headers?folderId={folder_id}"
                 + f"&pageSize={psize}&pageNumber={pnum}",
-                body={"filters": filters, "colorwayFilters": colorway_filters},
+                body={"filters": _filters, "colorwayFilters": colorway_filters},
                 **kwargs,
             ),
         )
@@ -80,4 +95,21 @@ class AttributesMixin:
         """
         return self.client.raw_api.get(
             f"{self.master_folder}/Header/Delete/{header_id}", **kwargs
+        )
+
+    def attributes_get_by_number(self, header_number: str, **kwargs):
+        """Returns style attibutes by number
+
+        :header_number: Number of the style, material, image etc.
+        :**kwargs: Additional url parameters
+        :returns: dictionary of the requested style attributes
+        """
+
+        return next(
+            self.attributes_list(
+                filters=[
+                    {"field": "header_number", "operator": "Eq", "value": header_number}
+                ]
+            ),
+            None,
         )
