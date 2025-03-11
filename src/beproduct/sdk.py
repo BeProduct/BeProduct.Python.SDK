@@ -9,19 +9,21 @@ Description: BeProduct Public API SDK Wrapper
 from .auth import OAuth2Client
 
 
-class BeProduct():
+class BeProduct:
     """
     BeProduct Public API Client
     """
 
-    def __init__(self,
-                 client_id: str,
-                 client_secret: str,
-                 refresh_token: str,
-                 company_domain: str,
-                 token_endpoint="https://id.winks.io/ids/connect/token",
-                 public_api_url="https://developers.beproduct.com",
-                 automation_api_url="https://automation.beproduct.com"):
+    def __init__(
+        self,
+        client_id: str,
+        client_secret: str,
+        refresh_token: str,
+        company_domain: str,
+        token_endpoint="https://id.winks.io/ids/connect/token",
+        public_api_url="https://developers.beproduct.com",
+        automation_api_url="https://automation.beproduct.com",
+    ):
         """BeProduct Public API Client
 
         :client_id: client id
@@ -34,9 +36,11 @@ class BeProduct():
         :returns: Public API client instance
 
         """
-        self.oauth2_client = OAuth2Client(token_endpoint=token_endpoint,
-                                          client_id=client_id,
-                                          client_secret=client_secret)
+        self.oauth2_client = OAuth2Client(
+            token_endpoint=token_endpoint,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
         self.oauth2_client.refresh_token = refresh_token
         self.public_api_url = f"{public_api_url.rstrip('/')}/api/{company_domain}"
         self.automation_api_url = f"{automation_api_url.rstrip('/')}/api"
@@ -46,6 +50,7 @@ class BeProduct():
         # importing here to prevent cyclic dependency
 
         from ._raw_api import RawApi
+
         self.raw_api = RawApi(self)
 
         from ._style import Style
@@ -57,6 +62,7 @@ class BeProduct():
         from ._user import User
         from ._tracking import Tracking
         from ._automation import Automation
+        from ._schema import Schema
 
         self.style = Style(self)
         self.image = Image(self)
@@ -67,3 +73,4 @@ class BeProduct():
         self.user = User(self)
         self.tracking = Tracking(self)
         self.automation = Automation(self)
+        self.schema = Schema(self)
