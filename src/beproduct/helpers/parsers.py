@@ -7,6 +7,8 @@ def header_parser(header_data):
     """
     Parse header data as a dictionary from the header API response
     """
+    special_fields = ("headerData", "colorways", "sizeRange", "sizeClasses", "id")
+
     if not header_data:
         return None
 
@@ -22,6 +24,9 @@ def header_parser(header_data):
     result.update(
         {k: v for k, v in header_data["headerData"].items() if k not in ["fields"]}
     )
+
+    result.update({k: v for k, v in header_data.items() if k not in special_fields})
+
     return dict(sorted(result.items()))
 
 
