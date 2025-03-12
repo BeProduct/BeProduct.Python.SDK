@@ -7,7 +7,14 @@ def header_parser(header_data):
     """
     Parse header data as a dictionary from the header API response
     """
-    special_fields = ("headerData", "colorways", "sizeRange", "sizeClasses", "id")
+    special_fields = (
+        "headerData",
+        "colorways",
+        "sizeRange",
+        "sizeClasses",
+        "id",
+        "tags",
+    )
 
     if not header_data:
         return None
