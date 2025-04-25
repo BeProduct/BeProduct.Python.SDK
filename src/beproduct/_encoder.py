@@ -13,11 +13,11 @@ import os
 from uuid import uuid4
 import requests
 
-try:
-    from requests.packages.urllib3 import fields
-except:
-   from urllib3 import fields
-
+# try:
+#     from requests.packages.urllib3 import fields
+# except:
+#   from urllib3 import fields
+from urllib3 import fields
 
 class FileNotSupportedError(Exception):
     """File not supported error."""
