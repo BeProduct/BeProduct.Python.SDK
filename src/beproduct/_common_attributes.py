@@ -6,8 +6,6 @@ Github: https://github.com/BeProduct
 Description: Attributes Mixin for every master folder
 """
 
-from ._helpers import beproduct_paging_iterator
-
 
 class AttributesMixin:
     """
@@ -64,7 +62,7 @@ class AttributesMixin:
                     }
                 )
 
-        return beproduct_paging_iterator(
+        return self.client.beproduct_paging_iterator(
             page_size,
             lambda psize, pnum: self.client.raw_api.post(
                 f"{self.master_folder}/Headers?folderId={folder_id}"

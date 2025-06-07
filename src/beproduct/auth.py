@@ -1,6 +1,7 @@
 from functools import wraps
 from json import loads
 from datetime import datetime, timedelta
+import datetime as dt
 from time import mktime, time
 
 from urllib.parse import urlencode, parse_qsl
@@ -116,7 +117,7 @@ class OAuth2Client(object):
         if hasattr(self, "expires_in"):
             seconds = int(self.expires_in)
             self.token_expires = (
-                mktime((datetime.utcnow() + timedelta(seconds=seconds)).timetuple())
+                mktime((datetime.now(dt.UTC) + timedelta(seconds=seconds)).timetuple())
                 - 300.0
             )  # 5 min before
 
@@ -131,7 +132,7 @@ class OAuth2Client(object):
 
         """
         if not self.access_token or self.token_expires < mktime(
-            datetime.utcnow().timetuple()
+            datetime.now(dt.UTC).timetuple()
         ):
             self.request_token(
                 grant_type="refresh_token", refresh_token=self.refresh_token
