@@ -5,16 +5,19 @@ Email: yuri.golub@beproduct.com
 Github: https://github.com/BeProduct
 Description: Directory Public API
 """
-from .sdk import BeProduct
+
+from .sdk import BeProduct, BeProductAsync
 
 
 class Directory:
+    """Implements Directory API"""
 
-    """ Implements Directory API """
-
-    def __init__(self, client: BeProduct):
-        """ Constructor """
+    def __init__(self, client: BeProduct | BeProductAsync):
+        """Constructor"""
         self.client = client
+        if isinstance(self.client, BeProductAsync):
+            self.directory_list = self._directory_list_async
+            self.directory_contact_list = self._directory_contact_list_async
 
     def directory_list(self, page_size: int = 20):
         """Get list of directory records
@@ -27,7 +30,27 @@ class Directory:
 
         while True:
             page = self.client.raw_api.get(
-                    f"Directory/Companies?pageNumber={page_number}&pageSize={page_size}")
+                f"Directory/Companies?pageNumber={page_number}&pageSize={page_size}"
+            )
+            if not page:
+                break
+            for dir in page:
+                yield dir
+            page_number += 1
+
+    async def _directory_list_async(self, page_size: int = 20):
+        """Get list of directory records
+        :page_size: Page size. Determines how many calls to api you
+                    need to make to get whole directory list
+        :returns: List of directory records
+
+        """
+        page_number = 0
+
+        while True:
+            page = await self.client.raw_api.get(
+                f"Directory/Companies?pageNumber={page_number}&pageSize={page_size}"
+            )
             if not page:
                 break
             for dir in page:
@@ -42,8 +65,7 @@ class Directory:
 
         """
 
-        return self.client.raw_api.get(
-                f"Directory/Company?directoryId={header_id}")
+        return self.client.raw_api.get(f"Directory/Company?directoryId={header_id}")
 
     def directory_contact_list(self, header_id: str, page_size: int = 20):
         """Gets list of contacts for a given directory record
@@ -58,8 +80,28 @@ class Directory:
 
         while True:
             page = self.client.raw_api.get(
-                    f"Directory/Contacts?directoryId={header_id}&" +
-                    f"pageNumber={page_number}&pageSize={page_size}")
+                f"Directory/Contacts?directoryId={header_id}&"
+                + f"pageNumber={page_number}&pageSize={page_size}"
+            )
+            if not page:
+                break
+            for dir in page:
+                yield dir
+            page_number += 1
+
+    async def _directory_contact_list_async(self, header_id: str, page_size: int = 20):
+        """Gets list of contacts for a given directory record
+        :header_id: Id of the directory record
+        :page_size: Page size. Determines how many calls to api you
+                    need to make to get whole contact list
+        :returns: List of contacts for the given directory record
+        """
+        page_number = 0
+        while True:
+            page = await self.client.raw_api.get(
+                f"Directory/Contacts?directoryId={header_id}&"
+                + f"pageNumber={page_number}&pageSize={page_size}"
+            )
             if not page:
                 break
             for dir in page:
@@ -75,8 +117,8 @@ class Directory:
 
         """
         return self.client.raw_api.get(
-                f"Directory/Contact?directoryId={header_id}" +
-                f"&contactId={contact_id}")
+            f"Directory/Contact?directoryId={header_id}" + f"&contactId={contact_id}"
+        )
 
     def directory_add(self, fields):
         """Adds new directory record
@@ -85,7 +127,7 @@ class Directory:
         :returns: Created directory record dictionary
 
         """
-        return self.client.raw_api.post('Directory/Add', body=fields)
+        return self.client.raw_api.post("Directory/Add", body=fields)
 
     def directory_contact_add(self, header_id: str, fields):
         """Adds new contact to existing directory record
@@ -95,5 +137,5 @@ class Directory:
 
         """
         return self.client.raw_api.post(
-                f"Directory/{header_id}/Contact/Add",
-                body=fields)
+            f"Directory/{header_id}/Contact/Add", body=fields
+        )

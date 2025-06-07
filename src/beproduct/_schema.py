@@ -6,18 +6,34 @@ Github: https://github.com/BeProduct
 Description: User Public API
 """
 
-from .sdk import BeProduct
+from .sdk import BeProduct, BeProductAsync
 from datetime import datetime
 
 
 class Schema:
     """Implements User API"""
 
-    def __init__(self, client: BeProduct):
+    def __init__(self, client: BeProduct | BeProductAsync):
         """Constructor"""
         self.client = client
+        if isinstance(self.client, BeProductAsync):
+            self.get_folder_schema = self._get_folder_schema_async
+        else:
+            self.get_folder_schema = self._get_folder_schema_sync
 
-    def _get_folder_schema(self, master_folder: str, folder_id: str):
+    def _get_folder_schema_sync(self, master_folder: str, folder_id: str):
+        schema = self.client.raw_api.get(
+            f"{master_folder}/FolderSchema?folderId={folder_id}"
+        )
+        return self._process_schema(schema, master_folder, folder_id)
+
+    async def _get_folder_schema_async(self, master_folder: str, folder_id: str):
+        schema = await self.client.raw_api.get(
+            f"{master_folder}/FolderSchema?folderId={folder_id}"
+        )
+        return self._process_schema(schema, master_folder, folder_id)
+
+    def _process_schema(self, schema: list, master_folder: str, folder_id: str):
         """Get folder schema
 
         :master_folder: master folder
@@ -25,9 +41,6 @@ class Schema:
         :returns: folder schema
 
         """
-        schema = self.client.raw_api.get(
-            f"{master_folder}/FolderSchema?folderId={folder_id}"
-        )
 
         fields = []
 
