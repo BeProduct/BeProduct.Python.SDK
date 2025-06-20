@@ -78,9 +78,17 @@ class Style(
                         {"id": field_id, "value": color["fields"][field_id]}
                     )
 
-                colorway_fields.append(
-                    {"id": color["id"], "fields": unwound_colorway_fields}
-                )
+                api_colorway = {
+                    'id': color['id'],
+                    'fields': unwound_colorway_fields
+                }
+
+                if 'imageHeaderId' in color:
+                    api_colorway['imageHeaderId'] = color['imageHeaderId']
+                if 'unlinkImage' in color:
+                    api_colorway['unlinkImage'] = color['unlinkImage']
+
+                colorway_fields.append(api_colorway)
 
         return self.client.raw_api.post(
             f"Style/Header/{header_id}/Update",
@@ -119,9 +127,17 @@ class Style(
                         {"id": field_id, "value": color["fields"][field_id]}
                     )
 
-                colorway_fields.append(
-                    {"id": color["id"], "fields": unwound_colorway_fields}
-                )
+                api_colorway = {
+                    'id': color['id'],
+                    'fields': unwound_colorway_fields
+                }
+
+                if 'imageHeaderId' in color:
+                    api_colorway['imageHeaderId'] = color['imageHeaderId']
+                if 'unlinkImage' in color:
+                    api_colorway['unlinkImage'] = color['unlinkImage']
+
+                colorway_fields.append(api_colorway)
 
         return self.client.raw_api.post(
             f"Style/Header/Create?folderId={folder_id}",

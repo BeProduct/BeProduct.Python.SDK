@@ -67,10 +67,17 @@ class Material(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
                         color['fields'][field_id]
                     })
 
-                colorway_fields.append({
+                api_colorway = {
                     'id': color['id'],
                     'fields': unwound_colorway_fields
-                })
+                }
+
+                if 'imageHeaderId' in color:
+                    api_colorway['imageHeaderId'] = color['imageHeaderId']
+                if  'unlinkImage' in color:
+                    api_colorway['unlinkImage'] = color['unlinkImage']
+
+                colorway_fields.append(api_colorway)
 
         return self.client.raw_api.post(
             f"Material/Header/{header_id}/Update", {
@@ -118,10 +125,17 @@ class Material(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
                         color['fields'][field_id]
                     })
 
-                colorway_fields.append({
+                api_colorway = {
                     'id': color['id'],
                     'fields': unwound_colorway_fields
-                })
+                }
+
+                if 'imageHeaderId' in color:
+                    api_colorway['imageHeaderId'] = color['imageHeaderId']
+                if  'unlinkImage' in color:
+                    api_colorway['unlinkImage'] = color['unlinkImage']
+
+                colorway_fields.append(api_colorway)
 
         return self.client.raw_api.post(
             f"Material/Header/Create?folderId={folder_id}", {
