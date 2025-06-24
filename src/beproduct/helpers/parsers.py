@@ -198,7 +198,7 @@ def parse_array_as_or_filter(filters):
             **{
                 fid: fval
                 for fid, fval in fil.items()
-                if not (fid == "type" and fval not in ["Date", "Boolean"])
+                if not (fid == "type" and fval not in ["Date", "Boolean", "Number"])
                 and fid in ["field", "operator", "type"]
             },
             "value": (
