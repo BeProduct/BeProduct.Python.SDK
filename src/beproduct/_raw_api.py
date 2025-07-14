@@ -45,8 +45,9 @@ class _Throttle:
 class RawApi:
     """Raw API class"""
 
-    def __init__(self, client: BeProduct):
+    def __init__(self, client: BeProduct, additional_headers: Dict = None):
         self.client = client
+        self.additional_headers = additional_headers or {}
 
     def __append_url_parameters(self, url: str, param_dict: Dict):
         if param_dict:
@@ -62,6 +63,7 @@ class RawApi:
         return {
             "Authorization": f"Bearer {self.client.oauth2_client.get_access_token()}",
             "Content-type": "application/json",
+            **self.additional_headers,
         }
 
     def __get_auth_header(self):
@@ -181,6 +183,7 @@ class RawApi:
         stream_encoder = MultipartEncoder(fields=request_body)
         headers = self.__get_auth_header()
         headers["Content-Type"] = stream_encoder.content_type
+        headers.update(self.additional_headers)
 
         while True:
             response = requests.post(url=full_url, data=stream_encoder, headers=headers)
@@ -225,6 +228,7 @@ class RawApi:
         stream_encoder = MultipartEncoder(fields=request_body)
         headers = self.__get_auth_header()
         headers["Content-Type"] = stream_encoder.content_type
+        headers.update(self.additional_headers)
 
         while True:
             response = requests.post(url=full_url, data=stream_encoder, headers=headers)

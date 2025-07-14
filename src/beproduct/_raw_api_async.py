@@ -46,9 +46,10 @@ class _Throttle:
 class RawApiAsync:
     """Raw API class"""
 
-    def __init__(self, client: BeProduct):
+    def __init__(self, client: BeProduct, additional_headers: Dict = None):
         self.client = client
         self.logger = logging.getLogger("beproduct.sdk.RawApiAsync")
+        self.additional_headers = additional_headers or {}
 
     def __append_url_parameters(self, url: str, param_dict: Dict):
         if param_dict:
@@ -64,11 +65,13 @@ class RawApiAsync:
         return {
             "Authorization": f"Bearer {self.client.oauth2_client.get_access_token()}",
             "Content-type": "application/json",
+            **self.additional_headers,
         }
 
     def __get_auth_header(self):
         return {
-            "Authorization": f"Bearer {self.client.oauth2_client.get_access_token()}"
+            "Authorization": f"Bearer {self.client.oauth2_client.get_access_token()}",
+            **self.additional_headers,
         }
 
     async def get(self, url, **kwargs):

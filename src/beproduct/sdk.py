@@ -7,6 +7,7 @@ Description: BeProduct Public API SDK Wrapper
 """
 
 import time
+from typing import Dict
 from .auth import OAuth2Client
 
 
@@ -25,6 +26,7 @@ class BeProduct:
         public_api_url="https://developers.beproduct.com",
         automation_api_url="https://automation.beproduct.com",
         access_token: str = None,
+        additional_headers: Dict = None,
     ):
         """BeProduct Public API Client
 
@@ -54,7 +56,7 @@ class BeProduct:
 
         if access_token:
             self.oauth2_client.access_token = access_token
-            self.oauth2_client.expires_at = (
+            self.oauth2_client.token_expires = (
                 time.time() + 3600 * 24
             )  # 1 day, even though access_token has lsmaller ttl
 
@@ -68,7 +70,7 @@ class BeProduct:
 
         from ._raw_api import RawApi
 
-        self.raw_api = RawApi(self)
+        self.raw_api = RawApi(self, additional_headers=additional_headers)
 
         from ._style import Style
         from ._image import Image
@@ -101,7 +103,7 @@ class BeProductAsync(BeProduct):
     BeProduct Public API Client Async
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, additional_headers: Dict = None, **kwargs):
         """BeProduct Public API Client Async
 
         :returns: Public API client instance
@@ -113,5 +115,5 @@ class BeProductAsync(BeProduct):
         from ._raw_api_async import RawApiAsync
         from ._helpers import beproduct_paging_iterator_async
 
-        self.raw_api = RawApiAsync(self)
+        self.raw_api = RawApiAsync(self, additional_headers=additional_headers)
         self.beproduct_paging_iterator = beproduct_paging_iterator_async
