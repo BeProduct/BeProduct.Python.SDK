@@ -92,7 +92,8 @@ class Material(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
                           fields,
                           colorways=None,
                           sizes=None,
-                          suppliers=None):
+                          suppliers=None,
+                          force_version_update: bool = False):
         """Creates new material
 
         :folder_id: ID of the folder to create in
@@ -100,6 +101,7 @@ class Material(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         :colorways Dictionary of colorway fields
         :sizes Dictionary in Size format
         :suppliers: List of supplier dictionaries
+        :force_version_update: If true, the header version from fields will be applied on creation
         :returns: dictionary of the created material attributes
         """
 
@@ -138,7 +140,7 @@ class Material(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
                 colorway_fields.append(api_colorway)
 
         return self.client.raw_api.post(
-            f"Material/Header/Create?folderId={folder_id}", {
+            f"Material/Header/Create?folderId={folder_id}&preserveVersion={str(force_version_update).lower()}", {
                 'fields': unwound_attributes_fields,
                 'colorways': colorway_fields,
                 'sizes': sizes,
