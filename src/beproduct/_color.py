@@ -51,11 +51,12 @@ class Color(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
             'colors': colors
         })
 
-    def attributes_create(self, folder_id: str, fields, colors=None):
+    def attributes_create(self, folder_id: str, fields, colors=None, force_version_update: bool = False):
         """Creates new color palette
 
         :folder_id: ID of the folder to create in
         :fields: Dictionary of fields {'field_id':'field_value'}
+        :force_version_update: If true, the header version from fields will be applied on creation
         :returns: dictionary of the created color attributes
         :colors: List of colors in the palette/attributes 
         """
@@ -69,7 +70,7 @@ class Color(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
             })
 
         return self.client.raw_api.post(
-            f"color/Header/Create?folderId={folder_id}", {
+            f"color/Header/Create?folderId={folder_id}&preserveVersion={str(force_version_update).lower()}", {
                 'fields': unwound_attributes_fields,
                 'colors': colors
             })

@@ -61,11 +61,13 @@ class Image(
     def attributes_create(
             self,
             folder_id: str,
-            fields):
+            fields,
+            force_version_update: bool = False):
         """Creates new image
 
         :folder_id: ID of the folder to create in
         :fields: Dictionary of fields {'field_id':'field_value'}
+        :force_version_update: If true, the header version from fields will be applied on creation
         :returns: dictionary of the created image attributes
         """
 
@@ -78,7 +80,7 @@ class Image(
             })
 
         return self.client.raw_api.post(
-            f"Image/Header/Create?folderId={folder_id}",
+            f"Image/Header/Create?folderId={folder_id}&preserveVersion={str(force_version_update).lower()}",
             {
                 'fields': unwound_attributes_fields
             })
