@@ -99,13 +99,14 @@ class Style(
             },
         )
 
-    def attributes_create(self, folder_id: str, fields, colorways=None, sizes=None):
+    def attributes_create(self, folder_id: str, fields, colorways=None, sizes=None, force_version_update: bool = False):
         """Creates new style
 
         :folder_id: ID of the folder to create style in
         :fields: Dictionary of fields {'field_id':'field_value'}
         :colorways Dictionary of colorway fields
         :sizes Dictionary in Size format
+        :force_version_update: If true, the header version from fields will be applied on creation
         :returns: dictionary of the created style attributes
         """
 
@@ -140,7 +141,7 @@ class Style(
                 colorway_fields.append(api_colorway)
 
         return self.client.raw_api.post(
-            f"Style/Header/Create?folderId={folder_id}",
+            f"Style/Header/Create?folderId={folder_id}&preserveVersion={str(force_version_update).lower()}",
             {
                 "fields": unwound_attributes_fields,
                 "colorways": colorway_fields,
