@@ -76,6 +76,8 @@ class Material(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
                     api_colorway['imageHeaderId'] = color['imageHeaderId']
                 if  'unlinkImage' in color:
                     api_colorway['unlinkImage'] = color['unlinkImage']
+                if  'colorSourceId' in color:
+                    api_colorway['colorSourceId'] = color['colorSourceId']
 
                 colorway_fields.append(api_colorway)
 
@@ -136,6 +138,8 @@ class Material(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
                     api_colorway['imageHeaderId'] = color['imageHeaderId']
                 if  'unlinkImage' in color:
                     api_colorway['unlinkImage'] = color['unlinkImage']
+                if  'colorSourceId' in color:
+                    api_colorway['colorSourceId'] = color['colorSourceId']
 
                 colorway_fields.append(api_colorway)
 
