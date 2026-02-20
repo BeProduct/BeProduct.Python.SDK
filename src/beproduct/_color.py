@@ -27,12 +27,13 @@ class Color(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
         self.client = client
         self.master_folder = 'Color'
 
-    def attributes_update(self, header_id: str, fields=None, colors=None):
+    def attributes_update(self, header_id: str, fields=None, colors=None, replace_colors: bool = True):
         """Updates color attributes
 
         :header_id: ID of the color
         :fields: Dictionary of fields {'field_id':'field_value'}
         :colors: List of colors in the palette/attributes
+        :replace_colors: When true, replaces all palette colors with those from the request. Otherwise, merges request colors into existing ones matched by ID or color number.
         :returns: dictionary of the requested color attributes
 
         """
@@ -46,7 +47,7 @@ class Color(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
                     'value': fields[field_id]
                 })
 
-        return self.client.raw_api.post(f"color/Header/{header_id}/Update", {
+        return self.client.raw_api.post(f"color/Header/{header_id}/Update?replaceColors={str(replace_colors).lower()}", {
             'fields': unwound_attributes_fields,
             'colors': colors
         })
