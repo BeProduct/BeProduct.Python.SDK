@@ -257,6 +257,131 @@ class Style(
             f"Style/PageCBOM?headerId={header_id}&pageId={app_id}", body=rows
         )
 
+    # ── BOM Variations app ──────────────────────────────────────────────
+    # A BOMVariations app holds several parallel BOMs on one style, each with
+    # its own rows, colour pitches and variation-level metadata. Style only.
+
+    def app_bom_variation_schema(self, app_id: str):
+        """Schema of a BOM Variations application
+
+        :app_id: ID of the BOM Variations application / page
+        :returns: dict with `enableBomVariations`, `metadata` (variation-level
+                  fields) and `grid` (row-level fields)
+
+        """
+        return self.client.raw_api.get(f"Style/PageSchema?pageId={app_id}")
+
+    def app_bom_variation_list(self, header_id: str, app_id: str):
+        """Lists the variations of a BOM Variations application (metadata only)
+
+        The API returns a list when variations are enabled on the app and a
+        single object carrying rows (the implicit default variation) when they
+        are not; this method always returns a list. Rows are not included —
+        use app_bom_variation_get.
+
+        Caution: on an app with `enableBomVariations` false this read CREATES
+        the default variation server-side. Check app_bom_variation_schema first
+        if your code must not write.
+
+        :header_id: Style ID
+        :app_id: ID of the BOM Variations application / page
+        :returns: List of variation metadata dictionaries
+
+        """
+        page = self.client.raw_api.get(
+            f"Style/Page?headerId={header_id}&pageId={app_id}"
+        )
+        data = page.get("data") if isinstance(page, dict) else None
+        if data is None:
+            return []
+        if isinstance(data, list):
+            return data
+        return [data.get("metadata") or data]
+
+    def app_bom_variation_get(self, header_id: str, app_id: str, variation_id: str):
+        """Gets one BOM variation with its rows and colour pitches
+
+        :header_id: Style ID
+        :app_id: ID of the BOM Variations application / page
+        :variation_id: Variation ID (from app_bom_variation_list)
+        :returns: Variation dictionary: `id`, `metadata`, `rows`, audit fields
+
+        """
+        return self.client.raw_api.get(
+            f"Style/{header_id}/PageBomVariation/{app_id}/Variation/{variation_id}"
+        )
+
+    def app_bom_variation_create(self, header_id: str, app_id: str, variation):
+        """Creates a BOM variation
+
+        Requires variations to be enabled on the app; fails once its
+        `MaxBomVariations` limit is reached.
+
+        :header_id: Style ID
+        :app_id: ID of the BOM Variations application / page
+        :variation: dict with any of `variationName`, `isDefault`,
+                    `syncColorways`, `selectedVariationColorways`,
+                    `metadataFields` ([{id, value}]) and `rows`
+                    ([{materialId, rowFields: [{id, value}], colorUpdate: [...]}])
+        :returns: The created variation
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/PageBomVariation/{app_id}/CreateVariation",
+            body=variation,
+        )
+
+    def app_bom_variation_update(
+        self, header_id: str, app_id: str, variation_id: str, update
+    ):
+        """Incrementally updates one BOM variation — rows, colour pitches, metadata
+
+        Only what is present in `update` changes. Server rules: deleting a
+        `rowId` the server does not know is a 400; `UserLabel` and
+        `FormulaField` grid fields are read-only; the default variation cannot
+        be un-defaulted (make another one the default instead).
+
+        :header_id: Style ID
+        :app_id: ID of the BOM Variations application / page
+        :variation_id: Variation ID
+        :update: dict — same keys as app_bom_variation_create; a row without
+                 `rowId` is added, `deleteRow: True` removes one;
+                 `selectedVariationColorwaysUpdate: {add: [...], remove: [...]}`
+                 patches the colourway list
+        :returns: The updated variation
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/PageBomVariation/{app_id}/Variation/{variation_id}/Update",
+            body=update,
+        )
+
+    def app_bom_variation_reset(self, header_id: str, app_id: str, variation_id: str):
+        """Clears every row of a BOM variation; its metadata is kept
+
+        :header_id: Style ID
+        :app_id: ID of the BOM Variations application / page
+        :variation_id: Variation ID
+        :returns: The reset variation
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/PageBomVariation/{app_id}/Variation/{variation_id}/Reset",
+            body={},
+        )
+
+    def app_bom_variation_delete(self, header_id: str, app_id: str, variation_id: str):
+        """Permanently deletes a BOM variation. The default variation cannot be deleted.
+
+        :header_id: Style ID
+        :app_id: ID of the BOM Variations application / page
+        :variation_id: Variation ID
+
+        """
+        return self.client.raw_api.delete(
+            f"Style/{header_id}/PageBomVariation/{app_id}/Variation/{variation_id}"
+        )
+
     def app_request_list(self, header_id: str):
         """List of request apps
 
