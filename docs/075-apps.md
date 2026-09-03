@@ -271,6 +271,63 @@ client.style.app_bom_update(
 ```
 
 
+## BOM Variations app
+
+A `BOMVariations` app holds several parallel BOMs on one style (for example a
+design BOM and a production BOM). Each variation has its own rows, colour
+pitches and variation-level metadata. Style only.
+
+```python
+# Field definitions: `metadata` (variation-level) and `grid` (row-level)
+schema = client.style.app_bom_variation_schema(app_id)
+schema["enableBomVariations"]   # False = the app behaves as one implicit default variation
+
+# List the variations (metadata only) ...
+variations = client.style.app_bom_variation_list(style_id, app_id)
+# ... then fetch one in full
+variation = client.style.app_bom_variation_get(style_id, app_id, variations[0]["id"])
+variation["rows"][0]["fields"]   # [{ "id", "name", "value", "type", "required" }, ...]
+variation["rows"][0]["colors"]   # colour pitches per colorway
+
+# Create a variation
+created = client.style.app_bom_variation_create(style_id, app_id, {
+    "variationName": "Production BOM",
+    "syncColorways": True,
+    "rows": [
+        {"materialId": material_id, "rowFields": [{"id": "qty", "value": 2}, {"id": "uom", "value": "m"}]},
+    ],
+})
+
+# Incremental update: add a row (no rowId), edit a row + pitch, delete a row
+client.style.app_bom_variation_update(style_id, app_id, created["id"], {
+    "rows": [
+        {"materialId": other_material_id, "rowFields": [{"id": "qty", "value": 1}]},
+        {"rowId": row_id, "rowFields": [{"id": "qty", "value": 3}],
+         "colorUpdate": [{"colorwayId": colorway_id, "materialColorwayId": material_colorway_id, "hex": "8d3f2d"}]},
+        {"rowId": stale_row_id, "deleteRow": True},
+    ],
+    "selectedVariationColorwaysUpdate": {"add": [colorway_id]},
+})
+
+# Clear the rows (metadata is kept) / delete the variation
+client.style.app_bom_variation_reset(style_id, app_id, created["id"])
+client.style.app_bom_variation_delete(style_id, app_id, created["id"])
+```
+
+Server rules you will otherwise meet as 400s: `deleteRow` on an unknown
+`rowId` is rejected; `UserLabel` and `FormulaField` grid fields are read-only;
+the default variation cannot be un-defaulted or deleted (make another one the
+default first); create requires `enableBomVariations` on the app and respects
+its `MaxBomVariations` limit.
+
+Two caveats inherited from the API:
+
+- `app_bom_variation_list` on an app with `enableBomVariations` false **creates**
+  the implicit default variation server-side on first read. Check
+  `app_bom_variation_schema` first if your code must not write.
+- These pages are not returned by the bulk `sync/syncpages` endpoint; read them
+  per style.
+
 ## Attachments app
 
 ### Uploading a file into Attachments app
