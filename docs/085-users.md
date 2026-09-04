@@ -48,3 +48,9 @@ client.user.role_get(user_id='bee652b9-0697-493d-a7d8-f1e4642dab47')
 for role in client.user.role_list():
     print(role)
 ```
+
+## Getting a user by ID
+
+```python
+user = client.user.user_get_by_id(user_id)     # user_get(email) looks up by email
+```

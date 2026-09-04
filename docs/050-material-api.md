@@ -195,3 +195,12 @@ upload_id = client.material.attributes_colorway_upload(
 ```
 
 Use example from the previous section to check the upload status.
+
+## More material operations
+
+```python
+client.material.folder_size_range_schema(folder_id)
+client.material.attributes_colorways_delete(material_id, [colorway_id_1, colorway_id_2])
+client.material.attributes_move(material_id, target_folder_id, generate_new_header_number=False)
+client.material.app_3d_material_update(material_id, app_id, data, colorway_id=None)
+```

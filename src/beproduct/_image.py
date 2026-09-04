@@ -84,3 +84,20 @@ class Image(
             {
                 'fields': unwound_attributes_fields
             })
+
+    def attributes_image_version_upload(self, header_id: str, filepath: str = None, fileurl: str = None):
+        """Uploads a new version of the image header's main image
+
+        :header_id: Image ID
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: Upload ID
+
+        """
+        url = f"Image/Header/{header_id}/Image/Upload"
+        if filepath:
+            return self.client.raw_api.upload_local_file(filepath, url)
+        if fileurl:
+            return self.client.raw_api.upload_from_url(fileurl, url)
+        raise ValueError("No file provided")
+

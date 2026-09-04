@@ -351,3 +351,52 @@ class Material(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
                 'id': field_id,
                 'value': fields[field_id]
             } for field_id in fields])
+
+    def folder_size_range_schema(self, folder_id: str):
+        """Gets the size-range schema (list of fields) for a material folder
+
+        :folder_id: ID of the folder
+        :returns: Size range schema
+
+        """
+        return self.client.raw_api.get(f"Material/SizeRangeSchema?folderId={folder_id}")
+
+    def attributes_colorways_delete(self, header_id: str, colorway_ids):
+        """Deletes several colorways at once
+
+        :header_id: Material ID
+        :colorway_ids: List of colorway IDs
+
+        """
+        return self.client.raw_api.post(
+            f"Material/Header/{header_id}/Colorways/Delete", body={"colorwayIds": colorway_ids}
+        )
+
+    def attributes_move(self, header_id: str, target_folder_id: str, generate_new_header_number: bool = False):
+        """Moves the material to another folder
+
+        :header_id: Material ID
+        :target_folder_id: Destination folder ID
+        :generate_new_header_number: Assign a new material number in the destination folder
+
+        """
+        return self.client.raw_api.post(
+            f"Material/Header/{header_id}/Move",
+            body={"targetFolderId": target_folder_id,
+                  "generateNewHeaderNumber": generate_new_header_number},
+        )
+
+    def app_3d_material_update(self, header_id: str, app_id: str, data, colorway_id: str = None):
+        """Updates the fields of a 3D Material application
+
+        :header_id: Material ID
+        :app_id: ID of the 3D Material application / page
+        :data: Update dictionary
+        :colorway_id: Colorway ID (optional)
+
+        """
+        url = f"Material/Material3DAppPost?materialId={header_id}&pageId={app_id}"
+        if colorway_id:
+            url += f"&colorwayId={colorway_id}"
+        return self.client.raw_api.post(url, body=data)
+

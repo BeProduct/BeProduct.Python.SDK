@@ -156,3 +156,130 @@ class Tracking:
         return self.client.raw_api.post(
             f"Tracking/Plan/{plan_id}/Material/Timelines/Edit", body=timelines
         )
+
+    def plan_style_progress(self, plan_id: str):
+        """Style progress summary of a plan
+
+        :plan_id: Plan ID
+        :returns: Progress dictionary
+
+        """
+        return self.client.raw_api.get(f"Tracking/Plan/{plan_id}/Style/Progress")
+
+    def plan_material_progress(self, plan_id: str):
+        """Material progress summary of a plan
+
+        :plan_id: Plan ID
+        :returns: Progress dictionary
+
+        """
+        return self.client.raw_api.get(f"Tracking/Plan/{plan_id}/Material/Progress")
+
+    def plan_style_revisions(self, plan_id: str, filters=None):
+        """Style timeline revision history of a plan
+
+        :plan_id: Plan ID
+        :filters: Filters
+        :returns: Enumerator of revisions
+
+        """
+        return self.client.beproduct_paging_iterator(
+            20,
+            lambda psize, pnum: self.client.raw_api.post(
+                f"Tracking/Plan/{plan_id}/Style/Revisions?pageSize={psize}&pageNumber={pnum}",
+                body={"filters": filters or []},
+            ),
+        )
+
+    def plan_material_revisions(self, plan_id: str, filters=None):
+        """Material timeline revision history of a plan
+
+        :plan_id: Plan ID
+        :filters: Filters
+        :returns: Enumerator of revisions
+
+        """
+        return self.client.beproduct_paging_iterator(
+            20,
+            lambda psize, pnum: self.client.raw_api.post(
+                f"Tracking/Plan/{plan_id}/Material/Revisions?pageSize={psize}&pageNumber={pnum}",
+                body={"filters": filters or []},
+            ),
+        )
+
+    def plan_style_add(self, plan_id: str, style_ids):
+        """Adds styles to a plan (one timeline per style)
+
+        :plan_id: Plan ID
+        :style_ids: List of style IDs
+
+        """
+        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/Style/Add", body=style_ids)
+
+    def plan_style_by_colorway_add(self, plan_id: str, items):
+        """Adds styles to a plan with one timeline per colorway
+
+        :plan_id: Plan ID
+        :items: List of {styleId, colorwayIds} dictionaries
+
+        """
+        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/StyleByColorway/Add", body=items)
+
+    def plan_style_by_sku_add(self, plan_id: str, items):
+        """Adds styles to a plan with one timeline per SKU
+
+        :plan_id: Plan ID
+        :items: List of {styleId, skuIds} dictionaries
+
+        """
+        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/StyleBySKU/Add", body=items)
+
+    def plan_material_add(self, plan_id: str, material_ids):
+        """Adds materials to a plan (one timeline per material)
+
+        :plan_id: Plan ID
+        :material_ids: List of material IDs
+
+        """
+        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/Material/Add", body=material_ids)
+
+    def plan_material_by_colorway_add(self, plan_id: str, items):
+        """Adds materials to a plan with one timeline per colorway
+
+        :plan_id: Plan ID
+        :items: List of {materialId, colorwayIds} dictionaries
+
+        """
+        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/MaterialByColorway/Add", body=items)
+
+    def plan_style_timelines_delete(self, plan_id: str, timeline_ids):
+        """Deletes style timelines from a plan
+
+        :plan_id: Plan ID
+        :timeline_ids: List of timeline IDs
+
+        """
+        return self.client.raw_api.post(
+            f"Tracking/Plan/{plan_id}/Style/Timelines/Delete", body={"timelineIds": timeline_ids}
+        )
+
+    def plan_style_timelines_archive(self, plan_id: str, timeline_ids):
+        """Archives style timelines of a plan
+
+        :plan_id: Plan ID
+        :timeline_ids: List of timeline IDs
+
+        """
+        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/Style/Timelines/Archive", body=timeline_ids)
+
+    def plan_material_timelines_delete(self, plan_id: str, timeline_ids):
+        """Deletes material timelines from a plan
+
+        :plan_id: Plan ID
+        :timeline_ids: List of timeline IDs
+
+        """
+        return self.client.raw_api.post(
+            f"Tracking/Plan/{plan_id}/Material/Timelines/Delete", body={"timelineIds": timeline_ids}
+        )
+

@@ -18,6 +18,7 @@ class Directory:
         if isinstance(self.client, BeProductAsync):
             self.directory_list = self._directory_list_async
             self.directory_contact_list = self._directory_contact_list_async
+            self.directory_search = self._directory_search_async
 
     def directory_list(self, page_size: int = 20):
         """Get list of directory records
@@ -139,3 +140,63 @@ class Directory:
         return self.client.raw_api.post(
             f"Directory/{header_id}/Contact/Add", body=fields
         )
+
+    def directory_update(self, header_id: str, fields):
+        """Updates a directory record
+
+        :header_id: Id of the directory record
+        :fields: Directory record dictionary
+
+        """
+        return self.client.raw_api.post(f"Directory/Update/{header_id}", body=fields)
+
+    def directory_contact_update(self, header_id: str, contact_id: str, fields):
+        """Updates a contact of a directory record
+
+        :header_id: Id of the directory record
+        :contact_id: Contact ID
+        :fields: Contact dictionary
+
+        """
+        return self.client.raw_api.post(
+            f"Directory/{header_id}/Contact/{contact_id}/Update", body=fields
+        )
+
+    def directory_search(self, filters=None, page_size: int = 20):
+        """Searches directory records
+
+        :filters: List of filter dictionaries
+        :page_size: Page size
+        :returns: Enumerator of directory records
+
+        """
+        page_number = 0
+        while True:
+            page = self.client.raw_api.post(
+                f"Directory/Companies?pageNumber={page_number}&pageSize={page_size}",
+                body={"filters": filters or []},
+            )
+            if not page:
+                break
+            for dir in page:
+                yield dir
+            page_number += 1
+
+    async def _directory_search_async(self, filters=None, page_size: int = 20):
+        """Searches directory records
+        :filters: List of filter dictionaries
+        :page_size: Page size
+        :returns: Enumerator of directory records
+        """
+        page_number = 0
+        while True:
+            page = await self.client.raw_api.post(
+                f"Directory/Companies?pageNumber={page_number}&pageSize={page_size}",
+                body={"filters": filters or []},
+            )
+            if not page:
+                break
+            for dir in page:
+                yield dir
+            page_number += 1
+

@@ -122,3 +122,14 @@ class Block(
                 f"&sizeClass={size_class_id_or_name}")
 
         return BeProductException("No file provided")
+
+    def attributes_size_class_assets(self, header_id: str, size_class_id: str):
+        """Lists the 3D assets of a block size class
+
+        :header_id: Block ID
+        :size_class_id: Size class ID
+        :returns: Assets
+
+        """
+        return self.client.raw_api.get(f"Block/GetSizeClassAssets/{header_id}/{size_class_id}")
+
