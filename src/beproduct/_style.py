@@ -382,6 +382,249 @@ class Style(
             f"Style/{header_id}/PageBomVariation/{app_id}/Variation/{variation_id}"
         )
 
+    # ── parity with the TypeScript SDK ──────────────────────────────────
+
+    def folder_size_range_schema(self, folder_id: str):
+        """Gets the size-range schema (list of fields) for a style folder
+
+        :folder_id: ID of the folder
+        :returns: Size range schema
+
+        """
+        return self.client.raw_api.get(f"Style/SizeRangeSchema?folderId={folder_id}")
+
+    def app_request_schema(self, app_id: str):
+        """Schema of a request application (sample requests)
+
+        :app_id: ID of the request application / page
+        :returns: Request page schema
+
+        """
+        return self.client.raw_api.get(f"Request/PageSchema?pageId={app_id}")
+
+    def attributes_where_used_in_sets(self, header_id: str):
+        """Lists the Sets apps (on other styles) that reference this style
+
+        :header_id: Style ID
+        :returns: List of where-used entries
+
+        """
+        return self.client.raw_api.get(f"Style/WhereUsedInSets/{header_id}")
+
+    def flat_bom(self, search, page_size: int = 100, page_number: int = 0):
+        """Flat BOM report: one row per style x material across the company
+
+        :search: BOM search filter dictionary (may be empty)
+        :page_size: Rows per page
+        :page_number: Zero-based page
+        :returns: Page of flat BOM rows
+
+        """
+        return self.client.raw_api.post(
+            f"Style/FlatBom?pageSize={page_size}&pageNumber={page_number}", body=search
+        )
+
+    def app_textlist_update(self, header_id: str, app_id: str, list_items):
+        """Updates the items of a TextList application
+
+        :header_id: Style ID
+        :app_id: ID of the TextList application / page
+        :list_items: [{"itemId": ..., "itemFields": [{"id": ..., "value": ...}]}]
+                     Omit itemId to add an item; set "deleteItem": True to remove one.
+
+        """
+        return self.client.raw_api.post(
+            f"Style/PageTextList/List?headerId={header_id}&pageId={app_id}", body=list_items
+        )
+
+    def app_textlist_editor_update(self, header_id: str, app_id: str, editor_data: str):
+        """Replaces the rich-text editor content of a TextList application
+
+        :header_id: Style ID
+        :app_id: ID of the TextList application / page
+        :editor_data: HTML string
+
+        """
+        return self.client.raw_api.post(
+            f"Style/PageTextList/TextEditor?headerId={header_id}&pageId={app_id}",
+            body={"editorData": editor_data},
+        )
+
+    def app_bom_details_update(self, header_id: str, app_id: str, materials):
+        """Updates a BOM Details application
+
+        :header_id: Style ID
+        :app_id: ID of the BOM Details application / page
+        :materials: List of material detail dictionaries
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/PageBOMDetails/{app_id}", body={"materials": materials}
+        )
+
+    def app_bom_item_delete(self, header_id: str, app_id: str, row_id: str):
+        """Deletes one row from a BOM application
+
+        :header_id: Style ID
+        :app_id: ID of the BOM application / page
+        :row_id: BOM row ID
+
+        """
+        return self.client.raw_api.delete(
+            f"Style/PageCBOMItemDelete?headerId={header_id}&pageId={app_id}&rowId={row_id}"
+        )
+
+    def app_bom_reset(self, header_id: str, app_id: str):
+        """Removes every row from a BOM application
+
+        :header_id: Style ID
+        :app_id: ID of the BOM application / page
+
+        """
+        return self.client.raw_api.post(f"Style/{header_id}/CBOM/{app_id}/Reset", body={})
+
+    def app_sets_update(self, header_id: str, app_id: str, items):
+        """Updates a Sets application
+
+        :header_id: Style ID
+        :app_id: ID of the Sets application / page
+        :items: [{"styleIdToInsert": ..., "styleUpdate": {"rowId": ..., "rowFields": [...]}}]
+
+        """
+        return self.client.raw_api.post(
+            f"Style/PageSets?headerId={header_id}&pageId={app_id}", body=items
+        )
+
+    def app_multimeasurements_update(self, header_id: str, app_id: str, data):
+        """Updates a MultiMeasurements (points of measure) application
+
+        :header_id: Style ID
+        :app_id: ID of the MultiMeasurements application / page
+        :data: {"sizeClass": ..., "poms": [{"id": ..., "code": ..., "pointOfMeasure": ...}]}
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/PageMultiMeasurements/{app_id}", body=data
+        )
+
+    def app_multimeasurements_reset(self, header_id: str, app_id: str):
+        """Resets a MultiMeasurements application
+
+        :header_id: Style ID
+        :app_id: ID of the MultiMeasurements application / page
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/PageMultiMeasurements/{app_id}/Reset", body={}
+        )
+
+    def app_sample_request_multi_add_submit(
+        self, header_id: str, app_id: str, data, timeline_id: str = None
+    ):
+        """Adds a submit to a multi-size Sample Request application
+
+        :header_id: Style ID
+        :app_id: ID of the SampleRequestMulti application / page
+        :data: Submit dictionary
+        :timeline_id: Tracking timeline ID for request apps (optional)
+
+        """
+        url = f"Style/{header_id}/PageSampleRequestMulti/{app_id}/AddSubmit"
+        if timeline_id:
+            url += f"?timelineId={timeline_id}"
+        return self.client.raw_api.post(url, body=data)
+
+    def app_link_pages_update(self, header_id: str, app_id: str, items):
+        """Updates a Link Pages application
+
+        :header_id: Style ID
+        :app_id: ID of the LinkPages application / page
+        :items: List of link item dictionaries
+
+        """
+        return self.client.raw_api.post(
+            f"Style/PageLinkPages?headerId={header_id}&pageId={app_id}", body=items
+        )
+
+    def app_artboard_image_assign(self, body):
+        """Assigns an existing image to a style artboard
+
+        :body: Assignment dictionary as accepted by Style/ArtboardImageAssign
+
+        """
+        return self.client.raw_api.post("Style/ArtboardImageAssign", body=body)
+
+    def attributes_update_sample_size(self, header_id: str, size_class_id: str, new_sample_size: str):
+        """Changes the sample size of a size class
+
+        :header_id: Style ID
+        :size_class_id: Size class ID (see attributes_get()["sizeClasses"])
+        :new_sample_size: Size name, e.g. "M"
+
+        """
+        return self.client.raw_api.post(
+            f"Style/{header_id}/SizeClass/{size_class_id}/UpdateSampleSize",
+            body={"newSampleSize": new_sample_size},
+        )
+
+    def attributes_block_link(self, header_id: str, block_header_id: str, size_classes=None):
+        """Links a block to the style
+
+        :header_id: Style ID
+        :block_header_id: Block ID
+        :size_classes: Optional list of size-class mappings
+
+        """
+        return self.client.raw_api.post(
+            f"Style/Header/{header_id}/Block/Link",
+            body={"blockHeaderId": block_header_id, "sizeClasses": size_classes},
+        )
+
+    def attributes_block_unlink(self, header_id: str):
+        """Unlinks the block from the style
+
+        :header_id: Style ID
+
+        """
+        return self.client.raw_api.get(f"Style/Header/{header_id}/Block/Unlink")
+
+    def attributes_carry_over(self, header_id: str, skip_colorways: bool = False):
+        """Carries the style over into a new style (copy)
+
+        :header_id: Style ID
+        :skip_colorways: Do not copy colorways
+        :returns: The new style
+
+        """
+        return self.client.raw_api.post(
+            f"Style/Header/{header_id}/CarryOver", body={"skipColorways": skip_colorways}
+        )
+
+    def attributes_move(self, header_id: str, target_folder_id: str, generate_new_header_number: bool = False):
+        """Moves the style to another folder
+
+        :header_id: Style ID
+        :target_folder_id: Destination folder ID
+        :generate_new_header_number: Assign a new style number in the destination folder
+
+        """
+        return self.client.raw_api.post(
+            f"Style/Header/{header_id}/Move",
+            body={"targetFolderId": target_folder_id,
+                  "generateNewHeaderNumber": generate_new_header_number},
+        )
+
+    def attributes_colorways_delete(self, header_id: str, colorway_ids):
+        """Deletes several colorways at once
+
+        :header_id: Style ID
+        :colorway_ids: List of colorway IDs
+
+        """
+        return self.client.raw_api.post(
+            f"Style/Header/{header_id}/Colorways/Delete", body={"colorwayIds": colorway_ids}
+        )
+
     def app_request_list(self, header_id: str):
         """List of request apps
 

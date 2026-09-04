@@ -170,3 +170,28 @@ class UploadMixin:
         :returns: Tuple (is_finished, is_error, error_msg)
         """
         return self.client.raw_api.upload_status(upload_id)
+
+    def app_textlist_upload(self,
+                            header_id: str,
+                            app_id: str,
+                            list_item_id: str,
+                            filepath: str = None,
+                            fileurl: str = None):
+        """ Uploads image to a TextList app item
+
+        :header_id: ID of the Style, Material etc
+        :app_id: Application ID
+        :list_item_id: Id of the TextList item
+        :filepath: Local file path
+        :fileurl: Remote file URL
+        :returns: Upload ID
+        """
+        url = (f"{self.master_folder}/TextListAppImageUpload?" +
+               f"{self.master_folder.lower()}Id={header_id}" +
+               f"&pageId={app_id}&listItemId={list_item_id}")
+        if filepath:
+            return self.client.raw_api.upload_local_file(filepath, url)
+        if fileurl:
+            return self.client.raw_api.upload_from_url(fileurl, url)
+        return BeProductException("No file provided")
+

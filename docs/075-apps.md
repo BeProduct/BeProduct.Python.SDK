@@ -271,6 +271,82 @@ client.style.app_bom_update(
 ```
 
 
+## Resetting an application
+
+```python
+# Clears an application / page back to its defaults (any app type)
+client.style.app_reset(style_id, app_id)
+```
+
+## TextList app
+
+```python
+# Items: omit itemId to add, set "deleteItem": True to remove
+client.style.app_textlist_update(style_id, app_id, [
+    {"itemId": item_id, "itemFields": [{"id": "text", "value": "Care label copy"}]},
+])
+# Rich-text editor content (HTML)
+client.style.app_textlist_editor_update(style_id, app_id, "<p>Wash cold</p>")
+# Image on an item — local file or remote URL
+client.style.app_textlist_upload(style_id, app_id, item_id, filepath="/path/to/image.jpg")
+client.style.app_textlist_upload(style_id, app_id, item_id, fileurl="https://example.com/image.jpg")
+```
+
+## ImagesGrid app — image list part
+
+```python
+client.style.app_imagegrid_list_update(style_id, app_id, [
+    {"itemId": item_id, "itemFields": [{"id": "text", "value": "Front view"}]},
+])
+```
+
+## More BOM operations
+
+```python
+# Delete one BOM row
+client.style.app_bom_item_delete(style_id, bom_app_id, row_id)
+# Remove every row
+client.style.app_bom_reset(style_id, bom_app_id)
+# BOM Details app
+client.style.app_bom_details_update(style_id, bom_details_app_id, materials)
+```
+
+## Sets app
+
+```python
+client.style.app_sets_update(style_id, sets_app_id, [
+    {"styleIdToInsert": other_style_id,
+     "styleUpdate": {"rowId": row_id, "rowFields": [{"id": "group", "value": "Main"}]}},
+])
+# Which Sets apps reference a style
+client.style.attributes_where_used_in_sets(style_id)
+```
+
+## MultiMeasurements app
+
+```python
+client.style.app_multimeasurements_update(style_id, app_id, {
+    "sizeClass": size_class_id,
+    "poms": [{"id": pom_id, "code": "CHEST", "pointOfMeasure": "Chest 1\" below armhole"}],
+})
+client.style.app_multimeasurements_reset(style_id, app_id)
+```
+
+## Sample Request (multi-size) — add a submit
+
+```python
+client.style.app_sample_request_multi_add_submit(style_id, app_id, submit, timeline_id=None)
+# Schema of a tracking request app
+client.style.app_request_schema(request_app_id)
+```
+
+## Link Pages and artboard assignment
+
+```python
+client.style.app_link_pages_update(style_id, link_pages_app_id, items)
+client.style.app_artboard_image_assign(body)   # see Style/ArtboardImageAssign in the API reference
+```
+
 ## BOM Variations app
 
 A `BOMVariations` app holds several parallel BOMs on one style (for example a

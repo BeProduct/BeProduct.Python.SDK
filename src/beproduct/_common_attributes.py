@@ -29,6 +29,17 @@ class AttributesMixin:
             f"{self.master_folder}/FolderSchema?folderId={folder_id}"
         )
 
+    def folder_search_schema(self, folder_id: str):
+        """Gets the search schema (filterable fields) for a folder
+
+        :folder_id: ID of the folder
+        :returns: Search schema
+
+        """
+        return self.client.raw_api.get(
+            f"{self.master_folder}/FolderSearchSchema?folderId={folder_id}"
+        )
+
     # ATTRIBUTES
 
     def attributes_list(

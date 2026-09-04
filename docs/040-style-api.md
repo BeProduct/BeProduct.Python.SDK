@@ -203,6 +203,49 @@ client.style.attributes_update(
 client.style.attributes_delete(header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
 ```
 
+## Folder schemas
+
+```python
+client.style.folder_schema(folder_id)             # attribute fields
+client.style.folder_colorway_schema(folder_id)    # colorway fields
+client.style.folder_size_range_schema(folder_id)  # size-range fields
+client.style.folder_search_schema(folder_id)      # filterable (search) fields
+```
+
+## Deleting several colorways at once
+
+```python
+client.style.attributes_colorways_delete(style_id, [colorway_id_1, colorway_id_2])
+```
+
+## Sample size
+
+```python
+# size_class_id from client.style.attributes_get(style_id)["sizeClasses"]
+client.style.attributes_update_sample_size(style_id, size_class_id, "M")
+```
+
+## Carry over, move, block link
+
+```python
+# Copy the style into a new one (optionally without colorways); returns the new style
+new_style = client.style.attributes_carry_over(style_id, skip_colorways=True)
+
+# Move to another folder, optionally taking a new style number there
+client.style.attributes_move(style_id, target_folder_id, generate_new_header_number=False)
+
+# Link / unlink a block
+client.style.attributes_block_link(style_id, block_id)
+client.style.attributes_block_unlink(style_id)
+```
+
+## Flat BOM report
+
+```python
+# One row per style x material across the company, paged
+page = client.style.flat_bom({}, page_size=100, page_number=0)
+```
+
 ## Uploading images to the Style Attributes
 It is often a case when you need to upload an image to the Style Attributes page.
 Upload process consists of two stages. 
