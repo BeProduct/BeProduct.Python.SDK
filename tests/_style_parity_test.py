@@ -4,7 +4,7 @@ Author: Yuri Golub
 Email: yuri.golub@beproduct.com
 Github: https://github.com/BeProduct
 
-Live tests for the Style methods added for parity with the TypeScript SDK.
+Live tests for the additional Style and app-level methods.
 Writes run against throwaway styles created in STYLE_FOLDER and deleted in
 tearDown. Tests that need a fixture the tenant config does not define skip
 and name the key that would enable them.
@@ -145,8 +145,8 @@ class TestStyleParity(unittest.TestCase):
     def test_app_sets_update(self):
         # Style/PageSets answers 500 ArgumentNullException ('source') on the
         # integration tenant as of 2026-09-04 — reproduced with the identical
-        # payload through the TypeScript SDK, so it is the endpoint, not this
-        # wrapper. expectedFailure flips to "unexpected success" once fixed.
+        # payload outside this SDK, so it is the endpoint, not this wrapper.
+        # expectedFailure flips to "unexpected success" once fixed.
         tmp = test_helpers.create_tmp_style(self)
         app = self.config.SETS_APP["id"]
         row_id = str(uuid.uuid4())

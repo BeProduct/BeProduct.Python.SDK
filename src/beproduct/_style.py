@@ -382,7 +382,7 @@ class Style(
             f"Style/{header_id}/PageBomVariation/{app_id}/Variation/{variation_id}"
         )
 
-    # ── parity with the TypeScript SDK ──────────────────────────────────
+    # ── additional style / app operations ───────────────────────────────
 
     def folder_size_range_schema(self, folder_id: str):
         """Gets the size-range schema (list of fields) for a style folder
