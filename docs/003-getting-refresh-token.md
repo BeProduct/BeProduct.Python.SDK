@@ -1,17 +1,17 @@
 # Obtaining refresh token
 
 ## Prerequisites
-BeProduct implements OAuth2 [Authorization Code](https://datatracker.ietf.org/doc/html/rfc6749#section-1.3.1) authentication flow. That means you can use any library of your choice for getting [**access**](https://datatracker.ietf.org/doc/html/rfc6749#section-1.4) or [**refresh**](https://datatracker.ietf.org/doc/html/rfc6749#section-1.3.1) tokens. 
+BeProduct implements OAuth2 [Authorization Code](https://datatracker.ietf.org/doc/html/rfc6749#section-1.3.1) authentication flow. That means you can use any library of your choice for getting [**access**](https://datatracker.ietf.org/doc/html/rfc6749#section-1.4) or [**refresh**](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) tokens. 
 
-Below we will generate a refresh token manually. Once you have a refresh token you will use it with this library to call BeProduct Public API. You wont need to worry about refreshing your access token manually. This library will do it for you.
+Below we will generate a refresh token manually. Once you have a refresh token you will use it with this library to call BeProduct Public API. You won't need to worry about refreshing your access token manually. This library will do it for you.
 
 ## Client Credentials 
-Before accessing BeProduct you should request [BeProduct Support](mailto:support@beproduct.com) to generate **client credentials** for your application. After your request has been granted your receive:
+Before accessing BeProduct you should request [BeProduct Support](mailto:support@beproduct.com) to generate **client credentials** for your application. After your request has been granted you receive:
 
 * Client ID (Identifies your application)
 * Client Secret
-* Callback URL (Used to redirect a user to this URL after successful authentication. You can always ask support to add more whitelisted url's to your client id)
-* Scopes (Identifies recources your app can access. It is the predefined value for every app: `openid profile email roles offline_access BeProductPublicApi`)
+* Callback URL (Used to redirect a user to this URL after successful authentication. You can always ask support to add more whitelisted URLs to your client id)
+* Scopes (Identifies resources your app can access. It is the predefined value for every app: `openid profile email roles offline_access BeProductPublicApi`)
 ## Authorization flow
 Authorization flow consists of 4 simple steps
 
@@ -23,14 +23,14 @@ Authorization flow consists of 4 simple steps
 NOTE: While Client ID uniquely identifies your application the *refresh* and *access* token identify both your app and a signed user. All subsequent calls to the BeProduct Public API will be impersonated as a user from step 2. All permission checks will be executed against that user identity.
 
 ## Obtaining Refresh And Access tokens
-In this section we will get tokens using [curl] which is present on any Unix type OS and can be easily installed on Windows. Alternatively one simple way of getting access and refresh token is [postman](https://www.postman.com/).
+In this section we will get tokens using [curl](https://curl.se/) which is present on any Unix type OS and can be easily installed on Windows. Alternatively one simple way of getting access and refresh token is [postman](https://www.postman.com/).
 You may use [this](https://beproduct.atlassian.net/l/c/TAXJ87AP) tutorial for that.
 
 We will follow 4 steps from above to get the tokens.
 
 We will need two authentication server endpoints:
 
-* Authorization endpoint - `https://id.winks.io/ids/token/authorize`
+* Authorization endpoint - `https://id.winks.io/ids/connect/authorize`
 * Token endpoint - `https://id.winks.io/ids/connect/token`
 
 ### 1. Redirecting to authentication server
