@@ -140,3 +140,30 @@ class AppsMixin:
             f"{self.master_folder}/AttachmentRemove?headerId={header_id}&pageId={app_id}",
             body=filenames_to_remove,
         )
+
+    def app_reset(self, header_id: str, app_id: str):
+        """Resets an application / page to its defaults
+
+        :header_id: ID of the Style, Material etc
+        :app_id: Application ID
+
+        """
+        return self.client.raw_api.post(
+            f"{self.master_folder}/{header_id}/Page/{app_id}/Reset", body={}
+        )
+
+    def app_imagegrid_list_update(self, header_id: str, app_id: str, list_items):
+        """Updates the image LIST part of an ImagesGrid application
+
+        :header_id: ID of the Style, Material etc
+        :app_id: Application ID
+        :list_items: List of item dictionaries
+                     [{"itemId": ..., "itemFields": [{"id": ..., "value": ...}]}]
+                     Omit itemId to add an item; set "deleteItem": True to remove one.
+
+        """
+        return self.client.raw_api.post(
+            f"{self.master_folder}/PageImagesGrid/List?headerId={header_id}&pageId={app_id}",
+            body=list_items,
+        )
+

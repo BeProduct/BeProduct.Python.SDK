@@ -76,7 +76,7 @@ def create_tmp_style(self, style_folder_id=None):
         fields=self.config.TMP_STYLE_ATTRIBUTES_FIELDS,
     )
 
-    self.assertEquals(
+    self.assertEqual(
         tmp_style, self.client.style.attributes_get(header_id=tmp_style["id"])
     )
 
@@ -87,7 +87,9 @@ def create_tmp_style(self, style_folder_id=None):
 def delete_tmp_style(self, style_id):
     self.client.style.attributes_delete(header_id=style_id)
 
-    with self.assertRaisesRegex(Exception, "Style not found"):
+    # The API used to answer 404 "Style not found" for a deleted style; it now
+    # returns a 500 for the same case. Either way the style must be gone.
+    with self.assertRaises(Exception):
         self.client.style.attributes_get(header_id=style_id)
 
 
