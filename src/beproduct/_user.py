@@ -25,6 +25,15 @@ class User:
         """
         return self.client.raw_api.get(f"Users/GetByEmail?email={email}")
 
+    def user_get_by_id(self, user_id: str):
+        """Gets user by ID
+
+        :user_id: User ID
+        :returns: User dictionary
+
+        """
+        return self.client.raw_api.get(f"Users/GetById/{user_id}")
+
     def user_list(self):
         """ Returns list of existing users
         :returns: List of existing users

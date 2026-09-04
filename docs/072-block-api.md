@@ -108,3 +108,9 @@ upload_id = client.material.app_3d_material_asset_upload(
     fileurl='https://us.beproduct.com/your_image.jpg')  # File URL
 ```
 To check the image upload processing status use the same technique as in [Attributes](./040-style-api.md#uploading-images-to-the-style-attributes)
+
+## Size class 3D assets
+
+```python
+assets = client.block.attributes_size_class_assets(block_id, size_class_id)
+```

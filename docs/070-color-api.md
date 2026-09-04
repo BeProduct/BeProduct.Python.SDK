@@ -56,3 +56,11 @@ client.color.attributes_update(
 ```python
 client.color.attributes_delete(header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824')
 ```
+
+## Color chip schema and the company color library
+
+```python
+client.color.folder_color_chip_schema(folder_id)
+for color in client.color.company_colors(filters=None, page_size=30):   # enumerator
+    ...
+```

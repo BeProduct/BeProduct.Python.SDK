@@ -75,3 +75,28 @@ class Color(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
                 'fields': unwound_attributes_fields,
                 'colors': colors
             })
+
+    def folder_color_chip_schema(self, folder_id: str):
+        """Gets the color chip schema (list of fields) for a color folder
+
+        :folder_id: ID of the folder
+        :returns: Color chip schema
+
+        """
+        return self.client.raw_api.get(f"Color/ColorChipSchema?folderId={folder_id}")
+
+    def company_colors(self, filters=None, page_size: int = 30):
+        """Lists the company color library
+
+        :filters: List of filter dictionaries
+        :page_size: Page size
+        :returns: Enumerator of colors
+
+        """
+        return self.client.beproduct_paging_iterator(
+            page_size,
+            lambda psize, pnum: self.client.raw_api.post(
+                f"Color/CompanyColors?pageSize={psize}&pageNumber={pnum}", body={"filters": filters or []}
+            ),
+        )
+

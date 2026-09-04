@@ -82,6 +82,11 @@ class BeProduct:
         from ._tracking import Tracking
         from ._automation import Automation
         from ._schema import Schema
+        from ._inbox import Inbox
+        from ._data_tables import DataTables
+        from ._master_data import MasterData
+        from ._linesheets import LineSheets
+        from ._reports import Reports
         from ._helpers import beproduct_paging_iterator_sync
 
         self.style = Style(self)
@@ -94,6 +99,11 @@ class BeProduct:
         self.tracking = Tracking(self)
         self.automation = Automation(self)
         self.schema = Schema(self)
+        self.inbox = Inbox(self)
+        self.data_tables = DataTables(self)
+        self.master_data = MasterData(self)
+        self.linesheets = LineSheets(self)
+        self.reports = Reports(self)
 
         self.beproduct_paging_iterator = beproduct_paging_iterator_sync
 

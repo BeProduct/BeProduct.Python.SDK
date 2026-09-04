@@ -76,3 +76,9 @@ while True:
     sleep(3) # Let's wait 3 sec and try again
 ```
 
+## Uploading a new image version
+
+```python
+upload_id = client.image.attributes_image_version_upload(image_id, filepath="/path/to/image.jpg")
+upload_id = client.image.attributes_image_version_upload(image_id, fileurl="https://example.com/image.jpg")
+```

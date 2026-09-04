@@ -78,3 +78,12 @@ client.directory.directory_contact_add(
 
 ## Updating and removing directory records and contacts
 Adding and removing directory records is not supported in the current version of the API.
+
+## Searching and updating directory records
+
+```python
+for company in client.directory.directory_search(filters=None, page_size=20):   # enumerator
+    ...
+client.directory.directory_update(directory_id, fields)
+client.directory.directory_contact_update(directory_id, contact_id, fields)
+```
