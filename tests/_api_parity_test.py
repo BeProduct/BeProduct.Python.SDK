@@ -56,13 +56,13 @@ class TestInbox(_Base):
         self.assertIsInstance(list(islice(self.client.inbox.message_list(task["id"], page_size=5), 5)), list)
 
     def test_task_and_message_write_cycle(self):
-        self._need("INBOX_WRITES")  # {"task": {...create body...}, "message": {...}}
+        self._need("INBOX_WRITES")  # {"task": {taskName, dueDate, priority, status, assignees:[{value}], references:{page, headers}}, "message": {message, type}}
         w = self.config.INBOX_WRITES
         task = self.client.inbox.task_create(w["task"])
         try:
-            self.client.inbox.task_update(task["id"], {**w["task"], "subject": "parity-updated"})
+            self.client.inbox.task_update(task["id"], {**w["task"], "taskName": "parity-updated"})
             msg = self.client.inbox.message_create(task["id"], w["message"])
-            self.client.inbox.message_update(msg["id"], {**w["message"], "text": "edited"})
+            self.client.inbox.message_update(msg["id"], {**w["message"], "message": "edited"})
             upload_id = self.client.inbox.message_attachments_upload(msg["id"], filepath=self.image_path)
             self.assertTrue(upload_id)
             self.client.inbox.message_delete(msg["id"])

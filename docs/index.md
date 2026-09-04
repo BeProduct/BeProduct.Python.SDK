@@ -28,9 +28,21 @@ To report an issue go to the project's github [repo](https://github.com/BeProduc
 
 [Directory API](./080-directory.md)
 
+[Tracking API](./082-tracking.md)
+
 [User API](./085-users.md)
 
+[Inbox API](./086-inbox.md)
+
+[Data Tables API](./087-data-tables.md)
+
+[Master Data API](./088-master-data.md)
+
+[Line Sheets API](./089-line-sheets.md)
+
 [Making HTTP calls manually](./090-custom-integration.md)
+
+[Reports API](./095-reports.md)
 
 [Automation Portal helper methods](./100-automation.md)
 

@@ -391,7 +391,8 @@ class Material(UploadMixin, AttributesMixin, AppsMixin, CommentsMixin,
 
         :header_id: Material ID
         :app_id: ID of the 3D Material application / page
-        :data: Update dictionary
+        :data: {"assets": {"itemsToDelete": [...]}, "textures": {"front": ..., "back": ...},
+               "previews": {"itemsToDelete": [...]}}
         :colorway_id: Colorway ID (optional)
 
         """

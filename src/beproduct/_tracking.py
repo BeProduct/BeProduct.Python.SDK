@@ -216,20 +216,21 @@ class Tracking:
         """
         return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/Style/Add", body=style_ids)
 
-    def plan_style_by_colorway_add(self, plan_id: str, items):
-        """Adds styles to a plan with one timeline per colorway
+    def plan_style_by_colorway_add(self, plan_id: str, style_ids):
+        """Adds styles to a plan with one timeline per colorway of each style
 
         :plan_id: Plan ID
-        :items: List of {styleId, colorwayIds} dictionaries
+        :style_ids: List of style IDs
 
         """
-        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/StyleByColorway/Add", body=items)
+        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/StyleByColorway/Add", body=style_ids)
 
     def plan_style_by_sku_add(self, plan_id: str, items):
         """Adds styles to a plan with one timeline per SKU
 
         :plan_id: Plan ID
-        :items: List of {styleId, skuIds} dictionaries
+        :items: [{"headerId": style_id, "sku": [{"colorwayId": ..., "sizes": ["S", "M"]}]}]
+        :returns: Created timelines [{id, headerId, headerFolderId}]
 
         """
         return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/StyleBySKU/Add", body=items)
@@ -243,14 +244,14 @@ class Tracking:
         """
         return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/Material/Add", body=material_ids)
 
-    def plan_material_by_colorway_add(self, plan_id: str, items):
-        """Adds materials to a plan with one timeline per colorway
+    def plan_material_by_colorway_add(self, plan_id: str, material_ids):
+        """Adds materials to a plan with one timeline per colorway of each material
 
         :plan_id: Plan ID
-        :items: List of {materialId, colorwayIds} dictionaries
+        :material_ids: List of material IDs
 
         """
-        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/MaterialByColorway/Add", body=items)
+        return self.client.raw_api.post(f"Tracking/Plan/{plan_id}/MaterialByColorway/Add", body=material_ids)
 
     def plan_style_timelines_delete(self, plan_id: str, timeline_ids):
         """Deletes style timelines from a plan

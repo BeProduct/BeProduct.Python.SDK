@@ -455,7 +455,7 @@ class Style(
 
         :header_id: Style ID
         :app_id: ID of the BOM Details application / page
-        :materials: List of material detail dictionaries
+        :materials: [{"id": material_id, "deleteMaterial": False}]
 
         """
         return self.client.raw_api.post(
@@ -546,13 +546,19 @@ class Style(
             f"Style/PageLinkPages?headerId={header_id}&pageId={app_id}", body=items
         )
 
-    def app_artboard_image_assign(self, body):
-        """Assigns an existing image to a style artboard
+    def app_artboard_image_assign(self, header_id: str, app_id: str, artboard_index: int, body=None):
+        """Assigns an artboard image to a style
 
-        :body: Assignment dictionary as accepted by Style/ArtboardImageAssign
+        :header_id: Style ID
+        :app_id: Artboard application / page ID
+        :artboard_index: Zero-based artboard index
+        :body: Optional request body
 
         """
-        return self.client.raw_api.post("Style/ArtboardImageAssign", body=body)
+        return self.client.raw_api.post(
+            f"Style/ArtboardImageAssign?styleId={header_id}&pageId={app_id}&artboardIndex={artboard_index}",
+            body=body or {},
+        )
 
     def attributes_update_sample_size(self, header_id: str, size_class_id: str, new_sample_size: str):
         """Changes the sample size of a size class

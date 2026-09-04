@@ -102,7 +102,7 @@ upload_id = client.block.app_block_size_class_3d_asset_upload(
     filepath='/home/beproduct/your_image.jpg')          # File location 
 
 # Uploading from remote URL
-upload_id = client.material.app_3d_material_asset_upload(
+upload_id = client.block.app_block_size_class_3d_asset_upload(
     header_id='c629fb8b-7a24-4773-b335-d0b6f38196f5',   # Block ID
     size_class_id_or_name='size name 1',      # Size Class ID or Name
     fileurl='https://us.beproduct.com/your_image.jpg')  # File URL

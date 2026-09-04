@@ -208,7 +208,7 @@ client.style.app_sku_generate(
 
 ### Updating SKU's fields
 ```python
-client.style.app_sku_generate(
+client.style.app_sku_update(
     header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',   # Style ID
     app_id="1c1abc4a-8541-49d0-8eb4-01010c1e8d38",      # App ID
     fields = [
@@ -307,8 +307,8 @@ client.style.app_imagegrid_list_update(style_id, app_id, [
 client.style.app_bom_item_delete(style_id, bom_app_id, row_id)
 # Remove every row
 client.style.app_bom_reset(style_id, bom_app_id)
-# BOM Details app
-client.style.app_bom_details_update(style_id, bom_details_app_id, materials)
+# BOM Details app — flag materials to remove
+client.style.app_bom_details_update(style_id, bom_details_app_id, [{"id": material_id, "deleteMaterial": True}])
 ```
 
 ## Sets app
@@ -344,7 +344,7 @@ client.style.app_request_schema(request_app_id)
 
 ```python
 client.style.app_link_pages_update(style_id, link_pages_app_id, items)
-client.style.app_artboard_image_assign(body)   # see Style/ArtboardImageAssign in the API reference
+client.style.app_artboard_image_assign(style_id, artboard_app_id, artboard_index=0)
 ```
 
 ## BOM Variations app
