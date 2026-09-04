@@ -186,15 +186,16 @@ client.style.attributes_update(
 ```python
 # Creates a style
 client.style.attributes_create(
+                folder_id='6cee240d-467a-416a-87ee-800019f3cb28',
                 fields=fields_update,
-                colorway_update=colorway_update,
+                colorways=colorway_update,
                 sizes=[size1, size2, ...])
 
 # Updates a style
 client.style.attributes_update(
                 header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
                 fields=fields_update,
-                colorway_update=colorway_update,
+                colorways=colorway_update,
                 sizes=[size1, size2, ...])
 ```
 

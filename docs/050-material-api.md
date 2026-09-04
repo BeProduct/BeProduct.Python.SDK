@@ -116,14 +116,14 @@ client.material.attributes_update(
 # Creates a material
 client.material.attributes_create(
                 fields=fields_update,
-                colorway_update=colorway_update,
+                colorways=colorway_update,
                 sizes=[size1, size2, ...])
 
 # Updates a material
 client.material.attributes_update(
                 header_id='e81d3be5-f5c2-450f-888e-8a854dfc2824',
                 fields=fields_update,
-                colorway_update=colorway_update,
+                colorways=colorway_update,
                 sizes=[size1, size2, ...],
                 suppliers=[supplier1, supplier2,...])
 ```
@@ -202,5 +202,7 @@ Use example from the previous section to check the upload status.
 client.material.folder_size_range_schema(folder_id)
 client.material.attributes_colorways_delete(material_id, [colorway_id_1, colorway_id_2])
 client.material.attributes_move(material_id, target_folder_id, generate_new_header_number=False)
-client.material.app_3d_material_update(material_id, app_id, data, colorway_id=None)
+client.material.app_3d_material_update(material_id, app_id, {
+    "assets": {"itemsToDelete": [asset_id]}, "textures": {"front": None, "back": None}, "previews": {"itemsToDelete": []},
+}, colorway_id=None)
 ```

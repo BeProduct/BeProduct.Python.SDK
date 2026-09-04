@@ -22,10 +22,12 @@ client.tracking.plan_material_revisions(plan_id, filters=None)   # enumerator
 
 # Adding items to a plan
 client.tracking.plan_style_add(plan_id, [style_id])                       # one timeline per style
-client.tracking.plan_style_by_colorway_add(plan_id, [{"styleId": style_id, "colorwayIds": [cw_id]}])
-client.tracking.plan_style_by_sku_add(plan_id, [{"styleId": style_id, "skuIds": [sku_id]}])
+client.tracking.plan_style_by_colorway_add(plan_id, [style_id])            # one timeline per colorway of each style
+client.tracking.plan_style_by_sku_add(plan_id, [                          # one timeline per SKU
+    {"headerId": style_id, "sku": [{"colorwayId": colorway_id, "sizes": ["S", "M"]}]},
+])
 client.tracking.plan_material_add(plan_id, [material_id])
-client.tracking.plan_material_by_colorway_add(plan_id, [{"materialId": material_id, "colorwayIds": [cw_id]}])
+client.tracking.plan_material_by_colorway_add(plan_id, [material_id])      # one timeline per colorway of each material
 
 # Removing timelines
 client.tracking.plan_style_timelines_archive(plan_id, [timeline_id])
